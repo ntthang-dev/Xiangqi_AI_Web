@@ -1,0 +1,61 @@
+{
+  "midgame_tactics": [
+    {
+      "tactic_id": "MT_001_DOI_QUAN_LOI_THE",
+      "name": "Đổi Quân Lợi Thế (Chiến thuật đổi quân)",
+      "source_book_page": 275,
+      "description": "Chủ động đổi quân để đơn giản hóa thế cờ khi đang ưu thế, hoặc đổi quân yếu lấy quân mạnh của đối phương, hoặc phá vỡ cấu trúc phòng thủ của địch.",
+      "type": "strategic_maneuver",
+      "difficulty": "intermediate",
+      "tags": ["exchange", "simplification", "material_advantage_conversion"],
+      "recognition_conditions": { 
+        "player_to_move_color": "red", 
+        "self_has_material_advantage": "moderate_to_high", 
+        "or_opponent_key_piece_is_vulnerable_to_exchange": true,
+        "or_exchange_leads_to_structural_weakness_for_opponent": true
+      },
+      "general_objectives_for_player": [
+        "simplify_position_when_ahead",
+        "capture_stronger_opponent_piece_with_weaker_self_piece",
+        "disrupt_opponent_defense_structure"
+      ],
+      "prioritized_move_categories": [
+        "forced_exchange_of_major_pieces",
+        "exchange_leading_to_pawn_promotion_path"
+      ],
+      "counter_indicators_for_opponent": [ 
+        "opponent_can_recapture_with_tempo_gain",
+        "exchange_opens_lines_for_opponent_attack"
+      ],
+      "comments": "Cần tính toán kỹ lưỡng giá trị quân và thế cờ sau khi đổi."
+    },
+    {
+      "tactic_id": "MT_004_THI_QUAN_BO_TRUOC_LAY_SAU",
+      "name": "Thí Quân / Bỏ Trước Lấy Sau",
+      "source_book_page": 287, 
+      "description": "Chủ động bỏ một quân (thường là quân yếu hoặc ít giá trị hơn) để đạt được mục tiêu chiến lược lớn hơn như bắt quân mạnh hơn, chiếu bí, hoặc giành ưu thế vị trí quyết định.",
+      "type": "sacrificial_maneuver",
+      "difficulty": "advanced",
+      "tags": ["sacrifice", "gambit", "initiative", "checkmate_attack_setup"],
+      "recognition_conditions": {
+        "player_to_move_color": "red",
+        "can_sacrifice_piece_for_clear_follow_up_advantage": true,
+        "follow_up_includes_strong_attack_or_material_gain": true
+      },
+      "general_objectives_for_player": [
+        "open_lines_for_attack_on_king",
+        "deflect_opponent_defender",
+        "gain_significant_tempo_or_initiative",
+        "achieve_checkmate_or_decisive_material_gain_after_sacrifice"
+      ],
+      "example_sequences_uci_for_player": [
+          
+      ],
+      "critical_considerations": [
+          "ensure_compensation_for_sacrifice_is_sufficient_and_forcing",
+          "calculate_opponent_defensive_options_thoroughly"
+      ]
+    }
+    
+  ]
+}

@@ -1,0 +1,35 @@
+/* File: frontend/css/style.css */
+/* Bạn có thể thêm các CSS tùy chỉnh ở đây nếu không muốn dùng thuần Tailwind */
+/* Ví dụ: */
+/*
+body {
+    background-color: #f3f4f6; 
+}
+
+.custom-button-style {
+    padding: 10px 15px;
+    border-radius: 5px;
+    font-weight: bold;
+}
+*/
+
+/* CSS cho các marker của Tốt và Pháo (nếu muốn vẽ chữ L) */
+.marker-item {
+    position: absolute;
+    width: 6px; /* Kích thước của một nhánh chữ L */
+    height: 2px; /* Độ dày của đường kẻ */
+    background-color: #8c5a32; /* Màu của đường kẻ */
+}
+
+.marker-item.top-left-v { top: -5px; left: -5px; height: 6px; width: 2px; } /* Nhánh dọc */
+.marker-item.top-left-h { top: -5px; left: -5px; width: 6px; height: 2px; } /* Nhánh ngang */
+
+.marker-item.top-right-v { top: -5px; right: -5px; height: 6px; width: 2px; }
+.marker-item.top-right-h { top: -5px; right: -3px; width: 6px; height: 2px; } /* Điều chỉnh right */
+
+.marker-item.bottom-left-v { bottom: -3px; left: -5px; height: 6px; width: 2px; } /* Điều chỉnh bottom */
+.marker-item.bottom-left-h { bottom: -5px; left: -5px; width: 6px; height: 2px; }
+
+.marker-item.bottom-right-v { bottom: -3px; right: -5px; height: 6px; width: 2px; } /* Điều chỉnh bottom */
+.marker-item.bottom-right-h { bottom: -5px; right: -3px; width: 6px; height: 2px; } /* Điều chỉnh right */
+

@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cờ Tướng AI - Nâng Cấp V1</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; touch-action: manipulation; }
+        .board { display: grid; grid-template-columns: repeat(9, 1fr); grid-template-rows: repeat(10, 1fr); width: 90vmin; height: 100vmin; max-width: 540px; max-height: 600px; border: 2px solid #6b4226; background-color: #f0d9b5; position: relative; margin: 15px auto; }
+        .square { display: flex; justify-content: center; align-items: center; font-size: clamp(18px, 4.8vmin, 33px); border: 1px solid #b58863; position: relative; cursor: pointer; user-select: none; }
+        .piece { cursor: pointer; transition: transform 0.1s ease-in-out; font-weight: bold; }
+        .piece.red { color: #c00000; } .piece.black { color: #000000; }
+        .selected { background-color: rgba(144, 238, 144, 0.6) !important; }
+        .valid-move { background-color: rgba(173, 216, 230, 0.7) !important; border-radius: 50%; }
+        .last-move-highlight { box-shadow: inset 0 0 8px rgba(255, 215, 0, 0.8); }
+        .check-highlight { animation: blink-check 0.7s infinite; }
+        @keyframes blink-check { 0%, 100% { background-color: rgba(255, 69, 0, 0.6); } 50% { background-color: transparent; } }
+        .board::before, .board::after { content: ''; position: absolute; background-color: #8c5a32; z-index: -1; }
+        .board::before { top: 5%; bottom: 5%; left: calc(100% / 18 * 1); width: 2px; box-shadow: calc(100% / 9 * 1) 0 0 0 #8c5a32, calc(100% / 9 * 2) 0 0 0 #8c5a32, calc(100% / 9 * 3) 0 0 0 #8c5a32, calc(100% / 9 * 4) 0 0 0 #8c5a32, calc(100% / 9 * 5) 0 0 0 #8c5a32, calc(100% / 9 * 6) 0 0 0 #8c5a32, calc(100% / 9 * 7) 0 0 0 #8c5a32, calc(100% / 9 * 8) 0 0 0 #8c5a32; }
+        .board::after { left: 5%; right: 5%; top: calc(100% / 20 * 1); height: 2px; box-shadow: 0 calc(100% / 10 * 1) 0 0 #8c5a32, 0 calc(100% / 10 * 2) 0 0 #8c5a32, 0 calc(100% / 10 * 3) 0 0 #8c5a32, 0 calc(100% / 10 * 4) 0 0 #8c5a32, 0 calc(100% / 10 * 5) 0 0 #8c5a32, 0 calc(100% / 10 * 6) 0 0 #8c5a32, 0 calc(100% / 10 * 7) 0 0 #8c5a32, 0 calc(100% / 10 * 8) 0 0 #8c5a32; }
+        .river { position: absolute; top: 45%; left: 0%; right: 0%; height: 10%; display: flex; justify-content: center; align-items: center; font-size: clamp(16px, 4vmin, 26px); color: #3a5f7d; pointer-events: none; background: linear-gradient(to bottom, rgba(173,216,230,0.2) 0%, rgba(135,206,250,0.3) 50%, rgba(173,216,230,0.2) 100%); border-top: 1px dashed #8c5a32; border-bottom: 1px dashed #8c5a32; box-sizing: border-box; }
+        .river span { background-color: rgba(240, 217, 181, 0.7); padding: 0 8px; border-radius: 4px; }
+        
+        .palace-line { position: absolute; background-color: #8c5a32; transform-origin: 0 0; }
+        .palace-line.red-diag1 { width: calc(100% / 9 * 2 * 1.41421356); height: 2px; left: calc(100% / 9 * 3 + 100% / 18); top: calc(100% / 10 * 7 + 100% / 20); transform: rotate(45deg); }
+        .palace-line.red-diag2 { width: calc(100% / 9 * 2 * 1.41421356); height: 2px; left: calc(100% / 9 * 5 + 100% / 18); top: calc(100% / 10 * 7 + 100% / 20); transform: rotate(135deg); }
+        .palace-line.black-diag1 { width: calc(100% / 9 * 2 * 1.41421356); height: 2px; left: calc(100% / 9 * 3 + 100% / 18); top: calc(100% / 20); transform: rotate(45deg); }
+        .palace-line.black-diag2 { width: calc(100% / 9 * 2 * 1.41421356); height: 2px; left: calc(100% / 9 * 5 + 100% / 18); top: calc(100% / 20); transform: rotate(135deg); }
+
+        .controls button, .controls select { padding: 0.4rem 0.6rem; font-size: 0.8rem; margin: 0.2rem; border: 1px solid transparent; transition: all 0.2s ease; border-radius: 0.375rem; }
+        .controls button:hover, .controls select:hover { transform: translateY(-1px); box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+        @media (min-width: 640px) { .controls button, .controls select { padding: 0.6rem 1.2rem; font-size: 0.9rem; } }
+        .info-panel { width: 90%; max-width: 540px; margin: 10px auto; padding: 12px; background-color: #ffffff; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.08); }
+        .move-history-container { max-height: 110px; overflow-y: auto; border: 1px solid #e5e7eb; padding: 8px; border-radius: 6px; font-size: 0.8em; background-color: #f8f9fa; }
+        .timer-display { font-weight: 500; }
+        .active-player-timer span:first-child { color: #10B981; font-weight: bold; }
+        .time-control-info { font-size: 0.8em; color: #4A5568; margin-top: 2px; min-height: 2.4em; white-space: pre-line; }
+        .referee-message-area { min-height: 20px; background-color: #FEFCE8; border: 1px solid #FDE68A; color: #A16207; padding: 6px 10px; border-radius: 6px; font-size: 0.9em; margin-top: 8px; text-align: center; font-weight: 500;}
+        .referee-message-area.error { background-color: #FFF1F2; border-color: #FECDD3; color: #BE123C; }
+        .referee-message-area.info { background-color: #EFF6FF; border-color: #DBEAFE; color: #1D4ED8; }
+        .game-history-list { max-height: 150px; overflow-y: auto; border: 1px solid #ddd; padding: 5px; margin-top:10px; }
+        .game-history-item { padding: 5px; cursor: pointer; border-bottom: 1px solid #eee; }
+        .game-history-item:hover { background-color: #f0f0f0; }
+        .review-controls button { background-color: #718096; color: white; }
+        .review-controls button:disabled { background-color: #cbd5e0; cursor: not-allowed; }
+        .referee-icon { font-size: 2.5rem; margin-bottom: 5px; } 
+        
+        /* --- Music Player Styles --- */
+        #youtubePlayerContainer { 
+            position:fixed; 
+            left:-9999px; /* Đẩy ra khỏi màn hình */
+            top:-9999px; 
+            width:1px; 
+            height:1px; 
+            overflow:hidden; /* Đảm bảo không có gì bị tràn ra */
+        }
+        #youtubePlayer { 
+            width:1px; 
+            height:1px; 
+        }
+        #musicControlsPanel {
+            position: fixed;
+            bottom: 15px;
+            right: 15px;
+            background: rgba(229, 231, 235, 0.85); /* Màu nền hơi mờ */
+            backdrop-filter: blur(5px); /* Hiệu ứng blur cho nền (nếu trình duyệt hỗ trợ) */
+            padding: 12px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            width: 220px; /* Độ rộng của panel */
+            border: 1px solid rgba(209, 213, 219, 0.5);
+        }
+        #musicControlsPanel label {
+            font-size: 0.8rem;
+            color: #4B5563; /* Màu chữ tối hơn một chút */
+            margin-bottom: -2px; /* Giảm khoảng cách với input */
+        }
+        #musicControlsPanel input[type="range"] {
+            width: 100%;
+            cursor: pointer;
+        }
+        #musicControlsPanel input[type="text"] {
+            width: 100%;
+            padding: 6px 8px;
+            font-size: 0.8rem;
+            border: 1px solid #D1D5DB; /* Viền cho input */
+            border-radius: 6px;
+            box-sizing: border-box;
+        }
+        #musicControlsPanel button {
+            width: 100%;
+            padding: 6px 0; /* Điều chỉnh padding cho nút */
+            font-size: 0.8rem;
+            border-radius: 6px;
+            transition: background-color 0.2s;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 flex flex-col items-center justify-start min-h-screen p-2 sm:p-4">
+
+    <h1 class="text-2xl sm:text-3xl font-bold text-center text-red-700 my-2 sm:my-3">Cờ Tướng AI - Nâng Cấp V1</h1>
+
+    <div class="controls mb-2 sm:mb-3 flex flex-wrap justify-center items-center gap-1 sm:gap-2">
+        <button id="newGameBtn" class="bg-blue-600 hover:bg-blue-700 text-white font-bold">Ván Mới</button>
+        <button id="pauseResumeBtn" class="bg-orange-500 hover:bg-orange-600 text-white font-bold">Tạm Dừng</button>
+        <select id="gameModeSelect" class="bg-green-600 hover:bg-green-700 text-white font-bold appearance-none px-3 py-2">
+            <option value="pvaRed">Người (Đỏ) vs Máy</option>
+            <option value="pvaBlack">Người (Đen) vs Máy</option>
+            <option value="ava">Máy vs Máy</option>
+        </select>
+        <select id="timeControlSelect" class="bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-3 appearance-none">
+            </select>
+        <button id="saveGameBtn" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold">Lưu Ván Cờ</button>
+        </div>
+    <div id="selectedTimeControlRule" class="text-center text-sm text-gray-600 mb-2"></div>
+    
+    <div id="board" class="board shadow-lg">
+        <div class="river"><span>楚 河     漢 界</span></div>
+        <div class="palace-line red-diag1"></div><div class="palace-line red-diag2"></div>
+        <div class="palace-line black-diag1"></div><div class="palace-line black-diag2"></div>
+    </div>
+
+    <div id="musicControlsPanel">
+        <button id="toggleMusicPanelBtn" class="bg-pink-500 hover:bg-pink-600 text-white"><i class="fas fa-music"></i> Bật Nhạc</button>
+        <div>
+            <label for="volumeSliderPanel">Âm lượng:</label>
+            <input type="range" id="volumeSliderPanel" min="0" max="100" value="20" title="Điều chỉnh âm lượng">
+        </div>
+        <div>
+            <label for="youtubeIdInputPanel">YouTube Video ID:</label>
+            <input type="text" id="youtubeIdInputPanel" placeholder="Dán ID video vào đây" class="border">
+        </div>
+        <button id="changeMusicPanelBtn" class="bg-sky-500 hover:bg-sky-600 text-white">Đổi Nhạc</button>
+    </div>
+
+    <div id="youtubePlayerContainer">
+         <div id="youtubePlayer"></div>
+    </div>
+
+    <div class="info-panel text-center">
+        <div class="referee-icon">🧑‍⚖️</div>
+        <div id="refereeMessage" class="referee-message-area mb-2">Thông báo từ trọng tài...</div>
+        <div id="status" class="text-lg sm:text-xl font-semibold mb-2">Đến lượt Đỏ</div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 mb-2 text-sm sm:text-md">
+            <div>
+                <div id="gamePhase" class="text-blue-700 font-medium">Giai đoạn: Khai cuộc</div>
+                <div id="gameTimer" class="text-gray-700">Tổng thời gian: 00:00</div>
+            </div>
+            <div>
+                <div id="redPlayerInfo" class="text-red-600 timer-display">
+                    Đỏ: <span id="redPlayerTimer">00:00</span> | Điểm: <span id="redPlayerScore">0</span>
+                    <div id="redTimeControlInfo" class="time-control-info"></div>
+                </div>
+                <div id="blackPlayerInfo" class="text-black timer-display">
+                    Đen: <span id="blackPlayerTimer">00:00</span> | Điểm: <span id="blackPlayerScore">0</span>
+                    <div id="blackTimeControlInfo" class="time-control-info"></div>
+                </div>
+            </div>
+        </div>
+        <div id="aiTime" class="text-xs sm:text-sm text-gray-500 mb-2">Thời gian AI tính toán: -</div>
+        <div id="aiDepthLog" class="text-xs sm:text-sm text-gray-500 mb-2">Độ sâu AI đạt được: -</div>
+        <div id="pieceCountDisplay" class="text-xs sm:text-sm text-gray-500 mb-2">Số lượng quân: -</div>
+
+
+        <div class="review-controls mt-2 mb-2 flex justify-center gap-2">
+            <button id="goToStartBtn" title="Về đầu ván"><i class="fas fa-fast-backward"></i></button>
+            <button id="prevMoveBtn" title="Nước trước"><i class="fas fa-step-backward"></i></button>
+            <button id="nextMoveBtn" title="Nước sau"><i class="fas fa-step-forward"></i></button>
+            <button id="goToEndBtn" title="Đến cuối ván"><i class="fas fa-fast-forward"></i></button>
+        </div>
+
+        <h3 class="text-md font-semibold mb-1">Lịch sử nước đi (Kỳ phổ):</h3>
+        <div id="moveHistory" class="move-history-container text-left">Lịch sử nước đi...</div>
+    </div>
+
+    <div class="info-panel mt-3">
+        <h3 class="text-md font-semibold mb-1">Lịch sử các ván đã đấu (Lưu trên trình duyệt):</h3>
+        <div id="playedGamesList" class="game-history-list">Chưa có ván nào được lưu.</div>
+        <button id="clearHistoryBtn" class="mt-2 bg-red-500 hover:bg-red-600 text-white text-xs py-1 px-2 rounded">Xóa Lịch Sử Ván Đấu</button>
+    </div>
+    
+    <div id="gameOverModal" class="fixed inset-0 bg-gray-800 bg-opacity-60 overflow-y-auto h-full w-full flex items-center justify-center hidden z-50">
+        <div class="relative mx-auto p-6 border-2 border-gray-300 w-11/12 sm:w-96 shadow-xl rounded-lg bg-white">
+            <div class="mt-3 text-center">
+                <h3 class="text-xl leading-6 font-bold text-gray-900" id="gameOverMessage"></h3>
+                <div class="mt-4 px-7 py-3">
+                    <p class="text-md text-gray-600" id="gameOverReason"></p>
+                </div>
+                <div class="items-center px-4 py-3 mt-2 flex flex-col sm:flex-row gap-2">
+                    <button id="reviewGameButton" class="px-4 py-2 bg-yellow-500 text-white text-base font-medium rounded-md w-full sm:w-auto shadow-sm hover:bg-yellow-600 focus:outline-none focus:ring-2 focus:ring-yellow-400">
+                        Xem Lại Ván Đấu
+                    </button>
+                    <button id="newGameModalButton" class="px-4 py-2 bg-blue-600 text-white text-base font-medium rounded-md w-full sm:w-auto shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-400">
+                        Chơi Ván Mới
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="https://www.youtube.com/iframe_api"></script>
+    <script src="js/config.js"></script>
+    <script src="js/rules_ui.js"></script>
+    <script src="js/notation.js"></script>
+    <script src="js/board_ui.js"></script>
+    <script src="js/game_state.js"></script>
+    <script src="js/api_client.js"></script> 
+    <script src="js/main.js"></script>
+</body>
+</html>

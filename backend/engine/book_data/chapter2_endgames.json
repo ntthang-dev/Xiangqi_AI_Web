@@ -1,0 +1,78 @@
+{
+  "chapter_info": {
+    "number": 2,
+    "title": "Cờ Tàn Thực Dụng",
+    "source_book": "Cờ Tướng Nhập Môn - Chu Bảo Vị, Đàm Hưng"
+  },
+  "sections": [
+    {
+      "section_id": "CT_TOT",
+      "section_title": "Định Thức Cờ Tàn Kiểu Tốt",
+      "studies": [
+        {
+          "study_id": "CT_TOT_H71",
+          "name": "Đơn Tốt khó thắng đơn Sĩ (Hình 71, Trang 67)",
+          "type": "endgame_draw_tactic", 
+          "difficulty": "basic",
+          "tags": ["pawn_endgame", "single_pawn", "single_advisor", "draw_defense"],
+          "description_general": "Một Sĩ thông thường có thể thủ hòa một Tốt, nhưng nhất định phải ứng đối chính xác. Mấu chốt là Tướng chiếm trung hoặc Sĩ không cho Tốt qua.",
+          "initial_fen": "4k4/9/9/4p4/9/9/9/4A4/9/3K5 w - - 0 1", 
+          "player_to_move_in_fen": "red", 
+          "goal_for_player_to_move": "Hòa cờ (nếu Đen phòng thủ đúng). Sách ghi 'Đỏ hòa trước'.",
+          "key_recognition_features": [
+            "endgame_phase", "red_one_pawn", "black_one_advisor", 
+            "red_pawn_not_crossed_river_yet_or_just_crossed",
+            "black_king_can_reach_center_file_or_block_pawn"
+          ],
+          "guidance": {
+            "general": "Bên thủ (Đen) cần giữ Tướng ở trung lộ để cản Tốt, hoặc dùng Sĩ linh hoạt để không cho Tốt Đỏ tiến sâu và chiếm các vị trí hiểm yếu. Bên công (Đỏ) cố gắng đưa Tốt qua sông và dùng Tướng trợ công.",
+            "red_plan": [
+              "Nếu Tướng Đen không ở trung lộ, cố gắng đưa Tốt chiếm trung.",
+              "Dùng Tướng yểm trợ Tốt qua sông.",
+              "Tìm cách bắt chết Sĩ Đen nếu Đen mắc sai lầm."
+            ],
+            "black_defense_tips": [
+              "Giữ Tướng ở cột 4, 5, hoặc 6 để đối mặt với Tốt.",
+              "Sĩ di chuyển linh hoạt, không cho Tốt Đỏ chiếm các điểm quan trọng trong cung.",
+              "Nếu Tốt Đỏ ở biên, Tướng giữ trung lộ, Sĩ giữ một bên là có thể hòa."
+            ]
+          },
+          "main_line_kifu": [
+            { "move_seq": 1, "player": "red", "move_uci": "e3e4", "move_cn": "Tốt 5 tiến 1 (P5.1)", "comment": "Đỏ đi trước, tiến Tốt." },
+            { "move_seq": 2, "player": "black", "move_uci": "e9e8", "move_cn": "Sĩ 5 lùi 6 (A5-6)", "comment": "Đen lùi Sĩ về tuyến đáy, chuẩn bị phòng thủ." },
+            { "move_seq": 3, "player": "red", "move_uci": "d0e0", "move_cn": "Tướng 4 bình 5 (K4=5)", "comment": "Đỏ đưa Tướng vào trung lộ." },
+            { "move_seq": 4, "player": "black", "move_uci": "e8d9", "move_cn": "Sĩ 6 tiến 5 (A6.5)", "comment": "Đen lên Sĩ cản Tướng Đỏ." }
+            
+          ],
+          "book_reference": { "chapter": 2, "section_title": "Định thức cờ tàn kiểu Tốt", "figure": 71, "page": 67 }
+        },
+        {
+          "study_id": "CT_TOT_H72",
+          "name": "Đơn Tốt khéo thắng đơn Sĩ (Hình 72, Trang 67)",
+          "type": "endgame_win_tactic",
+          "difficulty": "basic",
+          "tags": ["pawn_endgame", "red_wins", "advisor_trap"],
+          "description_general": "Khi Tướng Đen ở vị trí bất lợi và Sĩ không thể che chắn hiệu quả, Đỏ có thể dùng Tốt và Tướng phối hợp để thắng.",
+          "initial_fen": "3k5/4a4/4b4/9/4P4/9/9/B8/9/3K5 w - - 0 1",
+          "player_to_move_in_fen": "red",
+          "goal_for_player_to_move": "Thắng cờ.",
+          "key_recognition_features": [
+            "endgame_phase", "red_one_pawn_vs_black_one_advisor",
+            "red_pawn_crossed_river", "black_king_restricted", "black_advisor_misplaced"
+          ],
+          "guidance": {
+            "general": "Mấu chốt là dùng Tốt chiếm vị trí then chốt, sau đó Tướng Đỏ lên trợ công, ép Tướng Đen vào thế bí.",
+            "red_plan": ["Tiến Tốt bắt chết Sĩ hoặc ép Tướng Đen vào vị trí xấu.", "Dùng Tướng hỗ trợ Tốt chiếu hết."],
+            "black_defense_tips": ["Cố gắng đưa Sĩ về vị trí phòng thủ tốt nhất, tránh bị Tốt bắt chết."]
+          },
+          "main_line_kifu": [
+          
+          ],
+          "book_reference": { "chapter": 2, "section_title": "Định thức cờ tàn kiểu Tốt", "figure": 72, "page": 67 }
+        }
+        
+      ]
+    }
+
+  ]
+}

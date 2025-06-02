@@ -1,0 +1,64 @@
+{
+  "kill_patterns": [
+    {
+      "pattern_id": "KP_001_DOI_DIEN_TIEU",
+      "name": "Đối Diện Tiếu (Sát pháp đối mặt cười)",
+      "source_book_page": 142, 
+      "description": "Hai Pháo một Xe phối hợp chiếu Tướng khi Tướng đối phương bị lộ mặt.",
+      "type": "checkmate_sequence", 
+      "difficulty": "basic",
+      "tags": ["cannon", "chariot", "exposed_king"],
+      "recognition_conditions": {
+        "player_to_move_color": "red", 
+        "required_pieces_self": [ 
+          {"type": "CANNON", "min_count": 2, "role_description": "Một Pháo làm ngòi, một Pháo chiếu"},
+          {"type": "CHARIOT", "min_count": 1, "role_description": "Xe hỗ trợ hoặc khóa đường Tướng"}
+        ],
+        "opponent_king_state": {
+          "is_exposed_on_file": true, 
+          "has_limited_escape_squares": true,
+          "advisor_count_max": 1 
+        },
+        "board_features": [
+          "self_cannon_can_check_with_mount",
+          "self_chariot_controls_escape_file_or_rank"
+        ]
+      },
+      "solution_priority": 100, 
+      "solution_uci_sequence_for_player_to_move": [
+        "b7e7"
+      ],
+      "comments": "Thường áp dụng khi Tướng đối phương mất Sĩ hoặc Sĩ không ở vị trí tốt."
+    },
+    {
+      "pattern_id": "KP_002_THIET_MON_THUYEN",
+      "name": "Thiết Môn Thuyên",
+      "source_book_page": 146,
+      "description": "Xe và Pháo (hoặc Mã) khóa chặt Tướng ở một biên hoặc đáy.",
+      "type": "checkmate_sequence",
+      "difficulty": "intermediate",
+      "tags": ["chariot", "cannon", "king_trap", "baseline_mate"],
+       "recognition_conditions": {
+        "player_to_move_color": "red",
+        "required_pieces_self": [
+            {"type": "CHARIOT", "min_count": 1, "role_description": "Xe chiếm hàng đáy hoặc cột biên gần Tướng"},
+            {"type": "CANNON", "min_count": 1, "role_description": "Pháo làm ngòi chiếu Tướng từ xa"}
+        ],
+        "opponent_king_state": {
+            "is_on_baseline_or_edgefile": true,
+            "has_no_escape_squares_from_chariot_control": true
+        },
+        "board_features": [
+            "self_chariot_controls_king_movement_along_line",
+            "self_cannon_has_clear_shot_with_mount_to_king"
+        ]
+      },
+      "solution_priority": 120,
+      "solution_uci_sequence_for_player_to_move": [
+        
+      ],
+      "comments": "Một trong những sát pháp phổ biến và hiệu quả."
+    }
+    
+  ]
+}
