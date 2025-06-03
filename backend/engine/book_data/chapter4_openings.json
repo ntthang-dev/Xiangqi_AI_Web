@@ -1,64 +1,231 @@
 {
+  "book_chapter_info": {
+    "chapter_number": 4,
+    "title_vi": "Phương Pháp Khai Cuộc",
+    "source_book_name_vi": "Cờ Tướng Nhập Môn - Đàm Hưng (dịch từ Chu Bảo Vị)"
+  },
   "openings": [
     {
-      "id": "TIEN_NHAN_CHI_LO_P7_1_RED",
-      "name": "Tiên Nhân Chỉ Lộ (Tốt 7 tiến 1 của Đỏ)",
-      "description": "Đỏ đi Tốt 7 tiến 1 (P7.1).",
-      "applies_to_fen_board": "rnbakabnr/9/1c5c1/p1p1p1p1p/9/9/P1P1P1P1P/1C5C1/9/RNBAKABNR",
-      "initial_player_to_move": "red",
-      "uci_sequence": [
-        "c6c5" 
+      "opening_id": "CH4_THUAN_PHAO_TRUC_XA_VS_HOANH_XA_H276",
+      "name_vi": "Thuận Pháo: Trực Xe đối Hoành Xe (hình 276)",
+      "source_book_page": "213",
+      "description_vi": "Biến hóa căn bản nhất của Thuận Pháo, Đỏ đi Trực Xe, Đen đối lại bằng Hoành Xe. Đây là hình thế thường gặp.",
+      "applies_to_initial_fen_red_perspective": "rnbakabnr/9/1c5c1/p1p1p1p1p/9/9/P1P1P1P1P/1C5C1/9/RNBAKABNR w - - 0 1",
+      "uci_sequence_from_initial_fen": [
+        "h2e2", "h9g7", "b2c2", "b9a7", "a0b0", "a9b9", "b0b1", "g7e6", 
+        "h0g2", "b9b4", "g2f2", "b4b1", "f2e2", "a7c6", "c2c6", "e6d4",
+        "e2d2", "d4xc6"
       ],
-      "comments": ["Đỏ: Tốt từ (6,2) lên (5,2) -> UCI c6c5 (cột 2, hàng 6 -> cột 2, hàng 5)"]
+      "expected_outcome_comment_vi": "Đen mất quân, Đỏ ưu thế.",
+      "tags": ["thuan_phao", "phao_dau_doi_phao_dau", "truc_xe", "hoanh_xe", "red_advantage"]
     },
     {
-      "id": "TIEN_NHAN_CHI_LO_P3_1_RED",
-      "name": "Tiên Nhân Chỉ Lộ (Tốt 3 tiến 1 của Đỏ)",
-      "description": "Đỏ đi Tốt 3 tiến 1 (P3.1).",
-      "applies_to_fen_board": "rnbakabnr/9/1c5c1/p1p1p1p1p/9/9/P1P1P1P1P/1C5C1/9/RNBAKABNR",
-      "initial_player_to_move": "red",
-      "uci_sequence": [
-        "g6g5" 
+      "opening_id": "CH4_THUAN_PHAO_TRUC_XA_VS_HOANH_XA_BIEN1_H277",
+      "name_vi": "Thuận Pháo: Trực Xe đối Hoành Xe (biến 1, hình 277)",
+      "source_book_page": "214",
+      "description_vi": "Biến hóa từ hình 276, nước thứ 6 của Đen đổi đi Mã 2 tiến 1.",
+      "applies_to_initial_fen_red_perspective": "rnbakabnr/9/1c5c1/p1p1p1p1p/9/9/P1P1P1P1P/1C5C1/9/RNBAKABNR w - - 0 1",
+      "uci_sequence_from_initial_fen": [
+        "h2e2", "h9g7", "b2c2", "b9a7", "a0b0", "g9h7", "h0g2", "a9b9",
+        "b0b1", "a7c6", "g2f2", "c6e5", "e2e6", "e5c4", "b1c1"
       ],
-      "comments": ["Đỏ: Tốt từ (6,6) lên (5,6) -> UCI g6g5"]
+      "expected_outcome_comment_vi": "Đỏ ưu.",
+      "tags": ["thuan_phao", "truc_xe", "hoanh_xe_variant", "red_advantage"]
     },
     {
-      "id": "TRUNG_PHAO_P2_5_RED",
-      "name": "Trung Pháo (Pháo 2 bình 5 của Đỏ)",
-      "description": "Đỏ đi Pháo 2 bình 5 (P2=5).",
-      "applies_to_fen_board": "rnbakabnr/9/1c5c1/p1p1p1p1p/9/9/P1P1P1P1P/1C5C1/9/RNBAKABNR",
-      "initial_player_to_move": "red",
-      "uci_sequence": [
-        "b7e7" 
+      "opening_id": "CH4_THUAN_PHAO_TRUC_XA_CHINH_MA_VS_HOANH_XA_QUA_SONG_H278",
+      "name_vi": "3. Thuận Pháo trực Xa chính Mã đối hoành Xa qua sông (hình 278)",
+      "source_book_page": "P.215",
+      "description_vi": "Đỏ lên Mã chính (Mã 2 tiến 3), một biến cách linh hoạt hơn so với Xe tiến nhanh qua sông, tăng cường khả năng tấn công và khống chế trung tâm.",
+      "applies_to_initial_fen_red_perspective": "rnbakabnr/9/1c5c1/p1p1p1p1p/9/9/P1P1P1P1P/1C5C1/9/RNBAKABNR w - - 0 1",
+      "uci_sequence_from_initial_fen": [
+        "h2e2", "b9e9", "h0g2", "b9c7", "a0b0", "a9a8", "c3c4", "a8a4",
+        "g2f4", "a4e4", "c7e6", "b0e0", "b0b6", "e4e3", "e6f4", "b2b5",
+        "b6c6"
       ],
-      "comments": ["Đỏ: Pháo từ (7,1) sang (7,4) -> UCI b7e7"]
+      "expected_outcome_comment_vi": "Sau khi đổi quân , cục thế 2 bên trở nên hòa hoãn, nhưng cánh bên phải bên đen xuất quân khá chậm, bên đỏ chiếm ưu thế hơn.",
+      "tags": ["thuan_phao", "truc_xe_chinh_ma", "hoanh_xe_qua_song", "red_advantage", "center_control"]
     },
     {
-      "id": "TRUNG_PHAO_VS_BINH_PHONG_MA_STD",
-      "name": "Trung Pháo vs Bình Phong Mã (Biến căn bản)",
-      "description": "Thế trận đối công kinh điển.",
-      "applies_to_fen_board": "rnbakabnr/9/1c5c1/p1p1p1p1p/9/9/P1P1P1P1P/1C5C1/9/RNBAKABNR",
-      "initial_player_to_move": "red",
-      "uci_sequence": [
-        "b7e7", 
-        "h0g2", 
-        "a9b7", 
-        "b2e2", 
-        "a0b0", 
-        "g0f2", 
-        "h9g7", 
-        "i0h0"
+      "opening_id": "CH4_THUAN_PHAO_TRUC_XA_CHINH_MA_VS_HOANH_XA_BIEN_MA_H279",
+      "name_vi": "4. Thuận Pháo trực Xa chính Mã đối hoành Xa biên Mã (hình 279)",
+      "source_book_page": "P.216",
+      "description_vi": "Đỏ lên Mã chính, Đen lên Mã biên. Đỏ nhắm vào nhược điểm Mã biên của Đen để vượt sông ăn Tốt.",
+      "applies_to_initial_fen_red_perspective": "rnbakabnr/9/1c5c1/p1p1p1p1p/9/9/P1P1P1P1P/1C5C1/9/RNBAKABNR w - - 0 1",
+      "uci_sequence_from_initial_fen": [
+        "h2e2", "b9e9", "h0g2", "b9c7", "a0b0", "a9a8", "b0c2", "h9h8", 
+        "g2f4", "a8a4", "f4e6", "c7e6", "e2e6", "d9e8", "g0e2", "b2c2", 
+        "b0b5", "i9h9", "h2h6"
       ],
-      "comments": [
-        "1. Đỏ: P2=5 (Pháo (7,1)-(7,4) -> b7e7)", 
-        "2. Đen: M8.7 (Mã (0,7)-(2,6) -> h0g2)",
-        "3. Đỏ: M2.3 (Mã (9,1)-(7,2) -> b9b7)",
-        "4. Đen: P8=5 (Pháo (2,7)-(2,4) -> h2e2)",
-        "5. Đỏ: X1.2 (Xe (9,0)-(9,1) -> a9b9) -> Sửa: X1=2 (Xe (9,0) sang (9,1) -> a0b0)",
-        "6. Đen: S4.5 (Sĩ (0,3)-(1,4) -> d0e1) -> Sửa: S4.5 (Sĩ (0,3) lên (1,4) -> d0e1)",
-        "7. Đỏ: M8.7 (Mã (9,7)-(7,6) -> h9g7)",
-        "8. Đen: X9=8 (Xe (0,8) sang (0,7) -> i0h0)"
-      ]
+      "expected_outcome_comment_vi": "Cục diện này hai bên giằng co, bên đỏ nhiều Tốt hơn chiếm ưu thế.",
+      "tags": ["thuan_phao", "truc_xe_chinh_ma", "hoanh_xe_bien_ma", "red_advantage", "pawn_advantage"]
+    },
+    {
+      "opening_id": "CH4_THUAN_PHAO_TRUC_XA_LUONG_DAU_XA_VS_HAI_HOANH_XA_CHINH_MA_H280_TH1",
+      "name_vi": "5. Thuận Pháo trực Xa lưỡng đầu xà đối hai hoành Xa chính Mã (hình 280) - Trường hợp 1",
+      "source_book_page": "P.217",
+      "description_vi": "Đỏ tiến Tốt đầu Tượng (Lưỡng đầu xà), Đen hình thành hai Xe ngang. Một bên Mã linh hoạt, một bên Xe thông thoáng, đối đầu kịch liệt.",
+      "applies_to_initial_fen_red_perspective": "rnbakabnr/9/1c5c1/p1p1p1p1p/9/9/P1P1P1P1P/1C5C1/9/RNBAKABNR w - - 0 1",
+      "uci_sequence_from_initial_fen": [
+        "h2e2", "b9e9", "h0g2", "b9c7", "a0b0", "a9a8", "b0c2", "h9g7", 
+        "c3c4", "i9i8", "b2b4", "i8g8", "i0i2", "e6e5", "g2e3"
+      ],
+      "expected_outcome_comment_vi": "Cục diện như vậy bên đỏ mưu toàn khống chế cục diện, bên đen có ý lên Mã thông Xe, triển khai thế trận tranh đoạt kịch liệt. Tiếp tục chiến đấu hai bên đều có mặt lợi mặt hại, cùng có sự đắn đo.",
+      "tags": ["thuan_phao", "truc_xe_luong_dau_xa", "hai_hoanh_xe_chinh_ma", "double_headed_snake", "dynamic_position", "complex"]
+    },
+    {
+      "opening_id": "CH4_THUAN_PHAO_TRUC_XA_LUONG_DAU_XA_VS_HAI_HOANH_XA_CHINH_MA_H280_TH2",
+      "name_vi": "5. Thuận Pháo trực Xa lưỡng đầu xà đối hai hoành Xa chính Mã (hình 280) - Trường hợp 2",
+      "source_book_page": "P.218",
+      "description_vi": "Biến thể của Lưỡng đầu xà, Đỏ đưa Pháo trung lộ sang cột 3, Đen đổi sang bình Xe.",
+      "applies_to_initial_fen_red_perspective": "rnbakabnr/9/1c5c1/p1p1p1p1p/9/9/P1P1P1P1P/1C5C1/9/RNBAKABNR w - - 0 1",
+      "uci_sequence_from_initial_fen": [
+        "h2e2", "b9e9", "h0g2", "b9c7", "a0b0", "a9a8", "b0c2", "h9g7", 
+        "c3c4", "i9i8", "g0i2", "f6f5", "g2f4", "a8c8", "i0g0", "c3c4", 
+        "e2c2"
+      ],
+      "expected_outcome_comment_vi": "Thế trên bên đỏ đưa Pháo trung lộ tới cột 3, âm mưu đưa tiến Pháo đánh Xe, bên đen đổi sang bình Xe, thế cục không thể yếu hai bên giằng co.",
+      "tags": ["thuan_phao", "truc_xe_luong_dau_xa", "hai_hoanh_xe_chinh_ma_variant", "double_headed_snake", "balanced_tension"]
+    },
+    {
+      "opening_id": "CH4_THUAN_PHAO_HOANH_XA_MA_LO_7_DOI_KHAI_XE_CHAM_TH1",
+      "name_vi": "6. Thuận Pháo hoành Xa Mã lộ 7 đối khai Xe chậm - Trường hợp 1",
+      "source_book_page": "P.219",
+      "description_vi": "Đỏ đi Hoành Xa, Mã lên lộ 7. Đen khai Xe chậm. Biến thể Đỏ bình Pháo nhằm Mã.",
+      "applies_to_initial_fen_red_perspective": "rnbakabnr/9/1c5c1/p1p1p1p1p/9/9/P1P1P1P1P/1C5C1/9/RNBAKABNR w - - 0 1",
+      "uci_sequence_from_initial_fen": [
+        "h2e2", "b9e9", "h0g2", "b9c7", "a0b0", "a9a8", "b0c2", "h9g7",
+        "g3g4", "b2b6", "g2e3", "b6g6", "h2g2", "i9h9", "e3f5", "e9d9",
+        "g3g4", "h9h3", "b2b4", "d9d4"
+      ],
+      "expected_outcome_comment_vi": "Cục diện như vậy tiến vào trạng thái đối đầu dữ đội, hai bên đều có sự đắn đo.",
+      "tags": ["thuan_phao", "hoanh_xe_ma_lo_7", "khai_xe_cham_variant", "sharp_position"]
+    },
+    {
+      "opening_id": "CH4_THUAN_PHAO_HOANH_XA_MA_LO_7_DOI_KHAI_XE_CHAM_TH2",
+      "name_vi": "6. Thuận Pháo hoành Xa Mã lộ 7 đối khai Xe chậm - Trường hợp 2",
+      "source_book_page": "P.220",
+      "description_vi": "Đỏ đi Hoành Xa, Mã lên lộ 7. Đen khai Xe chậm. Biến thể Đen lên Sĩ sớm.",
+      "applies_to_initial_fen_red_perspective": "rnbakabnr/9/1c5c1/p1p1p1p1p/9/9/P1P1P1P1P/1C5C1/9/RNBAKABNR w - - 0 1",
+      "uci_sequence_from_initial_fen": [
+        "h2e2", "b9e9", "h0g2", "b9c7", "a0b0", "g6g5", "b0c2", "h9g7",
+        "g3g4", "b2b6", "g2h4", "a9a8", "i0i1", "a8d8", "d0e1", "b6g6",
+        "i1g1"
+      ],
+      "expected_outcome_comment_vi": "Thế cục này hai bên ở thế cân bằng.",
+      "tags": ["thuan_phao", "hoanh_xe_ma_lo_7", "khai_xe_cham_variant", "balanced_position"]
+    },
+    {
+      "opening_id": "CH4_THUAN_PHAO_HOANH_XA_MA_LO_7_DOI_KHAI_XE_CHAM_TH3",
+      "name_vi": "6. Thuận Pháo hoành Xa Mã lộ 7 đối khai Xe chậm - Trường hợp 3",
+      "source_book_page": "P.221",
+      "description_vi": "Đỏ đi Hoành Xa, Mã lên lộ 7. Đen khai Xe chậm. Biến thể Đen bình Pháo biên sớm.",
+      "applies_to_initial_fen_red_perspective": "rnbakabnr/9/1c5c1/p1p1p1p1p/9/9/P1P1P1P1P/1C5C1/9/RNBAKABNR w - - 0 1",
+      "uci_sequence_from_initial_fen": [
+        "h2e2", "b9e9", "h0g2", "b9c7", "c3c4", "a9b9", "b0c2", "h9g7",
+        "g3g4", "b2a2", "i0h0", "b9b5", "a0b0", "b5b1", "b0b8", "e9e8"
+      ],
+      "expected_outcome_comment_vi": "Thế cục này 2 bên đối đầu.",
+      "tags": ["thuan_phao", "hoanh_xe_ma_lo_7", "khai_xe_cham_variant", "confrontational_position"]
+    },
+    {
+      "opening_id": "CH4_THUAN_PHAO_HOANH_XA_MA_LO_7_DOI_KHAI_XE_CHAM_TH4",
+      "name_vi": "6. Thuận Pháo hoành Xa Mã lộ 7 đối khai Xe chậm - Trường hợp 4",
+      "source_book_page": "P.222",
+      "description_vi": "Đỏ đi Hoành Xa, Mã lên lộ 7. Đen khai Xe chậm. Biến thể phức tạp với nhiều đổi quân.",
+      "applies_to_initial_fen_red_perspective": "rnbakabnr/9/1c5c1/p1p1p1p1p/9/9/P1P1P1P1P/1C5C1/9/RNBAKABNR w - - 0 1",
+      "uci_sequence_from_initial_fen": [
+        "h2e2", "b9e9", "h0g2", "b9c7", "c3c4", "a9b9", "b0c2", "h9g7", 
+        "g3g4", "i9i8", "g2e3", "b9b5", "e3f5", "i8d8", "h2g2", "d8d4", 
+        "i0h0", "b5d5", "d0e1", "d4d2", "e9d9", "b2b6", "g0e2", "b6e6",
+        "f5g3", "d5c5", "a0c0", "g7f5", "g3h1", "c5c4", "h0h3", "c4d4",
+        "d9d7", "b7b6", "h3h9", "c5c2", "d7d5", "c2g2"
+      ],
+      "expected_outcome_comment_vi": "Chú thích: Nước 7: Nếu đổi nước đi thành Tốt tiến 1, thì Tốt 3 tiến 1, Xe 8 bình 7, Pháo 8 bình 7, Mã 7 tiến 6, Xe 9 bình 8, Xe 1 bình 4, Sĩ 4 tiến 5, Pháo 5 bình 7, Tượng 3 tiến 1, Mã 6 tiến 7, bên đen chiếm ưu thế chút đỉnh.",
+      "tags": ["thuan_phao", "hoanh_xe_ma_lo_7", "khai_xe_cham_variant", "complex_exchange_variation"]
+    },
+    {
+      "opening_id": "CH4_THUAN_PHAO_HOANH_XA_DOI_TRUC_XA_TUAN_HA",
+      "name_vi": "7. Thuận Pháo hoành Xa đối trực Xa tuần hà",
+      "source_book_page": "P.223",
+      "description_vi": "Đỏ đi Hoành Xa, Đen Trực Xa tuần hà. Thế trận giằng co.",
+      "applies_to_initial_fen_red_perspective": "rnbakabnr/9/1c5c1/p1p1p1p1p/9/9/P1P1P1P1P/1C5C1/9/RNBAKABNR w - - 0 1",
+      "uci_sequence_from_initial_fen": [
+        "h2e2", "b9e9", "a0a1", "b9c7", "h0g2", "a9b9", "a1f1", "b9b5", 
+        "b0c2", "b2b4", "g3g4", "b4g4", "c2d4", "c3c4", "g3g4", "g4g7", 
+        "h2c2", "b5b2", "i0i2", "i9h9", "i2g2", "e9e5", "d0e1", "h9h5"
+      ],
+      "expected_outcome_comment_vi": "Thế cục trên hai bên trong thế giằng co.",
+      "tags": ["thuan_phao", "hoanh_xe", "truc_xe_tuan_ha", "balanced_tension"]
+    },
+    {
+      "opening_id": "CH4_THUAN_PHAO_HOANH_XA_BIEN_MA_DOI_TRUC_XA_LEN_SI_TRUOC",
+      "name_vi": "8. Thuận Pháo hoành Xa biên Mã đối trực Xa lên Sĩ trước",
+      "source_book_page": "P.224",
+      "description_vi": "Đỏ Hoành Xa, lên Mã biên. Đen Trực Xa, lên Sĩ sớm. Đỏ lợi dụng hai Xe trên đường lặc đạo, chiếm ưu thế.",
+      "applies_to_initial_fen_red_perspective": "rnbakabnr/9/1c5c1/p1p1p1p1p/9/9/P1P1P1P1P/1C5C1/9/RNBAKABNR w - - 0 1",
+      "uci_sequence_from_initial_fen": [
+        "h2e2", "b9e9", "h0g2", "b9c7", "a0a1", "a9b9", "a1f1", "f9e8", 
+        "f1f8", "h9h8", "i3i4", "b9b3", "b0a2", "b3c3", "i0i1", "b2b4", 
+        "i1d1", "b4g4", "a2b4"
+      ],
+      "expected_outcome_comment_vi": "Cục diện như vậy, bên đỏ lợi dụng hai Xe trên đường lặc đạo, chiếm điều kiện có lợi, tiến Mã phong Xe bỏ quân giành thế tấn công, hình thành thế giao tranh kịch liệt, hai bên đều phải dè chừng.",
+      "tags": ["thuan_phao", "hoanh_xe_bien_ma", "truc_xe_len_si", "red_initiative", "sharp_position"]
+    },
+    {
+      "opening_id": "CH4_THUAN_PHAO_HOANH_XA_BO_MA_DOI_TRUC_XA_SANG_SONG",
+      "name_vi": "9. Thuận Pháo hoành Xa bỏ Mã đối trực Xa sang sông",
+      "source_book_page": "P.225",
+      "description_vi": "Đỏ đi Hoành Xa, thí Mã (cạm bẫy '30 nước bỏ Mã' nổi tiếng). Đen Trực Xa sang sông.",
+      "applies_to_initial_fen_red_perspective": "rnbakabnr/9/1c5c1/p1p1p1p1p/9/9/P1P1P1P1P/1C5C1/9/RNBAKABNR w - - 0 1",
+      "uci_sequence_from_initial_fen": [
+        "h2e2", "b9e9", "h0g2", "b9c7", "a0a1", "a9b9", "a1f1", "b9b3", 
+        "f1f8", "h9h8", "i0i1", "b2b9", "h2h7", "c7b5", "e9e5", "f9e8", 
+        "i1f1", "e9f9", "f8f9", "e8d7", "f1d1", "e5c5", "d1d7", "f9e9", 
+        "h7e7"
+      ],
+      "expected_outcome_comment_vi": "Ở thế cục này, bên đỏ chỉ sử dụng 13 hiệp tấn công liên tục để thủ thắng. Người mới học có thể vận dụng trong thực chiến.",
+      "tags": ["thuan_phao", "hoanh_xe_bo_ma", "truc_xe_sang_song", "sacrifice_gambit", "red_wins_quickly", "classic_trap"]
+    },
+    {
+      "opening_id": "CH4_BINH_PHONG_MA_DOI_PHAO_DAU_H291",
+      "name_vi": "Bình Phong Mã đối Pháo Đầu (hình 291)",
+      "source_book_page": "230",
+      "description_vi": "Thế trận Pháo đầu tấn công Bình Phong Mã là một trong những bố cục khai cuộc phổ biến và phức tạp nhất.",
+      "applies_to_initial_fen_red_perspective": "rnbakabnr/9/1c5c1/p1p1p1p1p/9/9/P1P1P1P1P/1C5C1/9/RNBAKABNR w - - 0 1",
+      "uci_sequence_from_initial_fen": [
+        "h2e2", "b9c7", "a0b0", "h9g7", "b2c2", "a9b9", "h0g2", "c9e7",
+        "b0b6", "g7e6", "g2f2", "b9b4", "f2e2", "e7c5", "e2d2", "c5b6",
+        "c2c1", "b6a5", "d2e2", "a5c7"
+      ],
+      "expected_outcome_comment_vi": "Đỏ hơn Tốt, Đen giữ vững trận địa.",
+      "tags": ["binh_phong_ma", "phao_dau", "classical_opening", "complex"]
+    },
+    {
+      "opening_id": "CH4_TIEN_NHAN_CHI_LO_DOI_TOT_DI_PHAO_H307",
+      "name_vi": "Tiên Nhân Chỉ Lộ đối Tốt Để Pháo (hình 307)",
+      "source_book_page": "247",
+      "description_vi": "Đỏ đi Tiên Nhân Chỉ Lộ (Tốt 3 hoặc Tốt 7 tiến 1), Đen ứng phó bằng cách đi Tốt để Pháo.",
+      "applies_to_initial_fen_red_perspective": "rnbakabnr/9/1c5c1/p1p1p1p1p/9/9/P1P1P1P1P/1C5C1/9/RNBAKABNR w - - 0 1",
+      "uci_sequence_from_initial_fen": [
+        "c0c1", "c9e7", "h2e2", "g9f7", "a0b0", "b9c7", "h0g2", "a9b9",
+        "b0b1", "h9g7", "g2f2", "g7e6", "b1a1", "f7h6", "a1a0"
+      ],
+      "expected_outcome_comment_vi": "Hai bên ngang nhau.",
+      "tags": ["tien_nhan_chi_lo", "tot_de_phao", "balanced_position"]
+    },
+    {
+      "opening_id": "CH4_KHOI_MA_CUC_H332",
+      "name_vi": "Khởi Mã Cục (hình 332)",
+      "source_book_page": "269",
+      "description_vi": "Đỏ đi Khởi Mã (Mã 2 tiến 3 hoặc Mã 8 tiến 7), một cách khai cuộc vững chắc.",
+      "applies_to_initial_fen_red_perspective": "rnbakabnr/9/1c5c1/p1p1p1p1p/9/9/P1P1P1P1P/1C5C1/9/RNBAKABNR w - - 0 1",
+      "uci_sequence_from_initial_fen": [
+        "b2c2", "g6g5", "h2e2", "h9g7", "c0c1", "a9b9", "a3a4", "b2c2", 
+        "i0h0", "g7e6", "a0b0"
+      ],
+      "expected_outcome_comment_vi": "Hai bên ngang nhau.",
+      "tags": ["khoi_ma_cuc", "solid_opening", "balanced_position"]
     }
   ]
 }

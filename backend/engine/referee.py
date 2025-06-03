@@ -101,7 +101,7 @@ class Referee:
         # "Đuổi mãi" (chase) bởi Tướng/Tốt không bị cấm.
         if current_action_type == ACTION_TYPE_CHASE_UNPROTECTED or current_action_type == ACTION_TYPE_CHASE_PROTECTED:
             if piece_char_moved and piece_char_moved.upper() in ['K', 'P']:
-                # print(f"DEBUG Referee: Hành động đuổi bởi Tướng/Tốt ({piece_char_moved}) không bị cấm lặp lại.")
+                print(f"DEBUG Referee: Hành động đuổi bởi Tướng/Tốt ({piece_char_moved}) không bị cấm lặp lại.")
                 return False # Tướng/Tốt đuổi không bị cấm (trừ khi là chiếu Tướng)
 
         current_target_key_for_check = self._generate_target_key(current_action_type, current_target_info, piece_char_moved, current_move_tuple[0])
@@ -119,7 +119,7 @@ class Referee:
         # print(f"DEBUG Referee Check Forbidden: Player {offending_player_color}, Action {current_action_type}, TargetKey {current_target_key_for_check}, BoardAfter {current_board_tuple_after_action}, Count {count}")
 
         if count >= REPETITION_COUNT_FOR_FORBIDDEN_ACTION:
-            # print(f"DEBUG Referee: Hành động bị cấm do lặp lại {count} lần!")
+            print(f"DEBUG Referee: Hành động bị cấm do lặp lại {count} lần!")
             return True # Bị cấm nếu lặp lại đủ số lần quy định
             
         return False

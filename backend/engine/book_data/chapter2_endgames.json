@@ -1,78 +1,1037 @@
 {
-  "chapter_info": {
-    "number": 2,
-    "title": "Cờ Tàn Thực Dụng",
-    "source_book": "Cờ Tướng Nhập Môn - Chu Bảo Vị, Đàm Hưng"
+  "book_chapter_info": {
+    "chapter_number": 2,
+    "title_vi": "Cờ Tàn Thực Dụng",
+    "title_en": "Practical Endgames",
+    "source_book_name_vi": "Cờ Tướng Nhập Môn - Đàm Hưng (dịch từ Chu Bảo Vị)",
+    "description_from_book_intro_vi": "Cờ tàn, hay tàn cục, tàn cuộc là giai đoạn quyết chiến, hai bên quyết đấu để phân thắng bại... Nắm vững những kiến thức này, chúng ta có thể làm được đến độ cận thắng sẽ thắng, cận hoà không được thua..."
   },
-  "sections": [
+  "endgame_studies": [
     {
-      "section_id": "CT_TOT",
-      "section_title": "Định Thức Cờ Tàn Kiểu Tốt",
-      "studies": [
-        {
-          "study_id": "CT_TOT_H71",
-          "name": "Đơn Tốt khó thắng đơn Sĩ (Hình 71, Trang 67)",
-          "type": "endgame_draw_tactic", 
-          "difficulty": "basic",
-          "tags": ["pawn_endgame", "single_pawn", "single_advisor", "draw_defense"],
-          "description_general": "Một Sĩ thông thường có thể thủ hòa một Tốt, nhưng nhất định phải ứng đối chính xác. Mấu chốt là Tướng chiếm trung hoặc Sĩ không cho Tốt qua.",
-          "initial_fen": "4k4/9/9/4p4/9/9/9/4A4/9/3K5 w - - 0 1", 
-          "player_to_move_in_fen": "red", 
-          "goal_for_player_to_move": "Hòa cờ (nếu Đen phòng thủ đúng). Sách ghi 'Đỏ hòa trước'.",
-          "key_recognition_features": [
-            "endgame_phase", "red_one_pawn", "black_one_advisor", 
-            "red_pawn_not_crossed_river_yet_or_just_crossed",
-            "black_king_can_reach_center_file_or_block_pawn"
-          ],
-          "guidance": {
-            "general": "Bên thủ (Đen) cần giữ Tướng ở trung lộ để cản Tốt, hoặc dùng Sĩ linh hoạt để không cho Tốt Đỏ tiến sâu và chiếm các vị trí hiểm yếu. Bên công (Đỏ) cố gắng đưa Tốt qua sông và dùng Tướng trợ công.",
-            "red_plan": [
-              "Nếu Tướng Đen không ở trung lộ, cố gắng đưa Tốt chiếm trung.",
-              "Dùng Tướng yểm trợ Tốt qua sông.",
-              "Tìm cách bắt chết Sĩ Đen nếu Đen mắc sai lầm."
-            ],
-            "black_defense_tips": [
-              "Giữ Tướng ở cột 4, 5, hoặc 6 để đối mặt với Tốt.",
-              "Sĩ di chuyển linh hoạt, không cho Tốt Đỏ chiếm các điểm quan trọng trong cung.",
-              "Nếu Tốt Đỏ ở biên, Tướng giữ trung lộ, Sĩ giữ một bên là có thể hòa."
-            ]
-          },
-          "main_line_kifu": [
-            { "move_seq": 1, "player": "red", "move_uci": "e3e4", "move_cn": "Tốt 5 tiến 1 (P5.1)", "comment": "Đỏ đi trước, tiến Tốt." },
-            { "move_seq": 2, "player": "black", "move_uci": "e9e8", "move_cn": "Sĩ 5 lùi 6 (A5-6)", "comment": "Đen lùi Sĩ về tuyến đáy, chuẩn bị phòng thủ." },
-            { "move_seq": 3, "player": "red", "move_uci": "d0e0", "move_cn": "Tướng 4 bình 5 (K4=5)", "comment": "Đỏ đưa Tướng vào trung lộ." },
-            { "move_seq": 4, "player": "black", "move_uci": "e8d9", "move_cn": "Sĩ 6 tiến 5 (A6.5)", "comment": "Đen lên Sĩ cản Tướng Đỏ." }
-            
-          ],
-          "book_reference": { "chapter": 2, "section_title": "Định thức cờ tàn kiểu Tốt", "figure": 71, "page": 67 }
-        },
-        {
-          "study_id": "CT_TOT_H72",
-          "name": "Đơn Tốt khéo thắng đơn Sĩ (Hình 72, Trang 67)",
-          "type": "endgame_win_tactic",
-          "difficulty": "basic",
-          "tags": ["pawn_endgame", "red_wins", "advisor_trap"],
-          "description_general": "Khi Tướng Đen ở vị trí bất lợi và Sĩ không thể che chắn hiệu quả, Đỏ có thể dùng Tốt và Tướng phối hợp để thắng.",
-          "initial_fen": "3k5/4a4/4b4/9/4P4/9/9/B8/9/3K5 w - - 0 1",
-          "player_to_move_in_fen": "red",
-          "goal_for_player_to_move": "Thắng cờ.",
-          "key_recognition_features": [
-            "endgame_phase", "red_one_pawn_vs_black_one_advisor",
-            "red_pawn_crossed_river", "black_king_restricted", "black_advisor_misplaced"
-          ],
-          "guidance": {
-            "general": "Mấu chốt là dùng Tốt chiếm vị trí then chốt, sau đó Tướng Đỏ lên trợ công, ép Tướng Đen vào thế bí.",
-            "red_plan": ["Tiến Tốt bắt chết Sĩ hoặc ép Tướng Đen vào vị trí xấu.", "Dùng Tướng hỗ trợ Tốt chiếu hết."],
-            "black_defense_tips": ["Cố gắng đưa Sĩ về vị trí phòng thủ tốt nhất, tránh bị Tốt bắt chết."]
-          },
-          "main_line_kifu": [
-          
-          ],
-          "book_reference": { "chapter": 2, "section_title": "Định thức cờ tàn kiểu Tốt", "figure": 72, "page": 67 }
-        }
-        
-      ]
+      "study_id": "CH2_EG_H71_DON_TOT_KHO_THANG_DON_SI",
+      "name_vi": "1. Đơn Tốt khó thắng đơn Sĩ (hình 71)",
+      "source_book_page": "66-67",
+      "initial_fen_red_perspective": "4k4/4a4/9/9/9/4P4/9/9/4K3/9 w - - 0 1",
+      "player_to_move_on_fen": "red",
+      "goal_for_red": "DRAW",
+      "expected_outcome_score_for_red": 0,
+      "difficulty_level": "basic",
+      "description_general_vi": "Một Sĩ thông thường có thể thủ hoà một tốt, nhưng nhất định phải ứng đối chính xác, nếu không cũng có khả năng bị thua cờ.",
+      "key_recognition_features_red_pov": [
+        {"type": "piece_count_exact", "player": "self", "piece_counts": {"P": 1, "K":1, "R":0, "H":0, "C":0, "A":0, "E":0}},
+        {"type": "piece_count_exact", "player": "opponent", "piece_counts": {"k":1, "a": 1, "r":0, "h":0, "c":0, "p":0, "e":0}}
+      ],
+      "main_line_kifu_uci_for_red": ["e0d0", "d0c0", "c0c1", "e3d3", "c1d1", "d3e3", "e3f3"],
+      "opponent_best_defense_uci": ["e8d8", "d8e8", "e8f8", "e9f9", "f8e8", "e8f8", "f9f8"],
+      "analysis_and_comments_vi": "Nước đi: Đỏ hoà trước.\n1. Tướng 4 bình 5 (K e0-d0), Sĩ 5 lùi 6 (a e8-d8).\n2. Tướng 5 bình 6 (K d0-c0), Sĩ 6 tiến 5 (a d8-e8).\n3. Tướng 6 tiến 1 (K c0-c1), Sĩ 5 lùi 4 (a e8-f8). Chú thích(1): Nếu đi Sĩ 5 lùi 6 (a e8-d8), thì Tốt 5 bình 4 (P e3-d3), Sĩ 6 tiến 5 (a d8-e8), Tốt 4 tiến 1 (P d3-d2), Sĩ 5 tiến 4 (a e8-f8), Tướng 6 tiến 1 (K c1-c2), Tướng 5 bình 4 (k e9-d9), Tốt 4 bình 5 (P d2-e2), bên đen hết nước, bên đỏ thắng.\n4. Tốt 5 bình 4 (P e3-d3), Tướng 5 bình 6 (k e9-f9). Chú thích(2): Nước đi quan trọng! Nếu nhường Tốt đỏ tiến thêm một bước thì không thể cầm hoà.\n5. Tướng 6 bình 5 (K c1-d1), Sĩ 4 tiến 5 (a f8-e8).\n6. Tốt 4 bình 5 (P d3-e3), Sĩ 5 lùi 4 (a e8-f8).\n7. Tốt 5 bình 6 (P e3-f3), Tướng 6 tiến 1 (k f9-f8). (Hoà cờ).",
+      "tags": ["pawn_endgame", "single_pawn_vs_single_advisor", "draw_tactic", "king_opposition"]
+    },
+    {
+      "study_id": "CH2_EG_H72_DON_TOT_KHEO_THANG_DON_SI",
+      "name_vi": "2. Đơn Tốt khéo thắng đơn Sĩ (hình 72)",
+      "source_book_page": "67-68",
+      "initial_fen_red_perspective": "3ak4/9/9/9/4P3/9/9/9/3K4/9 w - - 0 1",
+      "player_to_move_on_fen": "red",
+      "goal_for_red": "WIN",
+      "expected_outcome_score_for_red": 100000,
+      "difficulty_level": "basic",
+      "description_general_vi": "Khi Tướng Đen ở vị trí bất lợi và Sĩ không thể che chắn hiệu quả, Đỏ có thể dùng Tốt và Tướng phối hợp để thắng.",
+      "key_recognition_features_red_pov": [
+        {"type": "piece_count_exact", "player": "self", "piece_counts": {"P": 1, "K":1}},
+        {"type": "piece_count_exact", "player": "opponent", "piece_counts": {"k":1, "a":1}}
+      ],
+      "main_line_kifu_uci_for_red": ["e4f4", "f4f3", "d0d1", "d1e1"],
+      "opponent_best_defense_uci": ["d8e7", "e7f7", "f7e7"],
+      "analysis_and_comments_vi": "Nước đi: Đỏ đi trước.\n1. Tốt 5 bình 6 (P e4-f4), Sĩ 4 tiến 5 (a d8-e7).\n2. Tốt 6 tiến 1 (P f4-f3), Sĩ 5 tiến 6 (a e7-f7).\n3. Tướng 4 tiến 1 (K d0-d1), Sĩ 6 lùi 5 (a f7-e7). Chú thích(1): Nếu thay đổi nước đi Tướng 5 bình 6 (k e9-f9), thì Tốt 6 bình 5 (P f3-e3), bên đen hết nước, bên đỏ thắng.\n4. Tướng 4 bình 5 (K d1-e1) (đỏ thắng).",
+      "tags": ["pawn_endgame", "single_pawn_vs_single_advisor", "red_wins", "king_activity"]
+    },
+    {
+      "study_id": "CH2_EG_H73_TOT_THAP_THANG_TUONG_DON_DOC",
+      "name_vi": "3. Tốt thấp thắng Tướng đơn độc (một Tốt bắt vua) (hình 73)",
+      "source_book_page": "68",
+      "initial_fen_red_perspective": "4k4/9/9/9/9/5p2/9/3K4/9/9 w - - 0 1",
+      "player_to_move_on_fen": "red",
+      "goal_for_red": "WIN",
+      "expected_outcome_score_for_red": 100000,
+      "difficulty_level": "basic",
+      "description_general_vi": "Tốt thấp (chưa qua sông) phối hợp với Tướng để bắt Tướng đối phương đơn độc.",
+      "key_recognition_features_red_pov": [
+        {"type": "piece_count_exact", "player": "self", "piece_counts": {"P": 1, "K":1}},
+        {"type": "piece_count_exact", "player": "opponent", "piece_counts": {"k":1, "a":0, "e":0}}
+      ],
+      "main_line_kifu_uci_for_red": ["d1d2", "f3e3", "e3d3", "d2e2", "d3e3", "e2e1"],
+      "opponent_best_defense_uci": ["e9f9", "f9e9", "e9f9", "f9f8", "f8e8"],
+      "analysis_and_comments_vi": "Nước đi: Đỏ đi trước.\n1. Tướng 4 tiến 1 (K d1-d2), Tướng 5 bình 4 (k e9-f9).\n2. Tốt 6 bình 5 (p f3-e3), Tướng 4 bình 5 (k f9-e9).\n3. Tốt 5 bình 4 (p e3-d3), Tướng 5 bình 4 (k e9-f9).\n4. Tướng 4 bình 5 (K d2-e2), Tướng 4 lùi 1 (k f9-f8).\n5. Tốt 4 bình 5 (p d3-e3), Tướng 4 tiến 1 (k f8-e8).\n6. Tướng 5 lùi 1 (K e2-e1) (đỏ thắng).",
+      "tags": ["pawn_endgame", "king_and_pawn_vs_king", "red_wins"]
+    },
+    {
+      "study_id": "CH2_EG_H74_DON_TOT_HOA_DON_TUONG",
+      "name_vi": "4. Đơn Tốt hoà đơn Tượng (hình 74)",
+      "source_book_page": "69",
+      "initial_fen_red_perspective": "4k4/9/4e4/9/2P6/9/9/9/4K3/9 w - - 0 1",
+      "player_to_move_on_fen": "red",
+      "goal_for_red": "DRAW",
+      "expected_outcome_score_for_red": 0,
+      "difficulty_level": "basic",
+      "description_general_vi": "Một Tượng có thể thủ hoà một Tốt, nếu không bị kềm chế, Tốt cao không thể thủ thắng. Như hình 74.",
+      "key_recognition_features_red_pov": [
+        {"type": "piece_count_exact", "player": "self", "piece_counts": {"P": 1, "K":1}},
+        {"type": "piece_count_exact", "player": "opponent", "piece_counts": {"k":1, "e":1}}
+      ],
+      "main_line_kifu_uci_for_red": ["c4d4", "d4d3", "e0d0", "d3d2", "d0d1"],
+      "opponent_best_defense_uci": ["e6c4", "c4e2", "e2g4", "e9f9", "g4e2"],
+      "analysis_and_comments_vi": "Nước đi: Đỏ đi trước.\n1. Tốt 3 bình 4 (P c4-d4), Tượng 5 lùi 3 (e e6-c4). Chú thích(1): Nếu đổi nước đi thành Tướng 6 bình 5 (k e9-f9), thì Tốt 4 tiến 1 (P d4-d3), sẽ bắt chết Tượng đen. Đỏ thắng.\n2. Tốt 4 tiến 1 (P d4-d3), Tượng 3 tiến 1 (e c4-e2).\n3. Tướng 5 bình 4 (K e0-d0), Tượng 1 tiến 3 (e e2-g4).\n4. Tốt 4 tiến 1 (P d3-d2), Tướng 6 bình 5 (k e9-f9).\n5. Tướng 4 tiến 1 (K d0-d1), Tượng 3 lùi 1 (e g4-e2) (hoà cờ).",
+      "tags": ["pawn_endgame", "pawn_vs_elephant", "draw_tactic"]
+    },
+    {
+      "study_id": "CH2_EG_H75_TOT_TUONG_CAO_KHEO_THANG_DON_SI",
+      "name_vi": "5. Tốt Tượng cao khéo thắng đơn Sĩ (hình 75)",
+      "source_book_page": "69-70",
+      "initial_fen_red_perspective": "4ka2/9/9/4P3/4E3/9/9/9/4K3/9 w - - 0 1",
+      "player_to_move_on_fen": "red",
+      "goal_for_red": "WIN",
+      "expected_outcome_score_for_red": 100000,
+      "difficulty_level": "intermediate",
+      "description_general_vi": "Ván cờ này bên đỏ nhiều hơn một Tượng, nhưng dù bên nào đi trước vẫn là bên đỏ thắng. Yếu lĩnh để thủ thắng là: đợi sau khi bên đen hạ Sĩ, Tốt sẽ tiến sang bên không có Sĩ, Tướng sẽ khống chế bên còn lại.",
+      "key_recognition_features_red_pov": [
+        {"type": "piece_count_exact", "player": "self", "piece_counts": {"P": 1, "E": 1, "K":1}},
+        {"type": "piece_count_exact", "player": "opponent", "piece_counts": {"k":1, "a":1}}
+      ],
+      "main_line_kifu_uci_for_red": ["e0e1", "e5f5", "f5f4", "e1d1", "e4c2", "d1d0", "f4e4"],
+      "opponent_best_defense_uci": ["e8d8", "d8e8", "e8f8", "f8e8", "e8d8", "e9f9"],
+      "analysis_and_comments_vi": "Nước đi: Đỏ đi trước.\n1. Tướng 5 tiến 1 (K e0-e1), Sĩ 5 lùi 6 (a e8-d8). Chú thích(1): Nước chờ, rất hay, nếu thay đổi nước đi thành Tượng 5 tiến 3 (E e4-g2), thì Sĩ 5 lùi 6 (a e8-d8) hoặc lùi 4 (a e8-f8), dựa theo ví dụ 1 để hoà cờ.\n2. Tốt 5 bình 6 (!) (P e5-f5), Sĩ 6 tiến 5 (a d8-e8).\n3. Tốt 6 tiến 1 (P f5-f4), Sĩ 5 lùi 4 (!) (a e8-f8). Chú thích(3): Nếu đổi nước đi thành Tướng 5 bình 4 (k e9-d9), thì Tướng 5 bình 4 (K e1-d1), Tướng 5 lùi 1 (k d9-d8), Tốt 6 tiến 1 (P f4-f3), từ đó về sau nước đi sẽ giống như phần này, đỏ thẳng; nếu đổi thành đi nước Tướng 5 bình 4 (k e9-d9), thì Tướng 5 bình 6 (K e1-f1), Sĩ 6 tiến 5 (a d8-e8), Tốt 6 tiến 1 (P f4-f3), Tướng 4 bình 5 (K f1-e1), Tướng 6 bình 5 (k d9-e9), Sĩ 5 lùi 4 (a e8-f8), Tướng 5 bình 4 (K e1-d1), Sĩ 4 tiến 5 (a f8-e8), Tượng 5 tiến 7 (E e4-g6), từ đây trở đi giống phần này, đỏ thắng.\n4. Tướng 5 bình 4 (K e1-d1), Sĩ 4 tiến 5 (a f8-e8).\n5. Tượng 5 lùi 7 (E e4-c2), Sĩ 5 tiến 6 (a e8-d8).\n6. Tướng 4 lùi 1 (K d1-d0), Tướng 5 bình 6 (k e9-f9).\n7. Tốt 6 bình 5 (P f4-e4) (Đen bị vây chết, đỏ thắng).",
+      "tags": ["pawn_endgame", "elephant_endgame", "pawn_elephant_vs_advisor", "red_wins", "king_activity"]
+    },
+    {
+      "study_id": "CH2_EG_H76_TOT_CAO_TOT_THAP_TAT_THANG_HAI_SI",
+      "name_vi": "6. Tốt cao Tốt thấp tất thắng hai Sĩ (hình 76)",
+      "source_book_page": "70",
+      "initial_fen_red_perspective": "5k1/4aa3/9/4P4/9/1P7/9/9/4K3/9 w - - 0 1",
+      "player_to_move_on_fen": "red",
+      "goal_for_red": "WIN",
+      "expected_outcome_score_for_red": 100000,
+      "difficulty_level": "basic",
+      "description_general_vi": "Một Tốt thấp và một Tốt cao tất thắng hai Sĩ, then chốt là Tốt cao tiến phải thận trọng.",
+      "key_recognition_features_red_pov": [
+        {"type": "piece_count_exact", "player": "self", "piece_counts": {"P": 2, "K":1}},
+        {"type": "piece_count_exact", "player": "opponent", "piece_counts": {"k":1, "a":2}}
+      ],
+      "main_line_kifu_uci_for_red": ["b3c3", "e5e4", "e4e3", "c3d3", "d3e3"],
+      "opponent_best_defense_uci": ["f8f7", "f7e7", "d8e7", "e7f7"],
+      "analysis_and_comments_vi": "Nước đi: Đỏ đi trước.\n1. Tốt 2 bình 3 (P b3-c3), Tướng 6 lùi 1 (k f8-f7).\n2. Tốt 5 tiến 1 (P e5-e4), Tướng 6 bình 5 (k f7-e7).\n3. Tốt 5 tiến 1 (P e4-e3), Sĩ 4 tiến 5 (a d8-e7).\n4. Tốt 3 bình 4 (P c3-d3), Tướng 5 bình 4 (k e7-f7).\n5. Tốt 4 bình 5 (P d3-e3) (đỏ thắng).",
+      "tags": ["pawn_endgame", "two_pawns_vs_two_advisors", "red_wins", "pawn_coordination"]
+    },
+    {
+      "study_id": "CH2_EG_H77_HAI_TOT_THAP_KHO_THANG_HAI_SI",
+      "name_vi": "7. Hai Tốt thấp khó thắng hai Sĩ (hình 77)",
+      "source_book_page": "71",
+      "initial_fen_red_perspective": "5k1/4aa3/9/9/9/2P1P3/9/9/4K3/9 w - - 0 1",
+      "player_to_move_on_fen": "red",
+      "goal_for_red": "DRAW",
+      "expected_outcome_score_for_red": 0,
+      "difficulty_level": "basic",
+      "description_general_vi": "Trong ván cờ này, Tốt 3 bên đỏ không thể bình 5 vào cung bắt Sĩ, nên không thể thủ thắng.",
+      "key_recognition_features_red_pov": [
+        {"type": "piece_count_exact", "player": "self", "piece_counts": {"P": 2, "K":1}},
+        {"type": "piece_count_exact", "player": "opponent", "piece_counts": {"k":1, "a":2}}
+      ],
+      "main_line_kifu_uci_for_red": ["e0e1", "c3c2", "c2d2", "e1e0", "e3e2"],
+      "opponent_best_defense_uci": ["e8d8", "d8e7", "e7f8", "f8e8", "f8f9"],
+      "analysis_and_comments_vi": "Nước đi: Đỏ đi trước.\n1. Tướng 5 tiến 1 (K e0-e1), Sĩ 5 lùi 6 (a e8-d8).\n2. Tốt 6 tiến 1 (P c3-c2), Sĩ 6 tiến 5 (a d8-e7).\n3. Tốt 6 bình 5 (P c2-d2), Sĩ 5 tiến 4 (a e7-f8).\n4. Tướng 5 lùi 1 (K e1-e0), Sĩ 4 lùi 5 (a f8-e8).\n5. Tốt 3 tiến 1 (P e3-e2), Tướng 6 tiến 1 (k f8-f9) (hoà cờ).\nLời bình: Trong ván cờ này, Tốt 3 bên đỏ không thể bình 5 vào cung bắt Sĩ, nên không thể thủ thắng.",
+      "tags": ["pawn_endgame", "two_pawns_vs_two_advisors", "draw_tactic"]
+    },
+    {
+      "study_id": "CH2_EG_H78_TOT_CAO_TOT_THAP_TAT_THANG_HAI_TUONG",
+      "name_vi": "8. Tốt cao Tốt thấp tất thắng hai Tượng (hình 78)",
+      "source_book_page": "71-72",
+      "initial_fen_red_perspective": "4k4/4ee3/9/3P4/9/1P7/9/9/4K3/9 w - - 0 1",
+      "player_to_move_on_fen": "red",
+      "goal_for_red": "WIN",
+      "expected_outcome_score_for_red": 100000,
+      "difficulty_level": "basic",
+      "description_general_vi": "Tốt cao và Tốt thấp phối hợp, Tướng hỗ trợ tấn công, từng bước ép sát, tất thắng hai Tượng.",
+      "key_recognition_features_red_pov": [
+        {"type": "piece_count_exact", "player": "self", "piece_counts": {"P": 2, "K":1}},
+        {"type": "piece_count_exact", "player": "opponent", "piece_counts": {"k":1, "e":2}}
+      ],
+      "main_line_kifu_uci_for_red": ["b3c3", "d5e5", "e0d0", "c3d3", "d0e0", "e5f5", "e0f0", "f5f4", "d3d2", "f4f3"],
+      "opponent_best_defense_uci": ["e9f9", "e6c4", "c4e6", "f9f8", "e6g8", "g8e6", "f8f7", "f7e7", "e7f7"],
+      "analysis_and_comments_vi": "Nước đi: Đỏ đi trước.\n1. Tốt 2 bình 3 (P b3-c3), Tướng 6 bình 5 (k e9-f9). Chú thích(1): Nếu đổi nước đi thành Tướng 6 lùi 1 (k e9-f8), thì Tốt 4 tiến 1 (P d5-d4), Tướng 6 bình 5 (k f8-e8), Tốt 3 bình 4 (P c3-d3), Tướng 5 bình 4 (k e8-f8), Tốt trước bình 5 (P d4-e4), đỏ thắng.\n2. Tốt 4 bình 5 (!) (P d5-e5), Tượng 5 lùi 3 (e e6-c4).\n3. Tướng 5 bình 4 (K e0-d0), Tượng 3 tiến 5 (e c4-e6).\n4. Tốt 3 bình 4 (P c3-d3), Tướng 5 bình 4 (k f9-f8).\n5. Tướng 4 bình 5 (K d0-e0), Tượng 5 tiến 7 (e e6-g8).\n6. Tốt 5 bình 6 (P e5-f5), Tượng 7 lùi 5 (e g8-e6).\n7. Tướng 5 bình 6 (!) (K e0-f0), Tượng 5 tiến 7 (e e6-g8).\n8. Tốt 6 tiến 1 (P f5-f4), Tướng 4 lùi 1 (k f8-f7).\n9. Tốt 4 tiến 1 (P d3-d2), Tướng 4 bình 5 (k f7-e7).\n10. Tốt 6 tiến 1 (P f4-f3) (đỏ thắng).\nChú thích:\n(2) Nước đi chính! Nếu đổi nước đi thành Tốt 4 tiến 1 (P d5-d4), thì Tướng 5 bình 4 (k f9-f8), Tốt cao bên đỏ thành Tốt thấp, không thể khắc chế Tướng, chỉ có thể hoà cờ.\n(3) Đi Tướng hỗ trợ tấn công, thiết lập thế cục thắng lợi.",
+      "tags": ["pawn_endgame", "two_pawns_vs_two_elephants", "red_wins", "pawn_coordination", "king_activity"]
+    },
+    {
+      "study_id": "CH2_EG_H79_HAI_TOT_THAP_KHO_THANG_HAI_TUONG",
+      "name_vi": "9. Hai Tốt thấp khó thắng hai Tượng (hình 79)",
+      "source_book_page": "72",
+      "initial_fen_red_perspective": "4k4/9/4ee3/9/9/P1P6/9/9/4K3/9 w - - 0 1",
+      "player_to_move_on_fen": "red",
+      "goal_for_red": "DRAW",
+      "expected_outcome_score_for_red": 0,
+      "difficulty_level": "basic",
+      "description_general_vi": "Hai Tốt thấp khó thắng hai Tượng.",
+      "key_recognition_features_red_pov": [
+        {"type": "piece_count_exact", "player": "self", "piece_counts": {"P": 2, "K":1}},
+        {"type": "piece_count_exact", "player": "opponent", "piece_counts": {"k":1, "e":2}}
+      ],
+      "main_line_kifu_uci_for_red": ["a3b3", "c3d3", "b3c3", "e0e1", "d3e3"],
+      "opponent_best_defense_uci": ["e9f9", "f9g9", "e6g4", "g9g8", "g6i8"],
+      "analysis_and_comments_vi": "Nước đi: Đỏ đi trước.\n1. Tốt 8 bình 7 (P a3-b3), Tướng 4 bình 5 (k e9-f9). Chú thích(1): Nếu đổi nước đi thành Tướng 4 lùi 1 (k e9-f8), thì Tốt sau bình 6 (P c3-d3), Tướng 4 bình 5 (k f8-e8), Tốt 7 bình 6 (P b3-c3), Tướng 5 bình 6 (k e8-d8), Tốt trước bình 5 (P d3-e3), Tốt đỏ tại trung tâm cung Tướng, chắc thắng.\n2. Tốt sau bình 6 (!) (P c3-d3), Tướng 5 bình 6 (k f9-g9).\n3. Tốt 7 bình 6 (P b3-c3), Tượng 5 tiến 3 (e e6-g4).\n4. Tướng 5 tiến 1 (K e0-e1), Tướng 6 tiến 1 (k g9-g8).\n5. Tốt trước bình 5 (P d3-e3), Tượng 7 lùi 9 (e g6-i8).\nChú thích:\n(2) Nếu đổi nước đi thành Tướng 5 bình 4 (K e0-f0) khống chế đường đi của Tướng, thì Tượng 5 tiến 3! (e e6-g4) Tốt sau bình 6 (P c3-d3), Tượng 7 lùi 9 (e g6-i8); Tốt 7 bình 6 (P b3-c3), Tướng 5 lùi 1 (k f9-f8), Tốt sau bình 7 (P d3-c3), Tượng 9 tiến 7 (e i8-g6), Tướng 4 tiến 1 (K f0-f1), Tượng 7 lùi 9 (e g6-i8) (Nước đi chính! Nếu đi Tượng 5 (e g4-e6?), Tướng đỏ tiến vào trung lộ sẽ thủ thắng), Tốt 7 tiến 1 (P c3-c2), Tượng 3 lùi 1 (e g4-e2), Tướng 4 lùi 1 (K f1-f0), Tượng 9 tiến 7 (e i8-g6), từ đó Tướng đen khống chế trung lộ, một Tượng phòng thủ, một Tượng đi nước nhàn, hoà cờ.",
+      "tags": ["pawn_endgame", "two_pawns_vs_two_elephants", "draw_tactic"]
+    },
+    {
+      "study_id": "CH2_EG_H80_TOT_CAO_THAP_KHO_THANG_DON_SI_TUONG",
+      "name_vi": "10. Tốt cao thấp khó thắng đơn Sĩ Tượng (hình 80)",
+      "source_book_page": "73",
+      "initial_fen_red_perspective": "4k4/4ae3/9/4P4/9/2P6/9/9/4K3/9 w - - 0 1",
+      "player_to_move_on_fen": "red",
+      "goal_for_red": "DRAW",
+      "expected_outcome_score_for_red": 0,
+      "difficulty_level": "basic",
+      "description_general_vi": "Đây là một định thức hoà cờ, người ta thường nghĩ một Tốt cao và một Tốt thấp có thể thắng hai Sĩ hoặc hai Tượng, nên cho rằng cũng có thể thắng một Sĩ một Tượng, sự thực thì không phải thế. Mấu chốt để thủ hoà: Tướng trên tuyến áp đáy, Sĩ lùi về tuyến đáy, dùng Tượng đi nước nhàn.",
+      "key_recognition_features_red_pov": [
+        {"type": "piece_count_exact", "player": "self", "piece_counts": {"P": 2, "K":1}},
+        {"type": "piece_count_exact", "player": "opponent", "piece_counts": {"k":1, "a":1, "e":1}}
+      ],
+      "main_line_kifu_uci_for_red": ["e0d0", "d0d1", "d1e1"],
+      "opponent_best_defense_uci": ["f8e8", "e6g8", "e8d8"],
+      "analysis_and_comments_vi": "Nước đi: Đỏ đi trước.\n1. Tướng 5 bình 4 (K e0-d0), Sĩ 4 tiến 5 (a f8-e8).\n2. Tướng 4 tiến 1 (K d0-d1), Tượng 3 lùi 1 (e e6-g8).\n3. Tướng 4 bình 5 (K d1-e1), Sĩ 5 lùi 6 (a e8-d8) (hoà cờ).",
+      "tags": ["pawn_endgame", "two_pawns_vs_advisor_elephant", "draw_tactic"]
+    },
+    {
+      "study_id": "CH2_EG_H81_TOT_CAO_THAP_KHEO_THANG_DON_SI_TUONG",
+      "name_vi": "11. Tốt cao thấp khéo thắng đơn Sĩ Tượng (hình 81)",
+      "source_book_page": "73-74",
+      "initial_fen_red_perspective": "3kae2/9/9/4P3/3P4/9/9/9/3K4/9 w - - 0 1",
+      "player_to_move_on_fen": "red",
+      "goal_for_red": "WIN",
+      "expected_outcome_score_for_red": 100000,
+      "difficulty_level": "intermediate",
+      "description_general_vi": "Trong hình 81, do vị trí của hai Tốt đỏ khá tốt, hình thành sự khống chế đối với Sĩ, Tượng, mà Sĩ đen lại đứng trước Tướng, Tướng đen không thể thông đầu, bên đỏ có cơ hội thủ thẳng.",
+      "key_recognition_features_red_pov": [
+        {"type": "piece_count_exact", "player": "self", "piece_counts": {"P": 2, "K":1}},
+        {"type": "piece_count_exact", "player": "opponent", "piece_counts": {"k":1, "a":1, "e":1}}
+      ],
+      "main_line_kifu_uci_for_red": ["d0e0", "e0f0", "e5f5", "f0e0", "f5f4", "d4e4", "f4e4"],
+      "opponent_best_defense_uci": ["d9e9", "f8e7", "g6e4", "e7f8", "f8e7", "e9e8"],
+      "analysis_and_comments_vi": "Nước đi: Đỏ đi trước.\n1. Tướng 4 bình 5 (K d0-e0). Chú thích(1): Tướng đỏ di chuyển sang trái, nước đi chủ đạo. Tướng 4 bình 5 (k d9-e9).\n2. Tướng 5 bình 6 (K e0-f0), Sĩ 4 lùi 5 (a f8-e7).\n3. Tốt 5 bình 6 (!) (P e5-f5), Tượng 7 lùi 5 (e g6-e4). Chú thích(3): Nếu đổi nước đi thành Sĩ 5 tiến 6 (a e7-d8), thì Tốt 6 tiến 1 (P f5-f4), Sĩ 6 lùi 5 (a d8-e7), Tướng 6 bình 5 (K f0-e0), Tượng 7 lùi 5 (e g6-e4), Tốt 4 bình 5 (P d4-e4), Tướng 5 tiến 1 (k e9-e8), Tốt 6 bình 5 (P f4-e4), đỏ thẳng.\n4. Tướng 6 bình 5 (!) (K f0-e0), Sĩ 5 tiến 6 (a e7-f8).\n5. Tốt 6 tiến 1 (P f5-f4), Sĩ 6 lùi 5 (a f8-e7).\n6. Tốt 4 bình 5 (P d4-e4), Tướng 5 tiến 1 (k e9-e8).\n7. Tốt 6 bình 5 (P f4-e4) (đỏ thắng).\nChú thích:\n(2) Tốt cao di chuyển đến cột 6, khiến Sĩ đen không thể di chuyển.\n(4) Tướng bình 5, toàn bộ quân lực bên đen bị kềm chế.",
+      "tags": ["pawn_endgame", "two_pawns_vs_advisor_elephant", "red_wins", "pawn_coordination", "king_activity", "zugzwang"]
+    },
+    {
+      "study_id": "CH2_EG_H82_TOT_CAO_THAP_KHEO_THANG_DON_TUONG_KHUYET",
+      "name_vi": "12. Tốt cao thấp khéo thắng đơn Tượng khuyết (hình 82)",
+      "source_book_page": "74-75",
+      "initial_fen_red_perspective": "4k4/9/4e4/9/3P1P3/9/9/9/4K3/9 w - - 0 1",
+      "player_to_move_on_fen": "red",
+      "goal_for_red": "WIN",
+      "expected_outcome_score_for_red": 100000,
+      "difficulty_level": "intermediate",
+      "description_general_vi": "Thường hai Tốt không thể thắng một Tượng khuyết, nếu Tốt thấp bên đỏ khống chế cửa Tướng, Tốt cao bên đỏ khống chế trung lộ, bên đỏ có thể khéo léo sử dụng nước nhàn dùng Tốt thủ thắng.",
+      "key_recognition_features_red_pov": [
+        {"type": "piece_count_exact", "player": "self", "piece_counts": {"P": 2, "K":1}},
+        {"type": "piece_count_exact", "player": "opponent", "piece_counts": {"k":1, "e":1}}
+      ],
+      "main_line_kifu_uci_for_red": ["f4e4", "e4d4", "e0e1", "d4d3", "e4f4", "d3d2", "f4f3"],
+      "opponent_best_defense_uci": ["e6c4", "c4e6", "e6c4", "c4e2", "e2g4", "g4e6", ""],
+      "analysis_and_comments_vi": "Nước đi: Đỏ đi trước.\n1. Tốt 6 bình 5 (!) (P f4-e4), Tượng 5 lùi 3 (e e6-c4).\n2. Tốt 5 bình 4 (P e4-d4), Tượng 3 tiến 5 (e c4-e6).\n3. Tướng 5 tiến 1 (!) (K e0-e1), Tượng 5 lùi 3 (e e6-c4).\n4. Tốt 4 tiến 1 (P d4-d3), Tượng 3 tiến 1 (e c4-e2).\n5. Tốt trước bình 3 (P e4-f4), Tượng 1 tiến 3 (e e2-g4).\n6. Tốt 4 tiến 1 (P d3-d2), Tượng 3 lùi 5 (e g4-e6).\n7. Tốt 3 tiến 1 (P f4-f3). Đến đây, bên đen dù ứng phó bằng nước đi nào, bên đỏ Tốt 3 bình 4 (P f3-g3) vẫn thắng.",
+      "tags": ["pawn_endgame", "two_pawns_vs_single_elephant_incomplete_defense", "red_wins", "pawn_coordination", "waiting_move"]
+    },
+    {
+      "study_id": "CH2_EG_H83_TOT_CAO_THAP_KHEO_THANG_DON_SI_KHUYET",
+      "name_vi": "13. Tốt cao thấp khéo thắng đơn Sĩ khuyết (hình 83)",
+      "source_book_page": "75",
+      "initial_fen_red_perspective": "4k1e2/9/9/4P3/3P4/9/9/9/4K3/9 w - - 0 1",
+      "player_to_move_on_fen": "red",
+      "goal_for_red": "WIN",
+      "expected_outcome_score_for_red": 100000,
+      "difficulty_level": "intermediate",
+      "description_general_vi": "Thông thường, một Tốt cao, một Tốt thấp không thể thắng một Sĩ khuyết, nếu Tốt đỏ tiến vào cung Tướng, có thể đi Tốt phối hợp với Tướng để tấn công, cũng có thể thủ thắng.",
+      "key_recognition_features_red_pov": [
+        {"type": "piece_count_exact", "player": "self", "piece_counts": {"P": 2, "K":1}},
+        {"type": "piece_count_exact", "player": "opponent", "piece_counts": {"k":1, "a":1}}
+      ],
+      "main_line_kifu_uci_for_red": ["e5d5", "d5c5", "c5c4", "c5d5", "e0d0", "d5d4", "d4d3"],
+      "opponent_best_defense_uci": ["f8e8", "e8f8", "e9f9", "g8e6", "f9e9"],
+      "analysis_and_comments_vi": "Nước đi: Đỏ đi trước.\n1. Tốt 5 bình 4 (!) (P e5-d5), Sĩ 4 tiến 5 (a f8-e8).\n2. Tốt 4 bình 3 (!) (P d5-c5), Sĩ 5 tiến 4 (a e8-f8).\n3. Tốt 3 tiến 1 (P c5-c4), Tướng 5 bình 6 (k e9-f9).\n4. Tốt 3 bình 4 (!) (P c4-d4), Tượng 5 tiến 7 (e g8-e6) (Sách ghi Tượng, có lẽ là Sĩ hoặc Tướng Đen di chuyển. Giả sử là Tướng Đen: k f9-e9).\n5. Tướng 5 bình 4 (!) (K e0-d0), Tượng 7 lùi 5 (e e6-g8) (Giả sử là Tướng Đen: k e9-f9).\n6. Tốt 4 tiến 1 (P d4-d3), Tướng 6 bình 5 (k f9-e9).\n7. Tốt 4 tiến 1 (P d3-d2) (đỏ thắng).",
+      "tags": ["pawn_endgame", "two_pawns_vs_single_advisor_incomplete_defense", "red_wins", "pawn_coordination", "king_activity"]
+    },
+    {
+      "study_id": "CH2_EG_H84_TOT_CAO_THAP_THANG_MOT_MA",
+      "name_vi": "14. Tốt cao thấp thắng một Mã (hình 84)",
+      "source_book_page": "76",
+      "initial_fen_red_perspective": "4k3/9/5h3/2P5/3P4/9/9/9/4K3/9 w - - 0 1",
+      "player_to_move_on_fen": "red",
+      "goal_for_red": "WIN",
+      "expected_outcome_score_for_red": 100000,
+      "difficulty_level": "basic",
+      "description_general_vi": "Tốt cao và Tốt thấp có thể thắng một Mã, nếu hai quân đều là Tốt thấp sau khi Tướng tiến vào tuyến cung đỉnh, sẽ khó thủ thắng.",
+      "key_recognition_features_red_pov": [
+        {"type": "piece_count_exact", "player": "self", "piece_counts": {"P": 2, "K":1}},
+        {"type": "piece_count_exact", "player": "opponent", "piece_counts": {"k":1, "h":1}}
+      ],
+      "main_line_kifu_uci_for_red": ["c5c4", "c4d4", "d4d3", "e0e1", "d3e3", "f4f3", "e3e2"],
+      "opponent_best_defense_uci": ["e9e8", "f6e4", "e4g5", "g5f3", "f3e5", "e5d3"],
+      "analysis_and_comments_vi": "Nước đi: Đỏ đi trước.\n1. Tốt 7 tiến 1 (P c5-c4), Tướng 4 lùi 1 (k e9-e8).\n2. Tốt 7 bình 6 (P c4-d4), Mã 6 tiến 5 (h f6-e4).\n3. Tốt 4 tiến 1 (P d4-d3), Mã 5 tiến 7 (h e4-g5).\n4. Tướng 5 lùi 1 (K e0-e1), Mã 7 lùi 6 (h g5-f3).\n5. Tốt 4 bình 5 (P d3-e3), Mã 6 lùi 5 (h f3-e5).\n6. Tốt 6 tiến 1 (P d4-d3), Mã 5 lùi 4 (h e5-d3).\n7. Tốt 5 tiến 1 (P e3-e2) (đỏ thắng).",
+      "tags": ["pawn_endgame", "two_pawns_vs_knight", "red_wins"]
+    },
+    {
+      "study_id": "CH2_EG_H85_HAI_TOT_CAO_THANG_DON_PHAO",
+      "name_vi": "15. Hai Tốt cao thắng đơn Pháo (hình 85)",
+      "source_book_page": "76-77",
+      "initial_fen_red_perspective": "4k4/9/2c6/3PP3/9/9/9/9/4K3/9 w - - 0 1",
+      "player_to_move_on_fen": "red",
+      "goal_for_red": "WIN",
+      "expected_outcome_score_for_red": 100000,
+      "difficulty_level": "intermediate",
+      "description_general_vi": "Hai Tốt cao và Tướng không được ở một bên, có thể thủ thắng, nếu không sẽ bị đối phương lợi dụng để khéo léo mưu hoà.",
+      "key_recognition_features_red_pov": [
+        {"type": "piece_count_exact", "player": "self", "piece_counts": {"P": 2, "K":1}},
+        {"type": "piece_count_exact", "player": "opponent", "piece_counts": {"k":1, "c":1}}
+      ],
+      "main_line_kifu_uci_for_red": ["d5d4", "d4d3", "e5f5", "f5e5", "e5f5", "f5f4", "f5e5", "d3d2", "d2e2", "e2e1", "e0f0", "e1f1", "f1e1", "f0e0", "e0d0"],
+      "opponent_best_defense_uci": ["c6c1", "c1e1", "e1f1", "f1e1", "e1c1", "c1c2", "e9e8", "c2i2", "e8f8", "f8e8", "e8d8", "d8e8", "e8f8", "f8e8", "e8d8"],
+      "analysis_and_comments_vi": "Nước đi: Đỏ đi trước.\n1. Tốt 4 tiến 1 (P d5-d4), Pháo 3 lùi 5 (c c6-c1).\n2. Tốt 4 tiến 1 (P d4-d3), Pháo 3 bình 5 (c c1-e1).\n3. Tốt 5 bình 6 (!) (P e5-f5), Pháo 5 bình 4 (c e1-f1). Chú thích(1): Nếu đổi nước đi thành Tốt 5 bình 4 (P e5-d5), thì Pháo 5 bình 4 (c e1-d1), bên đỏ khó thủ thắng.\n4. Tốt 6 bình 5 (P f5-e5), Pháo 4 bình 5 (c f1-e1).\n5. Tốt 5 bình 6 (P e5-f5), Pháo 5 bình 7 (c e1-c1). Chú thích(2): Vì bên đen là nước \"một chiếu một đánh\", buộc phải đổi nước, nếu không thay đổi, sẽ xử thua.\n6. Tốt 6 tiến 1 (P f5-f4), Pháo 7 tiến 1 (c c1-c2).\n7. Tốt 6 bình 5 (!) (P f4-e5), Tướng 5 lùi 1 (k e9-e8).\n8. Tốt 4 tiến 1 (P d3-d2), Pháo 7 bình 9 (c c2-i2).\n9. Tốt 4 bình 5 (P d2-e2), Tướng 5 bình 6 (k e8-f8).\n10. Tốt 3 tiến 1 (P e2-e1, assuming Tốt 3 refers to the pawn on the 3rd rank for Red, or a typo and means one of the existing pawns), Sĩ 5 tiến 6 (a f8-e8, assuming Black has advisors not in FEN, or this is a typo).\n11. Tướng 5 bình 6 (!) (K e0-f0), Sĩ 4 tiến 5 (a e8-d8).\n12. Tốt 4 bình 5 (P e1-f1), Sĩ 6 tiến 5 (a d8-e8).\n13. Tốt 3 bình 4 (P f1-e1), Sĩ 5 tiến 4 (a e8-f8).\n14. Tướng 6 bình 5 (!) (K f0-e0), Tượng 7 lùi 9 (e f8-h6, assuming Black has elephants not in FEN, or typo for Sĩ/Tướng).\n15. Tướng 5 bình 4 (K e0-d0) (đỏ thắng).\nChú thích:\n(3) Nếu đi sai nước thành Tốt 4 bình 5 (P d3-e3), thì Tướng 5 bình 6 (k e8-f8), hai Tốt bên đỏ không thể khống chế Tướng và tạo thành thế cục hoà.",
+      "tags": ["pawn_endgame", "two_pawns_vs_cannon", "red_wins", "pawn_coordination"]
+    },
+    {
+      "study_id": "CH2_EG_H86_BA_TOT_CAO_TAT_THANG_SI_TUONG_TOAN_1",
+      "name_vi": "16. Ba Tốt cao tất thắng Sĩ, Tượng toàn (hình 86)",
+      "source_book_page": "77-78",
+      "initial_fen_red_perspective": "4k3/4ae3/4a4/3PPP3/9/9/9/9/4K3/9 w - - 0 1",
+      "player_to_move_on_fen": "red",
+      "goal_for_red": "WIN",
+      "expected_outcome_score_for_red": 100000,
+      "difficulty_level": "intermediate",
+      "description_general_vi": "Ba Tốt cao nhất định có thể phá vỡ Sĩ, Tượng toàn, mấu chốt để thủ thắng là dùng một Tốt bịt mắt Tượng ở tuyến áp đáy của đối phương, sau đó dùng Tướng hỗ trợ tấn công, nếu cần có thể dùng một Tốt đổi một Sĩ, hình thành thế cục \"hai quỷ đập cửa\" thủ thắng. Chú thích: Tiến Tốt không được quá vội, nếu Tốt cao đều biến thành Tốt thấp, khiến Tướng đen dâng cao, sẽ khó thủ thắng.",
+      "key_recognition_features_red_pov": [
+        {"type": "piece_count_exact", "player": "self", "piece_counts": {"P": 3, "K":1}},
+        {"type": "piece_count_exact", "player": "opponent", "piece_counts": {"k":1, "a":2, "e":2}}
+      ],
+      "main_line_kifu_uci_for_red": ["d5c5", "c5c4", "c4c3", "c3d3", "g5g4", "e0d0", "f5f4", "f4f3", "f3e3", "e3d3", "e0f0", "d3e3", "g4g3", "f0e0", "e0d0"],
+      "opponent_best_defense_uci": ["e6g4", "g4e2", "g6i8", "i8g6", "c4e6", "e6g4", "f9f8", "f8e8", "e8f8", "d8e7", "f8e8", "e7d8", "e7f7", "g6i8"],
+      "analysis_and_comments_vi": "Nước đi: (1) Như hình 86, đỏ đi trước.\n1. Tốt 6 bình 7 (P d5-c5), Tượng 3 tiến 5 (e e6-g4).\n2. Tốt 7 tiến 1 (P c5-c4), Tượng 5 tiến 3 (e g4-e2).\n3. Tốt 7 tiến 1 (P c4-c3), Tượng 7 lùi 9 (e g6-i8).\n4. Tốt 7 bình 6 (!) (P c3-d3), Tượng 9 tiến 7 (e i8-g6).\n5. Tốt 3 tiến 1 (P g5-g4), Tượng 3 lùi 5 (e e2-c4).\n6. Tướng 5 bình 4 (!) (K e0-d0), Tượng 5 tiến 3 (e c4-e6). Chú thích(1): Tướng đỏ giúp Tốt tiến lên, là nước đi duy nhất để thủ thắng.\n7. Tốt 4 tiến 1 (P f5-f4), Tướng 6 lùi 1 (k f9-f8).\n8. Tốt 4 tiến 1 (P f4-f3), Tướng 6 bình 5 (k f8-e8).\n9. Tốt 4 bình 5 (P f3-e3), Tướng 5 bình 6 (k e8-f8).\n10. Tốt 3 tiến 1 (P g4-g3), Sĩ 5 tiến 6 (a d8-e7). Chú thích(2): Nếu đổi nước đi Sĩ 5 tiến 4 (a d8-f7), Tướng 5 bình 4 (K d0-e0), phép giải tương tự.\n11. Tướng 5 bình 6 (!) (K d0-f0), Sĩ 4 tiến 5 (a f8-e8).\n12. Tốt 4 bình 5 (P e3-f3), Sĩ 6 tiến 5 (a e7-d8).\n13. Tốt 3 bình 4 (P g3-f3), Sĩ 5 tiến 4 (a d8-e7).\n14. Tướng 6 bình 5 (!) (K f0-e0), Tượng 7 lùi 9 (e g6-i8).\n15. Tướng 5 bình 4 (K e0-d0) (đỏ thắng).",
+      "tags": ["pawn_endgame", "three_pawns_vs_full_guard", "red_wins", "pawn_breakthrough"]
+    },
+    {
+      "study_id": "CH2_EG_H87_BA_TOT_CAO_TAT_THANG_SI_TUONG_TOAN_2",
+      "name_vi": "16. Ba Tốt cao tất thắng Sĩ, Tượng toàn (hình 87)",
+      "source_book_page": "78",
+      "initial_fen_red_perspective": "4k3/4ae3/4a4/2PPP3/9/9/9/9/4K3/9 w - - 0 1",
+      "player_to_move_on_fen": "red",
+      "goal_for_red": "WIN",
+      "expected_outcome_score_for_red": 100000,
+      "difficulty_level": "intermediate",
+      "description_general_vi": "Ba Tốt cao nhất định có thể phá vỡ Sĩ, Tượng toàn.",
+      "key_recognition_features_red_pov": [
+        {"type": "piece_count_exact", "player": "self", "piece_counts": {"P": 3, "K":1}},
+        {"type": "piece_count_exact", "player": "opponent", "piece_counts": {"k":1, "a":2, "e":2}}
+      ],
+      "main_line_kifu_uci_for_red": ["e5d5", "g5g4", "e0d0", "f5f4", "f4f3", "f3e3", "d0e0", "g4g3", "g3f3", "e0f0", "d5e5"],
+      "opponent_best_defense_uci": ["e9e8", "g6i8", "e6g4", "e8f8", "f8e8", "d8e7", "g4e2", "e7f8", "i8g6", "f8e7"],
+      "analysis_and_comments_vi": "Nước đi: (2) Như hình 87, đỏ đi trước.\n1. Tốt 5 bình 4 (P e5-d5), Tướng 6 tiến 5 (k e9-e8).\n2. Tốt 3 tiến 1 (P g5-g4), Tượng 7 tiến 9 (e g6-i8).\n3. Tướng 5 bình 4 (K e0-d0), Tượng 5 tiến 3 (e e6-g4).\n4. Tốt 4 tiến 1 (!) (P f5-f4), Tướng 6 lùi 1 (k e8-f8). Chú thích(2): Nếu thay đổi đi Sĩ 5 tiến 6 (a d8-e7), thì Tốt 3 bình 4 (P g5-f5), Tướng 6 lùi 1 (k e8-f8), Tốt 4 tiến 1 (P f4-f3), Tướng 6 bình 5 (k f8-e8), Tốt 4 tiến 1 (P f3-f2), đỏ thắng.\n5. Tốt 4 tiến 1 (P f4-f3), Tướng 6 bình 5 (k f8-e8).\n6. Tốt 4 bình 5 (!) (P f3-e3), Sĩ 4 tiến 5 (a d8-e7). Chú thích(3): Nước đi then chốt, có thể ép sát thủ thắng. Nếu thay đổi nước đi thành Tốt 3 tiến 1 (P g4-g3), thì Sĩ 5 tiến 6 (a e7-f8), Tướng 4 tiến 1 (K d0-d1), Tượng 3 lùi 1 (e g4-e2), hoà cờ.\n7. Tướng 4 tiến 5 (K d0-e0), Tượng 3 lùi 5 (e g4-e2).\n8. Tốt 3 tiến 1 (P g4-g3), Sĩ 5 tiến 6 (a e7-f8).\n9. Tốt 3 bình 4 (P g3-f3), Tượng 9 lùi 7 (e i8-g6).\n10. Tướng 5 bình 6 (K e0-f0), Sĩ 6 lùi 5 (a f8-e7).\n11. Tốt 6 bình 5 (P d5-e5) (đỏ thắng).\nLời bình: Cục diện ba Tốt chế thắng Sĩ, Tượng, toàn, sách xưa gọi là “tam tiên luyện đan\".",
+      "tags": ["pawn_endgame", "three_pawns_vs_full_guard", "red_wins", "pawn_breakthrough", "tam_tien_luyen_dan"]
+    },
+    {
+      "study_id": "CH2_EG_H88_BA_TOT_CAO_TAT_THANG_MA_HAI_SI",
+      "name_vi": "17. Ba Tốt cao tất thắng Mã hai Sĩ (hình 88)",
+      "source_book_page": "79",
+      "initial_fen_red_perspective": "2ak1h2/4a4/9/P1P1P3/9/9/9/9/4K3/9 w - - 0 1",
+      "player_to_move_on_fen": "red",
+      "goal_for_red": "WIN",
+      "expected_outcome_score_for_red": 100000,
+      "difficulty_level": "intermediate",
+      "description_general_vi": "Nước đi: Đỏ đi trước.",
+      "key_recognition_features_red_pov": [
+        {"type": "piece_count_exact", "player": "self", "piece_counts": {"P": 3, "K":1}},
+        {"type": "piece_count_exact", "player": "opponent", "piece_counts": {"k":1, "h":1, "a":2}}
+      ],
+      "main_line_kifu_uci_for_red": ["a5a4", "a4a3", "f5g5", "g5g4", "g4g3", "e5e4", "e0e1", "e4e3", "a3b3", "g3f3", "f3e3", "b3b2", "b2c2"],
+      "opponent_best_defense_uci": ["e9e8", "g8e7", "e8f8", "f8e8", "e7i6", "i6h7", "e8f8", "f8e8", "h7f6", "f6e4", "e8f8", "f8e8", "e4d2"],
+      "analysis_and_comments_vi": "Nước đi: Đỏ đi trước.\n1. Tốt 7 tiến 1 (P a5-a4), Tướng 4 lùi 1 (k e9-e8). Chú thích(1): Nếu đổi thành Mã 3 tiến 5 (h g8-e7), cũng là đỏ thắng.\n2. Tốt 7 tiến 1 (P a4-a3), Mã 3 tiến 5 (h g8-e7). Chú thích(2): Nếu đổi thành đi Sĩ 5 tiến 4 (a e8-f7), thì Tốt 5 bình 6 (P e5-d5), cũng có thể thành định thức thủ thắng.\n3. Tốt 4 bình 3 (P f5-g5), Sĩ 5 tiến 6 (a e8-f8).\n4. Tốt 3 tiến 1 (P g5-g4), Sĩ 6 lùi 5 (a f8-e8).\n5. Tốt 3 tiến 1 (P g4-g3), Mã 5 lùi 7 (h e7-i6).\n6. Tốt 5 tiến 1 (P e5-e4), Mã 7 lùi 8 (h i6-h7).\n7. Tướng 5 tiến 1 (K e0-e1), Tướng 4 bình 5 (k e8-f8).\n8. Tốt 5 tiến 1 (P e4-e3), Sĩ 6 tiến 5 (a f8-e8).\n9. Tốt 7 bình 6 (P a3-b3), Mã 8 tiến 6 (h h7-f6).\n10. Tốt 3 bình 4 (P g3-f3), Mã 6 tiến 5 (h f6-e4).\n11. Tốt 4 bình 5 (P f3-e3), Tướng 5 bình 6 (k f8-e8).\n12. Tốt 6 tiến 1 (P b3-b2), Mã 5 lùi 4 (h e4-d2).\n13. Tốt 6 bình 5 (P b2-c2). Đến đây, hình thành sát cục Tốt ở tuyến đáy. (Đỏ thắng).",
+      "tags": ["pawn_endgame", "three_pawns_vs_knight_two_advisors", "red_wins"]
+    },
+    {
+      "study_id": "CH2_EG_H89_DON_MA_THANG_DON_SI",
+      "name_vi": "1. Đơn Mã tất thắng đơn Sĩ (tục gọi là đơn Mã bắt cô Sĩ) (hình 89)",
+      "source_book_page": "79-80",
+      "initial_fen_red_perspective": "4k4/9/9/4a4/3H5/9/9/9/9/4K4 w - - 0 1",
+      "player_to_move_on_fen": "red",
+      "goal_for_red": "WIN",
+      "expected_outcome_score_for_red": 100000,
+      "difficulty_level": "basic",
+      "description_general_vi": "Một Sĩ không thể chống đỡ được sự tấn công của một Mã, mấu chốt để thủ thắng là bắt Sĩ, sau đó bắt Tướng.",
+      "key_recognition_features_red_pov": [
+        {"type": "piece_count_exact", "player": "self", "piece_counts": {"H":1, "K":1}},
+        {"type": "piece_count_exact", "player": "opponent", "piece_counts": {"k":1, "a":1}}
+      ],
+      "main_line_kifu_uci_for_red": ["d4c2", "c2e3", "e3d1", "d1f2", "f2h3", "h3g5", "g5e4"],
+      "opponent_best_defense_uci": ["e9e8", "e8f9", "f9e8", "e8f9", "f9e8", "e8e9", "e9d8"],
+      "analysis_and_comments_vi": "Nước đi: Hình 89, đỏ đi trước.\n1. Mã 4 lùi 5 (H d4-c2), Tướng 4 tiến 1 (k e9-e8).\n2. Mã 5 tiến 3! (H c2-e3), Sĩ 5 tiến 6 (a e8-f9).\n3. Mã 3 lùi 4 (H e3-d1), Sĩ 6 lùi 5 (a f9-e8).\n4. Mã 4 tiến 6 (H d1-f2), Sĩ 5 lùi 6 (a e8-f9).\n5. Mã 6 tiến 8 (H f2-h3), Sĩ 6 tiến 5 (a f9-e8).\n6. Mã 8 tiến 7 (H h3-g5), Tướng 4 lùi 1 (k e8-e9).\n7. Mã 7 lùi 5 (H g5-e4) (Phá Sĩ, đỏ thắng).\nNếu bên đen đi trước, bên đỏ cũng có thể thủ thắng.\nNước đi: Đen đi trước.\n..., Tướng 4 lùi 1 (k e9-e8)\n1. Mã 4 lùi 5 (H d4-c2), Sĩ 5 lùi 6 (a e8-d8).\n2. Mã 5 tiến 7 (H c2e1), Tướng 4 tiến 1 (k e8-e9).\n3. Tướng 5 tiến 1! (K e0-e1), Tướng 4 tiến 1 (k e9-e8).\n4. Mã 7 lùi 8 (H e1c0), Sĩ 6 lùi 5 (a d8-e7).\n5. Mã 8 tiến 6 (H c0-d2), Sĩ 5 lùi 6 (a e7-f8).\n6. Mã 6 tiến 8 (H d2-f3), Sĩ 6 tiến 5 (a f8-e7).\n7. Mã 8 tiến 7 (H f3-g5), Tướng 4 lùi 1 (k e8-e9).\n8. Mã 7 lùi 5 (H g5-e4) (phá Sĩ, đỏ thắng).",
+      "tags": ["knight_endgame", "knight_vs_advisor", "red_wins"]
+    },
+    {
+      "study_id": "CH2_EG_H90_DON_MA_KHO_THANG_DON_TUONG",
+      "name_vi": "2. Đơn Mã khó thắng đơn Tượng (hình 90)",
+      "source_book_page": "80-81",
+      "initial_fen_red_perspective": "4k4/9/4e4/9/3H5/9/9/9/9/4K4 w - - 0 1",
+      "player_to_move_on_fen": "red",
+      "goal_for_red": "DRAW",
+      "expected_outcome_score_for_red": 0,
+      "difficulty_level": "basic",
+      "description_general_vi": "Điều then chốt để một Tượng thủ hoà một Mã là: Tướng đen bên trái, Tượng bên phải, tục gọi là \"cửa đông bảo vệ tây\". Hình 90 là cục diện một Tượng thủ hoà một Mã.",
+      "key_recognition_features_red_pov": [
+        {"type": "piece_count_exact", "player": "self", "piece_counts": {"H":1, "K":1}},
+        {"type": "piece_count_exact", "player": "opponent", "piece_counts": {"k":1, "e":1}}
+      ],
+      "main_line_kifu_uci_for_red": ["d4f5", "f5h6", "e0e1", "h6f5", "f5e3", "e3c2", "c2d4"],
+      "opponent_best_defense_uci": ["e6c4", "c4e6", "e9f8", "e6g4", "f8f9", "g4e6", "f9f8"],
+      "analysis_and_comments_vi": "Nước đi: Đỏ đi trước.\n1. Mã 4 tiến 6 (H d4-f5), Tượng 3 lùi 5 (e e6-c4).\n2. Mã 6 tiến 8 (H f5-h6), Tượng 5 tiến 3 (e c4-e6).\n3. Tướng 5 tiến 1 (K e0-e1), Tướng 6 lùi 1 (k e9-f8). Chú thích(1): Nếu đi sai nước Tướng 6 tiến 1 (k e9-f9), thì Mã 8 lùi 6 (H h6-f5), Tượng 3 lùi 5 (e e6-c4), Mã 6 lùi 5 (H f5-e3), Tướng 6 lùi 1 (k f9-f8), Mã 5 tiến 3 (H e3-c2) rút bắt Tượng, bên đỏ thắng.\n4. Mã 8 tiến 6 (H h6-f5), Tượng 3 lùi 1 (e e6-g4).\n5. Mã 6 lùi 5 (H f5-e3), Tướng 6 tiến 1 (k f8-f9).\n6. Mã 5 lùi 7 (H e3-c2), Tượng 1 tiến 3 (e g4-e6).\n7. Mã 7 tiến 8 (H c2-d4), Tướng 6 lùi 1 (k f9-f8).",
+      "tags": ["knight_endgame", "knight_vs_elephant", "draw_tactic"]
+    },
+    {
+      "study_id": "CH2_EG_H91_DON_MA_KHEO_THANG_DON_TUONG",
+      "name_vi": "3. Đơn Mã khéo thắng đơn Tượng (hình 91)",
+      "source_book_page": "81",
+      "initial_fen_red_perspective": "3k1e2/9/9/9/9/9/8/H7/4K3/9 w - - 0 1",
+      "player_to_move_on_fen": "red",
+      "goal_for_red": "WIN",
+      "expected_outcome_score_for_red": 100000,
+      "difficulty_level": "intermediate",
+      "description_general_vi": "Tướng, Tượng đen nếu ở cùng một bên, Mã có thể khống chế Tượng đen không cho di chuyển từ trung lộ sang bên kia, sau đó dùng Tướng đợi nhàn, di chuyển Mã phá hai Tượng thủ thắng.",
+      "key_recognition_features_red_pov": [
+        {"type": "piece_count_exact", "player": "self", "piece_counts": {"H":1, "K":1}},
+        {"type": "piece_count_exact", "player": "opponent", "piece_counts": {"k":1, "e":1}}
+      ],
+      "main_line_kifu_uci_for_red": ["a1c2", "e0e1", "c2d4", "d4e2", "e2c3", "c3d1", "d1f2", "f2g4"],
+      "opponent_best_defense_uci": ["d9d8", "d8d9", "d9d8", "e8c6", "c6e8", "e8d9", "d9d8"],
+      "analysis_and_comments_vi": "Nước đi: Đỏ đi trước.\n1. Mã 1 tiến 3 (H a1-c2), Tướng 4 lùi 1 (k d9-d8).\n2. Tướng 5 tiến 1! (K e0-e1), Tướng 4 tiến 1 (k d8-d9).\n3. Mã 3 tiến 2! (H c2-d4), Tướng 4 lùi 1 (k d9-d8).\n4. Mã 2 tiến 4! (H d4-e2), Tượng 3 lùi 1 (e e8-c6).\n5. Mã 4 lùi 3 (H e2-c3), Tượng 1 tiến 3 (e c6-e8).\n6. Mã 3 lùi 4! (H c3-d1), Tướng 4 tiến 1 (k d8-d9).\n7. Mã 4 lùi 6! (H d1-f2), Tướng 4 lùi 1 (k d9-d8).\n8. Mã 6 tiến 7 (H f2-g4) (Bên đỏ được Tượng, thắng).",
+      "tags": ["knight_endgame", "knight_vs_elephant", "red_wins", "tactical_win"]
+    },
+    {
+      "study_id": "CH2_EG_H92_DON_MA_KHEO_THANG_DON_TOT",
+      "name_vi": "4. Đơn Mã khéo thắng đơn Tốt (hình 92)",
+      "source_book_page": "81-82",
+      "initial_fen_red_perspective": "3k4/9/9/8/2H6/p7/9/9/4K3/9 w - - 0 1",
+      "player_to_move_on_fen": "red",
+      "goal_for_red": "WIN",
+      "expected_outcome_score_for_red": 100000,
+      "difficulty_level": "intermediate",
+      "description_general_vi": "Thông thường, một Mã không đủ để thắng một Tốt, nếu Tốt chưa qua sông, Mã có thể đồng thời khống chế hành động của Tướng và Tốt thì có thể thủ thắng.",
+      "key_recognition_features_red_pov": [
+        {"type": "piece_count_exact", "player": "self", "piece_counts": {"H":1, "K":1}},
+        {"type": "piece_count_exact", "player": "opponent", "piece_counts": {"k":1, "p":1}}
+      ],
+      "main_line_kifu_uci_for_red": ["c4d6", "d6b5", "b5c7", "e0e1", "c7a8", "a8b6"],
+      "opponent_best_defense_uci": ["a3a2", "d9d8", "d8d7", "d7d8", "d8d7"],
+      "analysis_and_comments_vi": "Nước đi: Hình 92, đỏ đi trước.\n1. Mã 3 tiến 4 (H c4-d6). Chú thích(1): Nếu đổi nước đi thành Mã 3 tiến 5 (H c4-e5), thì Tướng 4 bình 5 (k d9-e9), Tướng 5 bình 4 (K e0-d0), Tốt 1 tiến 1 (p a3-a2), Mã 5 tiến 6 (H e5-f7), Tướng 5 tiến 1 (k e9-e8), Mã 6 tiến 8 (H f7-h8), Tướng 5 lùi 1 (k e8-e9), hoà cờ.\n2. Mã 4 lùi 6 (!) (H d6-b5), Tướng 4 lùi 1 (k d9-d8).\n3. Mã 6 tiến 7 (H b5-c7), Tướng 4 lùi 1 (k d8-d7).\n4. Tướng 5 tiến 1 (K e0-e1), Tướng 4 tiến 1 (k d7-d8).\n5. Mã 7 tiến 8 (H c7-a8), Tướng 4 lùi 1 (k d8-d7).\n6. Mã 8 lùi 9 (H a8-b6) (đỏ thắng).\nChú thích:\n(2) Nước đi then chốt. Nếu bên đỏ thay đổi nước đi thành Mã 4 tiến 6 (H d6-f7), thì Tướng 4 lùi 1 (k d9-d8), Mã 6 tiến 8 (H f7-h8), Tướng 4 lùi 1 (k d8-d7), Tướng 5 tiến 1 (K e0-e1), hoà cờ.",
+      "tags": ["knight_endgame", "knight_vs_pawn", "red_wins", "tactical_win"]
+    },
+    {
+      "study_id": "CH2_EG_H93_DON_MA_KHO_THANG_DON_TOT",
+      "name_vi": "5. Đơn Mã khó thắng đơn Tốt (hình 93)",
+      "source_book_page": "82",
+      "initial_fen_red_perspective": "4k4/9/9/5H2/p7/9/3K4/9/9/9 w - - 0 1",
+      "player_to_move_on_fen": "red",
+      "goal_for_red": "DRAW",
+      "expected_outcome_score_for_red": 0,
+      "difficulty_level": "basic",
+      "description_general_vi": "Đơn Mã khó thắng đơn Tốt.",
+      "key_recognition_features_red_pov": [
+        {"type": "piece_count_exact", "player": "self", "piece_counts": {"H":1, "K":1}},
+        {"type": "piece_count_exact", "player": "opponent", "piece_counts": {"k":1, "p":1}}
+      ],
+      "main_line_kifu_uci_for_red": ["f5h4", "d2d3", "h4f5", "f5g3", "d3d4", "d4d3"],
+      "opponent_best_defense_uci": ["a4a3", "e9e8", "e8e9", "e9e8", "e8e9", "e9e8"],
+      "analysis_and_comments_vi": "Nước đi: Đỏ đi trước.\n1. Mã 6 lùi 8 (H f5-h4). Chú thích(1): Nếu đổi nước đi Mã 6 tiến 7 (H f5-g7), thì Tướng 5 lùi 1 (k e9-e8), Mã 7 lùi 8 (H g7-h5), Tướng 5 tiến 1 (k e8-e9), Tướng 4 tiến 1 (K d2-d3), Tướng 5 lùi 1 (k e9-e8), Tướng 4 lùi 1 (K d3-d2), Tướng 5 tiến 1 (k e8-e9), kết quả hoà cờ.\n2. Tốt 1 tiến 1 (p a4-a3).\n3. Tướng 4 tiến 1 (K d2-d3), Tướng 5 lùi 1 (k e9-e8).\n4. Mã 8 tiến 6 (H h4-f5), Tướng 5 tiến 1 (k e8-e9).\n5. Mã 6 lùi 7 (H f5-g3), Tướng 5 lùi 1 (k e9-e8).\n6. Tướng 4 tiến 1 (K d3-d4), Tướng 5 tiến 1 (k e8-e9). Chú thích(2): Nếu đổi thành Tướng 5 bình 4 (k e9-d9), thì Tướng 4 bình 5 (K d4-e4), đỏ thắng.\n7. Tướng 4 lùi 1 (K d4-d3), Tướng 5 lùi 1 (k e9-e8) (hoà cờ).",
+      "tags": ["knight_endgame", "knight_vs_pawn", "draw_tactic"]
+    },
+    {
+      "study_id": "CH2_EG_H94_DON_MA_KHEO_THANG_DON_SI_TUONG",
+      "name_vi": "6. Đơn Mã khéo thắng đơn Sĩ Tượng (hình 94)",
+      "source_book_page": "83",
+      "initial_fen_red_perspective": "5k1/4ae3/9/9/5H2/9/9/9/9/4K4 w - - 0 1",
+      "player_to_move_on_fen": "red",
+      "goal_for_red": "WIN",
+      "expected_outcome_score_for_red": 100000,
+      "difficulty_level": "intermediate",
+      "description_general_vi": "Trong tình hình bình thường, một Sĩ, một Tượng có thể thủ hoà một Mã, nếu vị trí quân của bên đen không đẹp, Mã đỏ có cơ hội bắt Tượng, có thể thủ thắng.",
+      "key_recognition_features_red_pov": [
+        {"type": "piece_count_exact", "player": "self", "piece_counts": {"H":1, "K":1}},
+        {"type": "piece_count_exact", "player": "opponent", "piece_counts": {"k":1, "a":1, "e":1}}
+      ],
+      "main_line_kifu_uci_for_red": ["f5d6", "d6b5", "b5d4", "d4c2"],
+      "opponent_best_defense_uci": ["g6i8", "f9f8", "f8f9"],
+      "analysis_and_comments_vi": "Nước đi: Đỏ đi trước.\n1. Mã 6 tiến 4 (H f5-d6), Tượng 7 lùi 9 (e g6-i8). Chú thích(1): Nếu đổi nước đi thành Tượng 7 lùi 5 (e g6-e4), thì Mã 4 tiến 2 (H d6-b5), Tướng 6 bình 5 (k f9-e9), Mã 2 lùi 3 (H b5-d4), đỏ thắng.\n2. Mã 4 tiến 2 (H d6-b5), Tướng 6 tiến 1 (k f9-f8).\n3. Mã 2 lùi 3 (H b5-d4), Tướng 6 lùi 1 (k f8-f9).\n4. Mã 3 tiến 1 (H d4-c2) (đỏ thắng).",
+      "tags": ["knight_endgame", "knight_vs_advisor_elephant", "red_wins", "tactical_win"]
+    },
+    {
+      "study_id": "CH2_EG_H95_MA_TOT_CAO_TAT_THANG_PHAO_DON_SI",
+      "name_vi": "7. Mã Tốt cao tất thắng Pháo đơn Sĩ (hình 95)",
+      "source_book_page": "83-84",
+      "initial_fen_red_perspective": "4ka2/9/9/4P3/3H5/9/9/c8/4K3/9 w - - 0 1",
+      "player_to_move_on_fen": "red",
+      "goal_for_red": "WIN",
+      "expected_outcome_score_for_red": 100000,
+      "difficulty_level": "intermediate",
+      "description_general_vi": "Yếu lĩnh thủ thắng: Khéo léo đi nước nhàn, dùng Tướng để chế Tướng, Pháo, sau đó đi Mã ăn Sĩ sẽ thủ thắng.",
+      "key_recognition_features_red_pov": [
+        {"type": "piece_count_exact", "player": "self", "piece_counts": {"H":1, "P":1, "K":1}},
+        {"type": "piece_count_exact", "player": "opponent", "piece_counts": {"k":1, "c":1, "a":1}}
+      ],
+      "main_line_kifu_uci_for_red": ["e0f0", "d4e2", "f0f1", "e2d4", "d4f5", "f5d6", "d6c4"],
+      "opponent_best_defense_uci": ["c1f1", "e9d9", "f1f6", "d9d8", "d8e7", "f6f5", "f5f6"],
+      "analysis_and_comments_vi": "Nước đi: Hình 95, đỏ đi trước.\n1. Tướng 5 bình 6 (K e0-f0), Pháo 1 bình 4 (c c1-f1). Chú thích(1): Nếu thay đổi nước đi Pháo 1 bình 6 (c c1-d1), thì Mã 4 tiến 3 (H d4-e2), Sĩ 6 tiến 5 (a d8-e7), Tướng 6 tiến 1! (K f0-f1), Sĩ 5 lùi 4 (a e7-f8), Tốt 5 bình 4 (P e5-f5) bắt chết Pháo, bên đỏ thủ thắng.\n2. Mã 4 tiến 3 (H d4-e2), Tướng 5 bình 4 (k e9-d9).\n3. Tướng 6 tiến 1! (K f0-f1), Pháo 4 tiến 5 (c f1-f6).\n4. Mã 3 lùi 2 (H e2-d4), Tướng 4 tiến 1 (k d9-d8).\n5. Mã 2 tiến 4 (H d4-f5), Sĩ 6 tiến 5 (a d8-e7).\n6. Mã 4 tiến 2 (H f5-d6), Pháo 4 lùi 1 (c f6-f5).\n7. Mã 2 lùi 1! (H d6-c4), Pháo 4 tiến 1 (c f5-f6).\n8. Mã 1 tiến 3 (H c4-e3) (đỏ phá Sĩ, thủ thắng).",
+      "tags": ["knight_pawn_endgame", "knight_pawn_vs_cannon_advisor", "red_wins"]
+    },
+    {
+      "study_id": "CH2_EG_H96_MA_TOT_TAT_THANG_PHAO_DON_TUONG",
+      "name_vi": "8. Mã Tốt tất thắng Pháo đơn Tượng (hình 96)",
+      "source_book_page": "84",
+      "initial_fen_red_perspective": "3k1e2/9/9/4P2H/9/2c6/9/9/4K3/9 w - - 0 1",
+      "player_to_move_on_fen": "red",
+      "goal_for_red": "WIN",
+      "expected_outcome_score_for_red": 100000,
+      "difficulty_level": "intermediate",
+      "description_general_vi": "Yếu lĩnh thủ thắng: Trước tiên đi nước nhàn, ép Tượng đen hạ biên, sau đó đi Tốt, Tướng lần lượt chiếm đường lặc đạo, chế Pháo, Tướng đen, cuối cùng đẩy Mã xuống dưới Tướng, đi đường vòng chiếu hết.",
+      "key_recognition_features_red_pov": [
+        {"type": "piece_count_exact", "player": "self", "piece_counts": {"H":1, "P":1, "K":1}},
+        {"type": "piece_count_exact", "player": "opponent", "piece_counts": {"k":1, "c":1, "e":1}}
+      ],
+      "main_line_kifu_uci_for_red": ["e0e1", "g5f3", "f3e5", "e4f4", "e1d1", "e5g6", "f4e4", "g6e5", "e5d3", "d3e5", "e5d7"],
+      "opponent_best_defense_uci": ["g8i6", "i6g8", "c3c1", "d9e9", "c1c7", "c7e7", "e9f9", "e7e4", "g8e6", "e4e8", "e6c4"],
+      "analysis_and_comments_vi": "Nước đi: Đỏ đi trước.\n1. Tướng 5 tiến 1! (K e0-e1), Tượng 7 lùi 9 (e g8-i6).\n2. Mã 7 lùi 6 (H g5-f3), Tượng 9 lùi 7 (e i6-g8).\n3. Mã 6 tiến 5 (H f3-e5), Pháo 3 lùi 2 (c c3-c1).\n4. Tốt 5 bình 6 (P e4-f4), Tướng 4 bình 5 (k d9-e9).\n5. Tướng 5 bình 4 (K e1-d1), Pháo 3 tiến 6 (c c1-c7).\n6. Mã 5 tiến 7 (H e5-g6), Pháo 3 bình 6 (c c7-e7).\n7. Tốt 6 bình 5 (P f4-e4), Tướng 5 bình 6 (k e9-f9).\n8. Mã 7 lùi 5 (H g6-e5), Pháo 6 lùi 3 (c e7-e4).\n9. Mã 5 lùi 6 (H e5-d3), Tượng 7 tiến 5 (e g8-e6).\n10. Mã 6 lùi 5 (H d3-e5), Pháo 6 tiến 4 (c e4-e8).\n11. Mã 5 lùi 4 (!) (H e5-d7), Tượng 5 lùi 3 (e e6-c4).\n12. Mã 4 tiến 2 (H d7-b6). Sau đó bên đỏ có thể đi nước Mã 2 tiến 3 (H b6-c8), sau đó lại tiến 2 (H c8-e7) bắt Tướng đen chiếu hết.",
+      "tags": ["knight_pawn_endgame", "knight_pawn_vs_cannon_elephant", "red_wins"]
+    },
+    {
+      "study_id": "CH2_EG_H97_MA_TOT_CAO_TAT_THANG_MOT_TUONG_KHUYET",
+      "name_vi": "9. Mã Tốt cao tất thắng một Tượng khuyết (hình 97)",
+      "source_book_page": "85",
+      "initial_fen_red_perspective": "4k4/4a4/4e4/4P2H/9/9/9/9/4K3/9 w - - 0 1",
+      "player_to_move_on_fen": "red",
+      "goal_for_red": "WIN",
+      "expected_outcome_score_for_red": 100000,
+      "difficulty_level": "basic",
+      "description_general_vi": "Mã Tốt cao tất thắng một Tượng khuyết (Sĩ Tượng không đủ).",
+      "key_recognition_features_red_pov": [
+        {"type": "piece_count_exact", "player": "self", "piece_counts": {"H":1, "P":1, "K":1}},
+        {"type": "piece_count_exact", "player": "opponent", "piece_counts": {"k":1, "a":1, "e":1}}
+      ],
+      "main_line_kifu_uci_for_red": ["f5e5", "e5g6", "g6h8", "e5f5", "f5g5", "g5h5", "h5i5"],
+      "opponent_best_defense_uci": ["e9f9", "e8d8", "e6c8", "d8e7", "e7d8", "d8e7"],
+      "analysis_and_comments_vi": "Nước đi: Đỏ đi trước.\n1. Tốt 6 bình 5! (P f5-e5), Tướng 5 bình 4 (k e9-f9).\n2. Mã 5 tiến 7 (H e5-g6), Sĩ 5 lùi 6 (a e8-d8).\n3. Mã 7 tiến 8 (H g6-h8), Tượng 3 tiến 1 (e e6-c8).\n4. Tốt 5 bình 6! (P e5-f5), Sĩ 6 tiến 5 (a d8-e7).\n5. Tốt 6 bình 7 (P f5-g5), Sĩ 5 lùi 6 (a e7-d8).\n6. Tốt 7 bình 8 (P g5-h5), Sĩ 6 tiến 5 (a d8-e7).\n7. Tốt 8 bình 9 (P h5-i5). Mã, Tốt phối hợp bắt chết Tượng đen, đỏ tất thắng.",
+      "tags": ["knight_pawn_endgame", "knight_pawn_vs_advisor_elephant_incomplete", "red_wins"]
+    },
+    {
+      "study_id": "CH2_EG_H98_MA_TOT_THAP_KHO_THANG_DON_TUONG_KHUYET",
+      "name_vi": "10. Mã Tốt thấp khó thắng đơn Tượng khuyết (hình 98)",
+      "source_book_page": "85-86",
+      "initial_fen_red_perspective": "3k4/4ae3/9/9/3P3H/9/9/9/4K3/9 w - - 0 1",
+      "player_to_move_on_fen": "red",
+      "goal_for_red": "DRAW",
+      "expected_outcome_score_for_red": 0,
+      "difficulty_level": "basic",
+      "description_general_vi": "Mã Tốt thấp khó thắng đơn Tượng khuyết.",
+      "key_recognition_features_red_pov": [
+        {"type": "piece_count_exact", "player": "self", "piece_counts": {"H":1, "P":1, "K":1}},
+        {"type": "piece_count_exact", "player": "opponent", "piece_counts": {"k":1, "a":1, "e":1}}
+      ],
+      "main_line_kifu_uci_for_red": ["e0e1", "h4g2", "d4d3", "g2e3", "e3g5", "g5e4"],
+      "opponent_best_defense_uci": ["d9d8", "d8d9", "e8d8", "g6i8", "i8g6", "g6e4"],
+      "analysis_and_comments_vi": "Nước đi: Hình 98, đỏ đi trước.\n1. Tướng 5 tiến 1 (K e0-e1), Tướng 4 tiến 1 (k d9-d8).\n2. Mã 3 tiến 2 (H h4-g2), Tướng 4 lùi 1 (k d8-d9).\n3. Tốt 4 tiến 1 (!) (P d4-d3), Sĩ 5 lùi 6 (a e8-d8).\n4. Mã 2 tiến 4 (H g2-e3), Tượng 7 lùi 9 (e g6-i8).\n5. Mã 4 lùi 2 (H e3-g5), Tượng 9 tiến 7 (e i8-g6).\n6. Mã 2 lùi 4 (H g5-e4), Tượng 7 lùi 5 (!) (e g6-e4) (hoà cờ).\nChú thích:\n(1) Nếu thay đổi nước đi Mã 2 lùi 1 (H g2-h0), thì Tượng 7 lùi 5 (e g6-e4), Mã 1 tiến 3 (H h0-f1), sau đó dùng Tốt đổi hai Sĩ cũng hoà.\n(2) Nước chủ chốt ! Hình thành cục diện chính hoà một Tượng thủ hoà một Mã. Nếu đi sai nước Tượng 7 lùi 9 (e g6-i8), thì bên đỏ để Tướng đi nước chờ thủ thắng.",
+      "tags": ["knight_pawn_endgame", "knight_pawn_vs_advisor_elephant_incomplete", "draw_tactic"]
+    },
+    {
+      "study_id": "CH2_EG_H99_MA_TOT_CAO_TAT_THANG_DON_SI_KHUYET",
+      "name_vi": "11. Mã Tốt cao tất thắng đơn Sĩ khuyết (hình 99)",
+      "source_book_page": "86-87",
+      "initial_fen_red_perspective": "3k1a2/4e4/9/5P1H/9/9/9/9/4K3/9 w - - 0 1",
+      "player_to_move_on_fen": "red",
+      "goal_for_red": "WIN",
+      "expected_outcome_score_for_red": 100000,
+      "difficulty_level": "intermediate",
+      "description_general_vi": "Mã, Tốt cao và Tướng cùng tấn công hai bên trái phải, có thể tạo thành sát cục.",
+      "key_recognition_features_red_pov": [
+        {"type": "piece_count_exact", "player": "self", "piece_counts": {"H":1, "P":1, "K":1}},
+        {"type": "piece_count_exact", "player": "opponent", "piece_counts": {"k":1, "a":1, "e":1}}
+      ],
+      "main_line_kifu_uci_for_red": ["f5g5", "g5g4", "g4g3", "h5g3", "g5f5", "g3e2", "e2c1", "c1b3", "e0d0", "b3d4", "d4e2", "e2c3", "c3e2", "e2d4"],
+      "opponent_best_defense_uci": ["e6g8", "g8e6", "d9d8", "e6g8", "d8e8", "g8e6", "e8f8", "f8e8", "e8d8", "d8e7", "e6g4", "g4e6", "e6g4", "e7d7"],
+      "analysis_and_comments_vi": "Nước đi: Đỏ đi trước.\n1. Tốt 6 bình 7 (P f5-g5), Tượng 7 tiến 5 (e e6-g8).\n2. Tốt 7 tiến 1 (P g5-g4), Tượng 5 lùi 7 (e g8-e6).\n3. Tốt 7 tiến 1 (P g4-g3), Tướng 4 lùi 1 (k d9-d8). Chú thích(1): Nếu đổi nước đi thành Tướng 4 tiến 1 (k d9-d10), thì bên đỏ đi Mã chiếu Tướng sẽ thắng.\n4. Mã 8 lùi 7 (H h5-g3), Tượng 7 tiến 5 (e e6-g8).\n5. Tốt 7 bình 6 (P g3-f3), Tướng 4 bình 5 (k d8-e8).\n6. Mã 7 lùi 5 (H g3-e2), Tượng 7 lùi 9 (e g8-i6).\n7. Mã 5 lùi 3! (H e2-c1), Tượng 9 tiến 7 (e i6-g8).\n8. Mã 3 lùi 2 (H c1-b3), Sĩ 5 tiến 6 (a f8-e7). Chú thích(2): Nếu đổi thành Sĩ 5 lùi 4 (a f8-g7), thì Tướng 5 bình 4 (K e0-d0), tiếp theo sẽ giống như trên, tiến Mã thủ thắng.\n9. Mã 2 tiến 1 (H b3-d4), Tướng 5 bình 6 (k e8-d8). Chú thích(3): Nếu đổi nước đi lùi Sĩ (a e7-f8), thì Mã 1 tiến 2 (H d4-e6) sẽ thắng.\n10. Tướng 5 bình 4 (K e0-d0), Tướng 6 tiến 1 (k d8-d9).\n11. Mã 1 tiến 2 (H d4-e2), Tượng 5 tiến 3 (e g8-e6).\n12. Mã 2 lùi 3 (H e2-c3), Tượng 3 lùi 5 (e e6-g8).\n13. Mã 3 tiến 5 (H c3-e2), Tượng 5 tiến 3 (e g8-e6).\n14. Mã 5 tiến 3 (H e2-d4), Tướng 6 lùi 1 (k d9-d8).\n15. Tướng 6 bình 5 (K d0-e0), Tượng 3 lùi 5 (e e6-g8).\n16. Mã 3 tiến 2 (H d4-f5) (đỏ thắng).",
+      "tags": ["knight_pawn_endgame", "knight_pawn_vs_advisor_elephant_incomplete", "red_wins"]
+    },
+    {
+      "study_id": "CH2_EG_H100_MA_TOT_THAP_KHO_THANG_DON_SI_KHUYET",
+      "name_vi": "12. Mã Tốt thấp khó thắng đơn Sĩ khuyết (hình 100)",
+      "source_book_page": "87",
+      "initial_fen_red_perspective": "3k1a2/4e4/9/9/3P3H/9/9/9/4K3/9 w - - 0 1",
+      "player_to_move_on_fen": "red",
+      "goal_for_red": "DRAW",
+      "expected_outcome_score_for_red": 0,
+      "difficulty_level": "basic",
+      "description_general_vi": "Cách duy nhất để một Sĩ khuyết Sĩ thủ hoà Mã, Tốt thấp là đưa Sĩ đặt ở dưới Tướng, tục gọi là \"Thái Công ngồi ghế\", và chú ý liên kết với Tượng ở trung lộ.",
+      "key_recognition_features_red_pov": [
+        {"type": "piece_count_exact", "player": "self", "piece_counts": {"H":1, "P":1, "K":1}},
+        {"type": "piece_count_exact", "player": "opponent", "piece_counts": {"k":1, "a":1, "e":1}}
+      ],
+      "main_line_kifu_uci_for_red": ["h5g3", "e0e1", "g3e4", "e4f2", "f2e4"],
+      "opponent_best_defense_uci": ["d9d8", "g6i8", "d8d9", "g8e6", "i8g6"],
+      "analysis_and_comments_vi": "Nước đi: Đỏ đi trước.\n1. Mã 8 lùi 7 (H h5-g3), Tướng 4 tiến 1 (k d9-d8).\n2. Tướng 5 tiến 1 (K e0-e1), Tượng 7 tiến 9 (e g6-i8).\n3. Mã 7 lùi 5 (H g3-e4), Tướng 4 lùi 1 (k d8-d9).\n4. Mã 5 tiến 4 (H e4-f2), Tượng 7 lùi 5 (e g8-e6).\n5. Mã 4 lùi 5 (H f2-e4), Tượng 9 tiến 7 (e i8-g6) (hoà cờ).",
+      "tags": ["knight_pawn_endgame", "knight_pawn_vs_advisor_elephant_incomplete", "draw_tactic", "thai_cong_ngoi_ghe"]
+    },
+    {
+      "study_id": "CH2_EG_H101_MA_TOT_KHONG_PHAI_TOT_DAY_THANG_DON_MA",
+      "name_vi": "13. Mã, Tốt (không phải Tốt đáy) thắng đơn Mã (hình 101)",
+      "source_book_page": "87-88",
+      "initial_fen_red_perspective": "4k4/9/3h5/9/3P1H2/9/9/9/3K4/9 w - - 0 1",
+      "player_to_move_on_fen": "red",
+      "goal_for_red": "WIN",
+      "expected_outcome_score_for_red": 100000,
+      "difficulty_level": "intermediate",
+      "description_general_vi": "Mã, Tốt (không phải Tốt đáy), tất thắng một Mã, yếu lĩnh thủ thắng là tận dụng sự hỗ trợ của Tướng.",
+      "key_recognition_features_red_pov": [
+        {"type": "piece_count_exact", "player": "self", "piece_counts": {"H":1, "P":1, "K":1}},
+        {"type": "piece_count_exact", "player": "opponent", "piece_counts": {"k":1, "h":1}}
+      ],
+      "main_line_kifu_uci_for_red": ["f4e6", "d0e0", "e6d4", "d4f5", "f5d6", "d3e3", "d6c4", "c4e5", "e5f3", "f3h4", "e0e1"],
+      "opponent_best_defense_uci": ["e9f9", "f6h5", "h5g3", "f9f8", "g3e4", "f8f9", "e4f6", "f6d5", "d5f6", "f6d5"],
+      "analysis_and_comments_vi": "Nước đi:\n1. Mã 2 tiến 3 (H f4-e6), Tướng 5 bình 4 (k e9-f9).\n2. Tướng 4 bình 5 (K d0-e0), Mã 4 tiến 6 (h f6-h5).\n3. Mã 3 lùi 4 (H e6-d4), Mã 6 lùi 7 (h h5-g3).\n4. Mã 4 tiến 6 (H d4-f5), Tướng 4 lùi 1 (k f9-f8). Chú thích(1): Nếu đổi nước đi thành Mã 7 tiến 5 (h g3-e4), thì Tốt 4 bình 5 (P d3-e3), Mã 5 lùi 7 (h e4-g3), Mã 6 tiến 4 (H f5-d6), sát pháp tương tự.\n5. Mã 6 tiến 4 (H f5-d6), Mã 7 tiến 5 (h g3-e4).\n6. Tốt 4 bình 5 (P d3-e3), Tướng 4 tiến 1 (k f8-f9). Chú thích(2): Nếu đổi nước đi thành Tướng 4 lùi 1 (k f8-f7), thì Tướng 5 tiến 1 (K e0-e1), Mã 5 lùi 3 (h e4-c3), Mã 4 tiến 6 (H d6-f5), đỏ thắng.\n7. Mã 4 lùi 5 (H d6-c4), Mã 5 tiến 4 (h e4-f6). Chú thích(3): Nếu đi sai nước Tướng 4 bình 5 (k f9-e9), thì Mã 5 tiến 3 (H c4-e3), bắt chết Mã đen.\n8. Mã 5 tiến 6 (H c4-e5), Mã 4 lùi 3 (h f6-d5).\n9. Mã 6 lùi 7 (H e5-f3), Mã 3 tiến 4 (h d5-f6).\n10. Mã 7 tiến 8 (H f3-h4), Mã 4 lùi 3 (h f6-d5).\n11. Tướng 5 tiến 1 (K e0-e1) (Đỏ thắng).",
+      "tags": ["knight_pawn_endgame", "knight_pawn_vs_knight", "red_wins"]
+    },
+    {
+      "study_id": "CH2_EG_H102_MA_TOT_CAO_TAT_THANG_MA_SI",
+      "name_vi": "14. Mã Tốt cao tất thắng Mã Sĩ (hình 102)",
+      "source_book_page": "88-89",
+      "initial_fen_red_perspective": "4k1a1/9/7h/4P1H2/9/9/9/9/4K3/9 w - - 0 1",
+      "player_to_move_on_fen": "red",
+      "goal_for_red": "WIN",
+      "expected_outcome_score_for_red": 100000,
+      "difficulty_level": "intermediate",
+      "description_general_vi": "Nước đi: Hình 102, đỏ đi trước.",
+      "key_recognition_features_red_pov": [
+        {"type": "piece_count_exact", "player": "self", "piece_counts": {"H":1, "P":1, "K":1}},
+        {"type": "piece_count_exact", "player": "opponent", "piece_counts": {"k":1, "h":1, "a":1}}
+      ],
+      "main_line_kifu_uci_for_red": ["e5e4", "h5g3", "g3e2", "e2d4", "e4f4", "d4f3", "f4e4", "f3e1"],
+      "opponent_best_defense_uci": ["e9f9", "f9f8", "f8e8", "e8d8", "g6e5", "d8e7", "e5g6"],
+      "analysis_and_comments_vi": "Nước đi: Hình 102, đỏ đi trước.\n1. Tốt 5 tiến 1 (!) (P e5-e4), Tướng 5 bình 4 (k e9-f9). Chú thích(2): Nếu đổi nước đi thành Sĩ 5 lùi 6 (a e8-d8), bên đỏ được Sĩ tất thắng.\n2. Mã 3 lùi 5 (H h5-g3), Tướng 4 tiến 1 (k f9-f8). Chú thích(3): Nếu đổi nước đi thành Sĩ 5 lùi 6 (a e8-d8), thì Tốt 5 bình 6 (P e4-f4), Mã 3 lùi 2 (h g6-e5), Mã 5 tiến 7 (H g3-e2), Sĩ 6 tiến 5 (a d8-e7), Mã 7 tiến 8 (H e2-c3), Tướng 4 bình 5 (k f8-e8), Tướng 5 tiến 1 (K e0-e1), Tướng 5 bình 6 (k e8-d8), Tốt 6 bình 5 (P f4-e4) bắt chết Sĩ đen, bên đen sẽ thua.\n3. Mã 5 lùi 7 (H g3-e2), Tướng 4 lùi 1 (k f8-e8).\n4. Mã 7 tiến 6 (H e2-d4), Sĩ 5 lùi 6 (a e8-d8).\n5. Tốt 5 bình 6 (P e4-f4), Mã 3 lùi 2 (h g6-e5). Chú thích(4): Nếu đi sai nước thành Mã 3 tiến 4 (h g6-h4), thì Mã 6 tiến 4 (H d4-f3), bên đỏ nhanh chóng thủ thắng.\n6. Mã 6 lùi 4 (H d4-f3), Sĩ 6 lùi 5 (a d8-e7). Chú thích(5): Nếu đi sai nước thành Mã 2 tiến 1 (h e5-g4), thì Mã 4 tiến 3 (H f3-e1), Sĩ 6 tiến 5 (a e7-f8), Mã 3 tiến 5 (H e1-c2), Tướng 4 bình 5 (k e8-f8), Tốt 6 bình 5 (P f4-e4), Mã 1 tiến 3 (h g4-h2), Mã 5 lùi 3 (H c2-a3), Mã 3 lùi 5 (h h2-f1), Mã 3 lùi 4 (H a3-c4), bên đen sẽ mất quân, đỏ thắng.\n7. Tốt 6 bình 5 (P f4-e4), Mã 2 tiến 3 (h e5-g6).\n8. Mã 4 tiến 3 (H f3-e1). Từ đây, hai quân đỏ bắt Sĩ, bên đen tất sẽ mất quân, đỏ tất thắng.\nChú thích:\n(1) Bên đen không có Tượng, Tốt tiến thẳng từ trung lộ là phương pháp thường gặp để thủ thắng.",
+      "tags": ["knight_pawn_endgame", "knight_pawn_vs_knight_advisor", "red_wins"]
+    },
+    {
+      "study_id": "CH2_EG_H103_DON_MA_KHEO_HOA_PHAO_TOT_HAI_SI",
+      "name_vi": "15. Đơn Mã khéo hoà Pháo, Tốt, hai Sĩ (hình 103)",
+      "source_book_page": "89",
+      "initial_fen_red_perspective": "4k3/9/9/4P3/3c1a2/3a5/5H2/9/3K4/9 w - - 0 1",
+      "player_to_move_on_fen": "red",
+      "goal_for_red": "DRAW",
+      "expected_outcome_score_for_red": 0,
+      "difficulty_level": "intermediate",
+      "description_general_vi": "Một Mã đối trận với Pháo, Tốt, hai Sĩ, thường sẽ thua. Nếu Mã chiếm cứ vị trí có lợi nhất (tục gọi “trắc diện hồ\"), sẽ khống chế Tướng không cho tiến vào trung lộ trợ chiến, có thể khéo léo thủ hoà.",
+      "key_recognition_features_red_pov": [
+        {"type": "piece_count_exact", "player": "self", "piece_counts": {"H":1, "K":1}},
+        {"type": "piece_count_exact", "player": "opponent", "piece_counts": {"k":1, "c":1, "p":1, "a":2}}
+      ],
+      "main_line_kifu_uci_for_red": ["f2d3", "d3f2", "f2d3", "d3f2", "d0e0", "e0d0", "f2d3", "d0e0", "d3f2", "f2d1", "d1e3"],
+      "opponent_best_defense_uci": ["d9e9", "e9d9", "d9d8", "d8e7", "e7f8", "e5f5", "f8e8", "e8e9", "e8e7", "e7d5", "d5e7"],
+      "analysis_and_comments_vi": "Nước đi: Đỏ đi trước.\n1. Mã 3 tiến 2 (H f2-d3), Tướng 4 bình 5 (k d9-e9).\n2. Mã 2 lùi 3! (H d3-f2), Tướng 5 bình 4 (k e9-d9).\n3. Mã 3 tiến 2 (H f2-d3), Tướng 4 lùi 1 (k d9-d8).\n4. Mã 2 lùi 3 (H d3-f2), Sĩ 5 lùi 4 (a d8-e7).\n5. Tướng 4 bình 5! (K d0-e0), Sĩ 4 tiến 5 (a e7-f8).\n6. Tướng 5 bình 4 (K e0-d0), Tốt 5 bình 4 (p e5-f5).\n7. Mã 3 tiến 2 (H f2-d3), Pháo 5 bình 8 (c d3-a3).\n8. Tướng 4 bình 5 (K d0-e0), Tướng 4 tiến 1 (k d8-e8).\n9. Mã 2 lùi 3 (H d3-f2), Pháo 8 tiến 3 (c a3-a6).\n10. Mã 3 lùi 4 (H f2-d1), Pháo 8 bình 6 (c a6-c6).\n11. Mã 4 tiến 3 (H d1-e3) (hoà cờ).\nLời bình: Trong ván này, Mã đỏ không rời khỏi vị trí ban đầu, không cho Tướng đen chiếm cứ trung lộ, sẽ không bị thua.",
+      "tags": ["knight_endgame", "knight_vs_cannon_pawn_two_advisors", "draw_tactic", "trac_dien_ho"]
+    },
+    {
+      "study_id": "CH2_EG_H104_MA_TOT_THAP_KHEO_THANG_SI_TUONG_TOAN",
+      "name_vi": "16. Mã Tốt thấp khéo thắng Sĩ Tượng toàn (hình 104)",
+      "source_book_page": "90",
+      "initial_fen_red_perspective": "4k3/4ae3/4a4/4P3/2H6/9/9/9/4K3/9 w - - 0 1",
+      "player_to_move_on_fen": "red",
+      "goal_for_red": "WIN",
+      "expected_outcome_score_for_red": 100000,
+      "difficulty_level": "intermediate",
+      "description_general_vi": "Mã, Tốt đối diện với Sĩ, Tượng đầy đủ, thường sẽ hoà cờ, nếu Sĩ, Tượng không phòng thủ tốt, bên đỏ có thể khéo léo thủ thắng.",
+      "key_recognition_features_red_pov": [
+        {"type": "piece_count_exact", "player": "self", "piece_counts": {"H":1, "P":1, "K":1}},
+        {"type": "piece_count_exact", "player": "opponent", "piece_counts": {"k":1, "a":2, "e":2}}
+      ],
+      "main_line_kifu_uci_for_red": ["c4e5", "e0e1", "e1f1", "e5d3", "d3b2", "b2a4", "a4b6", "b6d5", "f1e1", "d5c3", "c3d1", "d1b2", "b2d3"],
+      "opponent_best_defense_uci": ["e6g8", "g8e6", "e6c4", "c4e6", "e8f7", "f7e8", "e8d8", "d8e8", "e8e9", "e6g4", "g4c8", "c8e6"],
+      "analysis_and_comments_vi": "Nước đi: đỏ đi trước.\n1. Mã 3 tiến 5 (H c4-e5), Tượng 3 tiến 1 (e e6-g8).\n2. Tướng 5 tiến 1! (K e0-e1), Tượng 1 tiến 3 (e g8-e6). Chú thích(1): Nếu đổi nước đi thành Tượng 1 lùi 3 (e g8-i6), thì Mã 5 lùi 7! (H e5-c4), Tượng 5 tiến 3 (e e6-g4), Mã 7 lùi 8! (H c4-b2), Tượng 3 lùi 5 (e g4-e2), Mã 8 tiến 9 (H b2-a4), Sĩ 5 tiến 4 (a e8-f7), Mã 9 tiến 8 (H a4-b6). Sĩ 4 tiến 5 (a f7-e8), Tướng 5 bình 6 (K e1-f1), đỏ cũng thắng.\n3. Tướng 5 bình 6! (K e1-f1), Tượng 5 lùi 3 (e e6-c4).\n4. Mã 5 lùi 6! (H e5-d3), Tượng 3 tiến 5 (e c4-e6).\n5. Mã 6 lùi 8 (H d3-b2), Sĩ 5 tiến 4 (a e8-f7).\n6. Mã 8 tiến 9 (H b2-a4), Sĩ 4 tiến 5 (a f7-e8).\n7. Mã 9 tiến 8 (H a4-b6), Sĩ 5 lùi 6 (a e8-d8).\n8. Mã 8 tiến 6 (H b6-d5), Tướng 5 bình 4 (k e9-d9).\n9. Tướng 6 bình 5 (K f1-e1), Tướng 4 tiến 1 (k d9-e9).\n10. Mã 6 lùi 5 (H d5-c3), Tượng 5 tiến 7 (e e6-g4).\n11. Mã 5 lùi 4! (H c3-d1), Tượng 3 lùi 5 (e g4-c8).\n12. Mã 4 lùi 6 (H d1-b2), Tượng 5 tiến 3 (e c8-e6).\n13. Mã 6 tiến 5 (H b2-d3). Mã tiếp tục tiến 3 (H d3-f4 or H d3-e5) bắt chết Sĩ, đỏ thủ thắng.",
+      "tags": ["knight_pawn_endgame", "knight_pawn_vs_full_guard", "red_wins"]
+    },
+    {
+      "study_id": "CH2_EG_H105_MA_TOT_KHO_THANG_SI_TUONG_TOAN",
+      "name_vi": "17. Mã, Tốt khó thắng Sĩ, Tượng toàn (hình 105)",
+      "source_book_page": "91",
+      "initial_fen_red_perspective": "3k4/4ae3/4a2P/9/5H2/9/9/9/9/4K4 w - - 0 1",
+      "player_to_move_on_fen": "red",
+      "goal_for_red": "DRAW",
+      "expected_outcome_score_for_red": 0,
+      "difficulty_level": "intermediate",
+      "description_general_vi": "Mã, Tốt đối kháng với Sĩ Tượng đầy đủ hình thành thế cục như hình 105, có thể thành thế cục hoà, nhưng bên đen phải thận trọng ứng chiến, nếu có một chút sai sót, sẽ bị thua cờ.",
+      "key_recognition_features_red_pov": [
+        {"type": "piece_count_exact", "player": "self", "piece_counts": {"H":1, "P":1, "K":1}},
+        {"type": "piece_count_exact", "player": "opponent", "piece_counts": {"k":1, "a":2, "e":2}}
+      ],
+      "main_line_kifu_uci_for_red": ["f5g3", "g3e4", "e4c5", "c5b7", "b7d6"],
+      "opponent_best_defense_uci": ["e7d8", "i6g8", "g8i6", "i6g8", "d9e9"],
+      "analysis_and_comments_vi": "Nước đi: Đỏ đi trước.\n1. Mã 6 lùi 7 (H f5-g3), Sĩ 5 lùi 6 (a e7-d8). Chú thích(1): Nước hay! Nếu đi sai nước thành Tướng 4 bình 5 (k d9-e9), thì Mã 7 tiến 8 (H g3-h5), Sĩ 5 lùi 6 (a e7-d8), Mã 8 tiến 6 (H h5-f6), Tướng 5 bình 4 (k e9-d9), Tướng 6 bình 5 (K e0-f0), Tướng 4 tiến 1 (k d9-d8), Mã 6 lùi 4 (H f6-d5). Sau đó bên đỏ có thể đi Mã phá tiếp một Sĩ, chắc chắn thủ thắng.\n2. Mã 7 tiến 5 (!) (H g3-e4), Tượng 9 lùi 7! (e i6-g8).\n3. Mã 5 tiến 3 (!) (H e4-c5), Tượng 7 lùi 9 (e g8-i6).\n4. Mã 3 tiến 2 (!) (H c5-b7), Tượng 9 tiến 7 (e i6-g8).\n5. Mã 2 tiến 4 (H b7-d6), Tướng 4 bình 5 (!) (k d9-e9) (Hoà cờ).\nChú thích:\n(2) Nếu đổi nước đi thành Mã 7 tiến 8 (H g3-h5), thì Tượng 9 lùi 7! (e i6-g8), Mã 8 tiến 6 (H h5-f6), Tướng 4 tiến 1 (k d9-d8), Tốt 4 tiến 1 (P h6-h5), Tượng 7 tiến 9 (e g8-i6), Tốt đáy bên đỏ vô dụng, Mã bị bắt chết, cũng là hoà.\n(3) Nếu đổi nước đi thành Mã 5 tiến 6 ăn Sĩ (H e4-c3xa2), thì Tướng 4 tiến 1 (k d9-d8), Mã đỏ bị cầm chân, hoà cờ.\n(4) Nếu đổi nước đi thành Mã 3 tiến 5 (H c5-e6), thì Tướng 4 bình 5 (k d9-e9) (nếu đi sai nước Tướng 4 tiến 1 (k d9-d8), thì Mã 5 tiến 4 (H e6-d4), Tướng 4 lùi 1 (k d8-d9), Tốt 4 bình 5 (P h6-g6), đỏ thẳng), Mã 5 tiến 3 (H e6-c7), Tượng 9 tiến 7 (e i6-g8), Mã 3 lùi 4 (H c7-e6), Tướng 5 bình 4 (k e9-d9), Mã bên đỏ vẫn không thể ăn Sĩ, hoà cờ.\n(5) Tướng tiến vào trung lộ phối hợp với Tượng đáy cầm chân Mã đỏ. Hoà cờ.",
+      "tags": ["knight_pawn_endgame", "knight_pawn_vs_full_guard", "draw_tactic"]
+    },
+    {
+      "study_id": "CH2_EG_H106_HAI_MA_TAT_THANG_SI_TUONG_TOAN",
+      "name_vi": "18. Hai Mã tất thắng Sĩ Tượng toàn (hình 106)",
+      "source_book_page": "92-93",
+      "initial_fen_red_perspective": "2H1k1H2/4ae3/4a4/9/9/9/9/9/4K3/9 w - - 0 1",
+      "player_to_move_on_fen": "red",
+      "goal_for_red": "WIN",
+      "expected_outcome_score_for_red": 100000,
+      "difficulty_level": "intermediate",
+      "description_general_vi": "Nước đi: Đỏ đi trước.",
+      "key_recognition_features_red_pov": [
+        {"type": "piece_count_exact", "player": "self", "piece_counts": {"H":2, "K":1}},
+        {"type": "piece_count_exact", "player": "opponent", "piece_counts": {"k":1, "a":2, "e":2}}
+      ],
+      "main_line_kifu_uci_for_red": ["g8e7", "e7c8", "c8a9", "a9b7", "b7d6", "d6e8", "c8e7", "e7f5", "f5d4", "d4e6", "h8f7", "e6d4"],
+      "opponent_best_defense_uci": ["e6g4", "g6e4", "e4c2", "g8i6", "e2g4", "c2e0", "g4e2", "e0c2", "e2g4", "g4e2", "d9d8"],
+      "analysis_and_comments_vi": "Nước đi: Đỏ đi trước.\n1. Mã 7 tiến 5 (H g8-e7), Tượng 5 tiến 3 (e e6-g4).\n2. Mã 5 tiến 7 (H e7-c8), Tượng 7 lùi 5 (e g6-e4).\n3. Mã 7 tiến 9 (H c8-a9), Tượng 5 lùi 7 (e e4-c2).\n4. Mã 9 tiến 8 (H a9-b7), Tượng 3 lùi 1 (e g8-i6).\n5. Mã 8 lùi 6 (H b7-d6), Tượng 7 tiến 5 (e e2-g4).\n6. Mã 6 tiến 7 (H d6-e8), Tượng 1 lùi 3 (e c2-e0).\n7. Mã 3 tiến 5 (H c8-e7), Tượng 5 tiến 7 (e g4-e2).\n8. Mã 5 tiến 4 (H e7-f5), Tướng 3 tiến 5 (k d9-c9, assuming Tướng 3 refers to black King on 3rd file from their right, which is c-file. tiến 5 is very aggressive. Or typo for Sĩ/Tượng).\n9. Mã 4 lùi 6 (H f5-d4), Tượng 5 tiến 3 (e e2-g4).\n10. Mã 6 tiến 7 (H d4-e6), Tượng 7 lùi 5 (e g4-e2).\n11. Mã sau tiến 8 (H h8-f7), Tướng 4 tiến 1 (k c9-d8).\n12. Mã 7 lùi 6 (H e6-d4). Đến đây, bên đen khó lòng ứng phó với sát pháp Mã 6 tiến 8 (H d4-f5 or H d4-c6 or H d4-b3 or H d4-b5) của bên đỏ, thua cờ.\nChú thích:\n(1) Từ đây bên đỏ có thể dùng sát pháp \"song Mã ẩm tuyền\" để thủ thắng.",
+      "tags": ["knight_endgame", "two_knights_vs_full_guard", "red_wins", "song_ma_am_tuyen"]
+    },
+    {
+      "study_id": "CH2_EG_H107_HAI_MA_THU_THANG_MA_HAI_SI",
+      "name_vi": "19. Hai Mã thủ thắng Mã hai Sĩ (hình 107)",
+      "source_book_page": "93",
+      "initial_fen_red_perspective": "2Hk1H2/4a1h2/4a4/9/9/9/9/9/5K1/9 w - - 0 1",
+      "player_to_move_on_fen": "red",
+      "goal_for_red": "WIN",
+      "expected_outcome_score_for_red": 100000,
+      "difficulty_level": "intermediate",
+      "description_general_vi": "Trong hình 107, mấu chốt để bên đỏ thủ thắng là ăn Sĩ đen trước sau đó lần lượt đánh bại.",
+      "key_recognition_features_red_pov": [
+        {"type": "piece_count_exact", "player": "self", "piece_counts": {"H":2, "K":1}},
+        {"type": "piece_count_exact", "player": "opponent", "piece_counts": {"k":1, "h":1, "a":2}}
+      ],
+      "main_line_kifu_uci_for_red": ["c8b6", "h8g6", "g6e5", "f0e0", "e0d0", "e5f7"],
+      "opponent_best_defense_uci": ["d8d9", "g7e6", "e6c5", "c5e4", "e7f8"],
+      "analysis_and_comments_vi": "Nước đi: Đỏ đi trước.\n1. Mã 1 tiến 2 (H c8-b6), Tướng 6 tiến 1 (k d8-d9). Chú thích(1): Bên đen nếu đổi nước đi thành Mã 5 lùi 7 (h g7-e6), Tướng 6 bình 5 (K f0-e0), Tướng 6 tiến 1 (k d9-d10), Mã 8 lùi 7 (H h8-g6), Mã 7 tiến 8 (h e6-c5), Mã 7 tiến 5 (H g6-e5), Mã 8 tiến 6 (h c5-b3), Tướng 5 bình 4 (K e0-d0), bên đỏ chắc chắn thủ thắng.\n2. Mã 8 lùi 7 (H h8-g6), Mã 5 tiến 6 (h g7-e6).\n3. Mã 7 tiến 5 (H g6-e5), Mã 6 tiến 8 (h e6-c5).\n4. Tướng 6 bình 5 (K f0-e0), Mã 8 lùi 6 (h c5-e4).\n5. Tướng 5 bình 4 (K e0-d0), Sĩ 5 tiến 6 (a e7-f8).\n6. Mã 5 tiến 6 (H e5-f7). Từ đó, bên đỏ ăn Sĩ tất thắng.",
+      "tags": ["knight_endgame", "two_knights_vs_knight_two_advisors", "red_wins"]
+    },
+    {
+      "study_id": "CH2_EG_H108_PHAO_SI_TAT_THANG_SONG_SI",
+      "name_vi": "1. Pháo, Sĩ tất thắng song Sĩ (hình 108)",
+      "source_book_page": "93",
+      "initial_fen_red_perspective": "5k2/4aa3/9/9/9/9/8/4A4/3C5/5K1 w - - 0 1",
+      "player_to_move_on_fen": "red",
+      "goal_for_red": "WIN",
+      "expected_outcome_score_for_red": 100000,
+      "difficulty_level": "basic",
+      "description_general_vi": "Pháo có thể dùng Sĩ làm giá Pháo, tấn công thủ thắng.",
+      "key_recognition_features_red_pov": [
+        {"type": "piece_count_exact", "player": "self", "piece_counts": {"C":1, "A":1, "K":1}},
+        {"type": "piece_count_exact", "player": "opponent", "piece_counts": {"k":1, "a":2}}
+      ],
+      "main_line_kifu_uci_for_red": ["e1d0", "d0e1", "d2d5", "d5f5", "f5e5", "e5d5", "d5d4", "d4d1"],
+      "opponent_best_defense_uci": ["f8e8", "e8f8", "f8e8", "e8d8", "d8e7", "f7e8", "e8f8"],
+      "analysis_and_comments_vi": "Nước đi: Đỏ đi trước.\n1. Sĩ 6 lùi 5 (A e1-d0), Tướng 6 bình 5 (k f8-e8).\n2. Sĩ 5 tiến 4 (A d0-e1), Tướng 5 bình 4 (k e8-f8).\n3. Pháo 1 bình 4! (C d2-d5), Tướng 4 bình 5 (k f8-e8).\n4. Pháo 4 bình 6! (C d5-f5), Tướng 5 bình 6 (k e8-d8).\n5. Pháo 6 bình 5! (C f5-e5), Sĩ 5 tiến 6 (a d8-e7).\n6. Pháo 5 bình 4 (C e5-d5), Sĩ 4 lùi 5 (a f7-e8).\n7. Pháo 4 lùi 1 (C d5-d4), Tướng 6 bình 5 (k d8-f8).\n8. Pháo 4 tiến 7 (C d4-d1) (Đỏ phá Sĩ tất thắng).",
+      "tags": ["cannon_endgame", "cannon_advisor_vs_two_advisors", "red_wins"]
+    },
+    {
+      "study_id": "CH2_EG_H109_PHAO_TOT_CAO_TAT_THANG_DON_TUONG",
+      "name_vi": "2. Pháo Tốt cao tất thắng đơn Tượng (hình 109)",
+      "source_book_page": "94",
+      "initial_fen_red_perspective": "4k4/9/4e4/4P3/4K3/4C4/9/9/9/9 w - - 0 1",
+      "player_to_move_on_fen": "red",
+      "goal_for_red": "WIN",
+      "expected_outcome_score_for_red": 100000,
+      "difficulty_level": "intermediate",
+      "description_general_vi": "Yếu lĩnh để Pháo, Tốt cao thắng một Tượng là: vận dụng Pháo, Tốt bịt mắt Tượng, ép đối phương không còn quân để đi, từ đó thủ thắng.",
+      "key_recognition_features_red_pov": [
+        {"type": "piece_count_exact", "player": "self", "piece_counts": {"C":1, "P":1, "K":1}},
+        {"type": "piece_count_exact", "player": "opponent", "piece_counts": {"k":1, "e":1}}
+      ],
+      "main_line_kifu_uci_for_red": ["e5d5", "e4d4", "e3f3", "d5e5", "e5f5", "f5f4", "f3f7", "f4f3", "f7h7", "h7h9"],
+      "opponent_best_defense_uci": ["e9f9", "f9e9", "e9f9", "f9f8", "f8f9", "e6c8", "f9f8", "c8e6"],
+      "analysis_and_comments_vi": "Nước đi: Đỏ đi trước.\n1. Tốt 5 bình 4 (P e5-d5), Tướng 6 bình 5 (k e9-f9).\n2. Tướng 5 bình 4! (K e4-d4), Tướng 5 bình 6 (k f9-e9).\n3. Pháo 5 bình 6 (C e3-f3), Tướng 6 bình 5 (k e9-f9).\n4. Tốt 4 bình 5 (P d5-e5), Tướng 5 tiến 1 (k f9-f8).\n5. Tốt 5 bình 6! (P e5-f5), Tướng 5 lùi 1 (k f8-f9).\n6. Tốt 6 tiến 1 (P f5-f4), Tướng 5 tiến 1 (k f9-f8).\n7. Pháo 6 tiến 4! (C f3-f7), Tướng 5 lùi 1 (k f8-f9).\n8. Tốt 6 tiến 1 (P f4-f3), Tượng 3 lùi 1 (e e6-c8).\n9. Pháo 6 bình 8 (C f7-h7), Tượng 1 lùi 3 (e c8-e6).\n10. Pháo 8 tiến 2 (C h7-h9) (đỏ thắng).\nLời bình: Trong ván cờ này, ba quân bên đỏ phân công khống chế cột 4 và cột 6, sau đó vận dụng chiến thuật cầm chân, từng bước ép sát, kỹ thuật đi cờ rất cao siêu.",
+      "tags": ["cannon_pawn_endgame", "cannon_pawn_vs_elephant", "red_wins"]
+    },
+    {
+      "study_id": "CH2_EG_H110_PHAO_TOT_THAP_KHO_THANG_DON_TUONG",
+      "name_vi": "3. Pháo Tốt thấp khó thắng đơn Tượng (hình 110)",
+      "source_book_page": "95",
+      "initial_fen_red_perspective": "4k4/9/4e4/9/3P4/9/3C5/9/4K3/9 w - - 0 1",
+      "player_to_move_on_fen": "red",
+      "goal_for_red": "DRAW",
+      "expected_outcome_score_for_red": 0,
+      "difficulty_level": "basic",
+      "description_general_vi": "Pháo Tốt thấp khó thắng đơn Tượng.",
+      "key_recognition_features_red_pov": [
+        {"type": "piece_count_exact", "player": "self", "piece_counts": {"C":1, "P":1, "K":1}},
+        {"type": "piece_count_exact", "player": "opponent", "piece_counts": {"k":1, "e":1}}
+      ],
+      "main_line_kifu_uci_for_red": ["e0e1", "d2f2", "f2h2", "h2h4"],
+      "opponent_best_defense_uci": ["e6g8", "g8e6", "e6g8", "g8e6"],
+      "analysis_and_comments_vi": "Nước đi: Đỏ đi trước.\n1. Tướng 5 tiến 1 (K e0-e1), Tượng 5 tiến 3 (e e6-g8).\n2. Pháo 4 bình 6 (C d2-f2), Tượng 3 lùi 1 (e g8-e6).\n3. Pháo 6 bình 8 (C f2-h2), Tượng 1 lùi 3 (e e6-g8).\n4. Pháo 8 tiến 2 (C h2-h4), Tượng 3 tiến 5 (e g8-e6). Pháo đỏ không thể bịt mắt Tượng, hoà cờ.",
+      "tags": ["cannon_pawn_endgame", "cannon_pawn_vs_elephant", "draw_tactic"]
+    },
+    {
+      "study_id": "CH2_EG_H111_PHAO_TOT_THAP_KHEO_THANG_DON_TUONG",
+      "name_vi": "4. Pháo Tốt thấp khéo thắng đơn Tượng (hình 111)",
+      "source_book_page": "95",
+      "initial_fen_red_perspective": "4k1e2/9/9/9/9/9/1C7/9/4K3/9 w - - 0 1",
+      "player_to_move_on_fen": "red",
+      "goal_for_red": "WIN",
+      "expected_outcome_score_for_red": 100000,
+      "difficulty_level": "intermediate",
+      "description_general_vi": "Pháo đỏ lợi dụng Tướng cao của bên đen làm giá Pháo, khéo léo ăn Tượng đen thủ thắng.",
+      "key_recognition_features_red_pov": [
+        {"type": "piece_count_exact", "player": "self", "piece_counts": {"C":1, "P":1, "K":1}}, 
+        {"type": "piece_count_exact", "player": "opponent", "piece_counts": {"k":1, "e":1}}
+      ],
+      "main_line_kifu_uci_for_red": ["b2e2", "e2e1", "e1h1", "h1h8"],
+      "opponent_best_defense_uci": ["g8i6", "i6g8", "g8i6"],
+      "analysis_and_comments_vi": "Nước đi: Đỏ đi trước.\n1. Pháo 2 bình 5 (C b2-e2), Tượng 5 tiến 7 (e g8-i6).\n2. Pháo 5 lùi 1! (C e2-e1), Tượng 7 lùi 9 (e i6-g8).\n3. Pháo 5 bình 8 (C e1-h1), Tượng 9 tiến 7 (e g8-i6).\n4. Pháo 8 tiến 7 (C h1-h8) (đỏ thắng).\nLời bình: Pháo đỏ lợi dụng Tướng cao của bên đen làm giá Pháo, khéo léo ăn Tượng đen thủ thắng.",
+      "tags": ["cannon_pawn_endgame", "cannon_pawn_vs_elephant", "red_wins", "tactical_win"]
+    },
+    {
+      "study_id": "CH2_EG_H112_PHAO_DON_SI_TAT_THANG_DON_TUONG",
+      "name_vi": "5. Pháo đơn Sĩ tất thắng đơn Tượng (hình 112)",
+      "source_book_page": "95-96",
+      "initial_fen_red_perspective": "4k4/4e4/9/9/9/5A2/5C2/9/3K4/9 w - - 0 1",
+      "player_to_move_on_fen": "red",
+      "goal_for_red": "WIN",
+      "expected_outcome_score_for_red": 100000,
+      "difficulty_level": "basic",
+      "description_general_vi": "Pháo, một Sĩ chắc chắn sẽ thắng một Tượng, nhưng cần Tướng đỏ chiếm cứ trung lộ, do một Tượng không được bảo vệ, dễ bị bắt.",
+      "key_recognition_features_red_pov": [
+        {"type": "piece_count_exact", "player": "self", "piece_counts": {"C":1, "A":1, "K":1}},
+        {"type": "piece_count_exact", "player": "opponent", "piece_counts": {"k":1, "e":1}}
+      ],
+      "main_line_kifu_uci_for_red": ["d0e0", "e0e1", "f3e2", "e2f3", "f2e2"],
+      "opponent_best_defense_uci": ["e9f9", "e7c5", "c5e7", "f9f8"],
+      "analysis_and_comments_vi": "Nước đi: Đỏ đi trước.\n1. Tướng 4 bình 5 (K d0-e0), Tướng 5 bình 6 (k e9-f9).\n2. Tướng 5 tiến 1! (K e0-e1), Tượng 5 lùi 3 (e e7-c5).\n3. Sĩ 6 lùi 5 (A f3-e2), Tượng 3 tiến 5 (e c5-e7).\n4. Sĩ 5 tiến 4 (A e2-f3), Tướng 6 tiến 1 (k f9-f8).\n5. Pháo 6 bình 5 (C f2-e2). Bên đỏ bắt chết Tượng đen, bên đỏ tất thắng.",
+      "tags": ["cannon_endgame", "cannon_advisor_vs_elephant", "red_wins"]
+    },
+    {
+      "study_id": "CH2_EG_H113_DON_PHAO_KHEO_HOA_PHAO_TOT_SI",
+      "name_vi": "6. Đơn Pháo khéo hoà Pháo Tốt Sĩ (hình 113)",
+      "source_book_page": "96",
+      "initial_fen_red_perspective": "4k1P1/4a4/3c5/9/9/9/9/9/C3K4/9 w - - 0 1",
+      "player_to_move_on_fen": "red",
+      "goal_for_red": "DRAW",
+      "expected_outcome_score_for_red": 0,
+      "difficulty_level": "intermediate",
+      "description_general_vi": "Yếu lĩnh để một Pháo hoà Pháo, Tốt, Sĩ là: Bên đỏ phải chú ý quan sát động thái giữa Tướng, Sĩ, Pháo của bên đen, lợi dụng mâu thuẫn, đưa Pháo che chắn bảo vệ Tướng, có thể cầm hoà.",
+      "key_recognition_features_red_pov": [
+        {"type": "piece_count_exact", "player": "self", "piece_counts": {"C":1, "K":1}},
+        {"type": "piece_count_exact", "player": "opponent", "piece_counts": {"k":1, "c":1, "p":1, "a":1}}
+      ],
+      "main_line_kifu_uci_for_red": ["c0c3", "c3b3", "b3b2", "b2e2", "e2d2", "d2e2", "e2d2", "d2e2", "d0e0", "e0f0"],
+      "opponent_best_defense_uci": ["d6i6", "i6i7", "e8f7", "i7i6", "f7f8", "i6i5", "f8f9", "i5f5", "e9e8", ""],
+      "analysis_and_comments_vi": "Nước đi: Đỏ đi trước.\n1. Pháo 1 tiến 3 (C c0-c3), Pháo 6 bình 9 (c d6-i6).\n2. Pháo 1 bình 2 (C c3-b3), Pháo 9 tiến 1 (c i6-i7).\n3. Pháo 2 lùi 1 (C b3-b2), Sĩ 5 tiến 6 (a e8-f7).\n4. Pháo 2 bình 5 (C b2-e2), Pháo 9 lùi 1 (c i7-i6).\n5. Pháo 5 bình 4! (C e2-d2), Tướng 5 lùi 1 (k e9-f9).\n6. Pháo 4 bình 5! (C d2-e2), Pháo 9 lùi 1 (c i6-i5).\n7. Pháo 5 bình 4 (C e2-d2), Tướng 5 lùi 1 (k f9-f8).\n8. Pháo 4 bình 5 (C d2-e2), Pháo 9 bình 6 (c i5-f5).\n9. Tướng 4 bình 5 (K d0-e0), Tướng 5 tiến 1 (k f8-e8).\n10. Tướng 5 bình 6 (K e0-f0) (hoà cờ).",
+      "tags": ["cannon_endgame", "cannon_vs_cannon_pawn_advisor", "draw_tactic"]
+    },
+    {
+      "study_id": "CH2_EG_H114_PHAO_SI_TUONG_KHO_THANG_DON_SI_TUONG",
+      "name_vi": "7. Pháo Sĩ Tượng khó thắng đơn Sĩ Tượng (hình 114)",
+      "source_book_page": "97",
+      "initial_fen_red_perspective": "4k4/4ae3/4a4/9/9/2C1A1E2/9/9/4K3/9 w - - 0 1",
+      "player_to_move_on_fen": "red",
+      "goal_for_red": "DRAW",
+      "expected_outcome_score_for_red": 0,
+      "difficulty_level": "basic",
+      "description_general_vi": "Pháo, Sĩ, Tượng đối trận với một Sĩ, một Tượng thường sẽ hoà cờ, nếu vị trí của Sĩ, Tượng không đẹp hoặc nước đi có sai sót, bên Pháo cũng có cơ hội thủ thắng.",
+      "key_recognition_features_red_pov": [
+        {"type": "piece_count_exact", "player": "self", "piece_counts": {"C":1, "A":1, "E":1, "K":1}},
+        {"type": "piece_count_exact", "player": "opponent", "piece_counts": {"k":1, "a":1, "e":1}}
+      ],
+      "main_line_kifu_uci_for_red": ["c3c0", "c0d0", "d1c0", "d0e0", "e1f2", "g2e0", "f2e1", "e1f2", "e0d0"],
+      "opponent_best_defense_uci": ["e8f7", "f9f8", "f7e7", "e6g4", "e7f8", "g4e2", "f8e7", "e7f7", "e2g4"],
+      "analysis_and_comments_vi": "Nước đi: Đỏ đi trước.\n1. Pháo 3 lùi 3 (C c3-c0), Sĩ 5 tiến 6 (a e8-f7). Chú thích(1): Sĩ đen luôn đứng cùng một cột với Sĩ đỏ, “Sĩ tuỳ Sĩ chuyển là thủ pháp quan trọng để bên đen thủ hoà, nếu đi sai nước thành Tướng 6 tiến 1 (k f9-f8) thì Pháo 2 bình 5 (C c0-e0) đánh đôi, đỏ thắng.\n2. Pháo 3 bình 4 (C c0-d0), Tướng 6 tiến 1 (k f9-f8).\n3. Sĩ 4 lùi 5 (A d1-c0), Sĩ 6 lùi 5 (a f7-e7).\n4. Pháo 4 bình 5 (C d0-e0), Tượng 5 tiến 3 (e e6-g4). Chú thích(2): Nếu đi sai nước thành Sĩ 5 tiến 6 (a e7-f8), thì Tướng 5 bình 4 (K e0-d0), Tượng 5 tiến 3 (e e6-g4), Pháo 5 bình 4 (C e0-d0) đánh Sĩ, bên đỏ thắng.\n5. Sĩ 5 tiến 6 (A c0-d1), Sĩ 5 tiến 4! (a e7-f8).\n6. Tượng 3 lùi 1 (E g2-e0), Tượng 3 lùi 1 (e g4-e2).\n7. Sĩ 6 lùi 5 (A d1-c0), Sĩ 4 lùi 5 (a f8-e7). Chú thích(3): Nếu đi sai nước thành Tượng 1 lùi 3 (e e2-g0), thì Sĩ 5 tiến 4 (A c0-d1), Sĩ 4 lùi 5 (a e7-f8), Pháo 5 tiến 8 (C e0-e8) đánh Sĩ, đỏ thắng.\n8. Sĩ 5 tiến 4 (A c0-d1), Sĩ 5 tiến 6! (a e7-f7).\n9. Pháo 5 bình 4 (C e0-d0), Tượng 1 tiến 3 (e e2-g4) (Hoà cờ).",
+      "tags": ["cannon_endgame", "cannon_advisor_elephant_vs_advisor_elephant", "draw_tactic"]
+    },
+    {
+      "study_id": "CH2_EG_H115_PHAO_TUONG_SI_KHEO_THANG_DON_SI_TUONG",
+      "name_vi": "8. Pháo Tướng Sĩ khéo thắng đơn Sĩ Tượng (hình 115)",
+      "source_book_page": "97",
+      "initial_fen_red_perspective": "3k1e2/4a4/9/4E3/9/2C6/9/9/4K3/9 w - - 0 1",
+      "player_to_move_on_fen": "red",
+      "goal_for_red": "WIN",
+      "expected_outcome_score_for_red": 100000,
+      "difficulty_level": "intermediate",
+      "description_general_vi": "Nước đi: Đỏ đi trước.",
+      "key_recognition_features_red_pov": [
+        {"type": "piece_count_exact", "player": "self", "piece_counts": {"C":1, "E":1, "K":1}},
+        {"type": "piece_count_exact", "player": "opponent", "piece_counts": {"k":1, "a":1, "e":1}}
+      ],
+      "main_line_kifu_uci_for_red": ["e5g7", "c3f3", "f3e3", "e3e11"], 
+      "opponent_best_defense_uci": ["f7e8", "d9e9", "e9f9"],
+      "analysis_and_comments_vi": "Nước đi: Đỏ đi trước.\n1. Tượng 5 tiến 7 (E e5-g7), Sĩ 6 lùi 5 (a f7-e8).\n2. Pháo 3 bình 6 (!) (C c3-f3), Tướng 4 bình 5 (k d9-e9).\n3. Pháo 6 bình 5 (C f3-e3), Tướng 5 bình 6 (k e9-f9).\n4. Pháo 5 tiến 8 (C e3-e11) (Đỏ được Sĩ, tất thắng).\nChú thích:\n(1) Chiếu Tướng chính xác, nếu đổi nước đi thành Pháo 3 bình 5 (C c3-e3), Sĩ 5 tiến 4 (a e8-f7), Pháo 5 bình 6 (C e3-f3), Tướng 4 tiến 1 (k d9-d8), hoà cờ.",
+      "tags": ["cannon_endgame", "cannon_elephant_vs_advisor_elephant", "red_wins", "tactical_win"]
+    },
+    {
+      "study_id": "CH2_EG_H116_PHAO_HAI_SI_KHEO_THANG_DON_MA",
+      "name_vi": "9. Pháo hai Sĩ khéo thắng đơn Mã (hình 116)",
+      "source_book_page": "98",
+      "initial_fen_red_perspective": "4k3/6h2/9/9/9/9/4AA3/C7K2/9/9 w - - 0 1",
+      "player_to_move_on_fen": "red",
+      "goal_for_red": "WIN",
+      "expected_outcome_score_for_red": 100000,
+      "difficulty_level": "intermediate",
+      "description_general_vi": "Thế cục này, nếu Tướng không lên đỉnh, Tượng không rời khỏi cánh trái, sẽ không bị thua cờ. Mã đen bám chặt Pháo đỏ có thể cầm hoà, nếu không bên Pháo có thể khéo léo thủ thắng.",
+      "key_recognition_features_red_pov": [
+        {"type": "piece_count_exact", "player": "self", "piece_counts": {"C":1, "A":2, "K":1}},
+        {"type": "piece_count_exact", "player": "opponent", "piece_counts": {"k":1, "h":1}}
+      ],
+      "main_line_kifu_uci_for_red": ["d1e1", "c1c7", "e1e2", "c7b7", "b7b8"],
+      "opponent_best_defense_uci": ["g7f5", "f5g7", "e9e8", "e8e9"],
+      "analysis_and_comments_vi": "Nước đi: Đỏ đi trước.\n1. Tướng 4 bình 5! (K d1-e1), Mã 7 tiến 6 (h g7-f5). Chú thích(1): Nếu đi Mã 7 tiến 5 (h g7-e6), thì Pháo 1 lùi 6 (C c1-c7), Mã 5 tiến 3 (h e6-c5), Pháo 1 bình 7 (C c7-g7), Tướng 4 tiến 1 (k e9-e8), Pháo 7 tiến 1! (C g7-g8), Mã 3 lùi 2 (h c5-e4), Pháo 7 bình 6 (C g8-f8), Mã 2 tiến 4 (h e4-c5), Pháo 6 tiến 2 (C f8-f6), đỏ ăn Mã thủ thắng.\n2. Pháo 1 lùi 6 (C c1-c7), Mã 6 tiến 7 (h f5-g7).\n3. Tướng 5 tiến 1 (K e1-e2), Tướng 4 tiến 1 (k e9-e8).\n4. Pháo 1 bình 2! (C c7-b7), Tướng 4 lùi 1 (k e8-e9).\n5. Pháo 2 tiến 1! (C b7-b8) (tuyệt sát).",
+      "tags": ["cannon_endgame", "cannon_two_advisors_vs_knight", "red_wins", "tactical_win"]
+    },
+    {
+      "study_id": "CH2_EG_H117_PHAO_TOT_THAP_HAI_TUONG_KHO_THANG_DON_TUONG",
+      "name_vi": "10. Pháo Tốt thấp hai Tượng khó thắng đơn Tượng (hình 117)",
+      "source_book_page": "98-99",
+      "initial_fen_red_perspective": "4k4/4e4/9/9/2P1EE3/2C6/9/9/5K1/9 w - - 0 1",
+      "player_to_move_on_fen": "red",
+      "goal_for_red": "DRAW",
+      "expected_outcome_score_for_red": 0,
+      "difficulty_level": "basic",
+      "description_general_vi": "Phần trước đã giới thiệu Pháo, Tốt thấp khó thắng đơn Tượng, tuy bên đỏ có thêm hai Tượng, nhưng vẫn không bắt được một Tượng bên đen, từ thế cục này và mấy thế cục phần trước có thể thấy sự khác nhau giữa Tướng thấp và Tướng cao, người mới học nên ghi nhớ.",
+      "key_recognition_features_red_pov": [
+        {"type": "piece_count_exact", "player": "self", "piece_counts": {"C":1, "P":1, "E":2, "K":1}},
+        {"type": "piece_count_exact", "player": "opponent", "piece_counts": {"k":1, "e":1}}
+      ],
+      "main_line_kifu_uci_for_red": ["f0e0", "c3e3", "c4b4", "e0e1", "e3c3", "b4c4", "e1e0"],
+      "opponent_best_defense_uci": ["e7g5", "g5i7", "i7g5", "g5i7", "e9e8", "e8e9", "i7g5"],
+      "analysis_and_comments_vi": "Nước đi: Đỏ đi trước.\n1. Tướng 6 bình 5 (K f0-e0), Tượng 5 lùi 7! (e e7-g5).\n2. Pháo 3 bình 5 (C c3-e3), Tượng 7 tiến 9 (e g5-i7).\n3. Tốt 3 bình 2 (P c4-b4), Tượng 9 tiến 7 (e i7-g5).\n4. Tướng 5 tiến 1 (K e0-e1), Tượng 7 lùi 9 (e g5-i7).\n5. Pháo 5 bình 3 (C e3-c3), Tướng 6 tiến 1! (k e9-e8).\n6. Tốt 2 bình 3 (P b4-c4), Tướng 6 lùi 1! (k e8-e9).\n7. Tướng 5 lùi 1 (K e1-e0), Tượng 9 lùi 7! (e i7-g5). Lúc này, nếu bên đỏ ăn Tượng, Tốt thấp sẽ vô tác dụng, cũng hoà.",
+      "tags": ["cannon_pawn_endgame", "cannon_pawn_two_elephants_vs_elephant", "draw_tactic"]
+    },
+    {
+      "study_id": "CH2_EG_H118_PHAO_TOT_CAO_TAT_THANG_HAI_SI_1",
+      "name_vi": "11. Pháo Tốt cao tất thắng hai Sĩ (hình 118, cách 1)",
+      "source_book_page": "99-100",
+      "initial_fen_red_perspective": "4k3/4aa3/9/4P3/9/7C/9/9/4K3/9 w - - 0 1",
+      "player_to_move_on_fen": "red",
+      "goal_for_red": "WIN",
+      "expected_outcome_score_for_red": 100000,
+      "difficulty_level": "basic",
+      "description_general_vi": "Pháo, Tốt cao thắng hai Sĩ, có hai phương pháp thủ thắng: (1) Dùng Pháo đổi hai Sĩ, sau đó dùng một Tốt bắt Tướng thủ thắng. (2) Không ăn Sĩ, trực tiếp vây chết Tướng đen thủ thắng.",
+      "key_recognition_features_red_pov": [
+        {"type": "piece_count_exact", "player": "self", "piece_counts": {"C":1, "P":1, "K":1}},
+        {"type": "piece_count_exact", "player": "opponent", "piece_counts": {"k":1, "a":2}}
+      ],
+      "main_line_kifu_uci_for_red": ["e5e4", "h3e3", "e3e9", "e4e3"],
+      "opponent_best_defense_uci": ["e9e8", "e8e9", "f7e8"],
+      "analysis_and_comments_vi": "Nước đi: (1) Hình 118, đỏ đi trước.\n1. Tốt 5 tiến 1 (P e5-e4), Tướng 4 tiến 1 (k e9-e8).\n2. Pháo 8 bình 5 (C h3-e3), Tướng 4 lùi 1 (k e8-e9).\n3. Pháo 5 tiến 6 (C e3-e9), Sĩ 6 lùi 5 (a f7-e8).\n4. Tốt 5 tiến 1 (P e4-e3). Bên đen bị vây chết, đỏ thắng.",
+      "tags": ["cannon_pawn_endgame", "cannon_pawn_vs_two_advisors", "red_wins"]
+    },
+    {
+      "study_id": "CH2_EG_H118_PHAO_TOT_CAO_TAT_THANG_HAI_SI_2",
+      "name_vi": "11. Pháo Tốt cao tất thắng hai Sĩ (hình 118, cách 2)",
+      "source_book_page": "99-100",
+      "initial_fen_red_perspective": "4k3/4aa3/9/4P3/9/7C/9/9/4K3/9 w - - 0 1",
+      "player_to_move_on_fen": "red",
+      "goal_for_red": "WIN",
+      "expected_outcome_score_for_red": 100000,
+      "difficulty_level": "basic",
+      "description_general_vi": "Pháo, Tốt cao thắng hai Sĩ, phương pháp 2: Không ăn Sĩ, trực tiếp vây chết Tướng đen thủ thắng.",
+      "key_recognition_features_red_pov": [
+        {"type": "piece_count_exact", "player": "self", "piece_counts": {"C":1, "P":1, "K":1}},
+        {"type": "piece_count_exact", "player": "opponent", "piece_counts": {"k":1, "a":2}}
+      ],
+      "main_line_kifu_uci_for_red": ["h3f3", "e5f5", "f3d3", "f5f4", "d3f3", "f4f3", "f3d3", "d3d2"],
+      "opponent_best_defense_uci": ["e9f9", "f9e9", "e9f9", "f9e9", "e9f9", "f9e9", "e9f9"],
+      "analysis_and_comments_vi": "Nước đi: (2) Vẫn hình 118, đỏ đi trước.\n1. Pháo 8 bình 6 (C h3-f3), Tướng 4 bình 5 (k e9-f9).\n2. Tốt 5 bình 6 (P e5-f5), Tướng 5 bình 6 (k f9-e9).\n3. Pháo 6 bình 4 (C f3-d3), Tướng 6 bình 5 (k e9-f9).\n4. Tốt 6 tiến 1 (P f5-f4), Tướng 5 bình 4 (k f9-e9).\n5. Pháo 4 bình 6 (C d3-f3), Tướng 4 bình 5 (k e9-f9).\n6. Tốt 6 tiến 1 (P f4-f3), Tướng 5 bình 6 (k f9-e9).\n7. Pháo 6 bình 4 (C f3-d3), Tướng 6 bình 5 (k e9-f9).\n8. Pháo 4 tiến 1 (C d3-d2). Bên đen không có nước đỡ, bên đỏ thắng.\nLời bình: Từ đây có thể thấy, “có Pháo cần giữ Sĩ bên kia, thông thường trong khi chơi cờ, thì “thiếu Tượng sợ Pháo, thiếu Sĩ sợ Mã\", câu trên đây tuy không chính xác hoàn toàn, nhưng cũng có sự hợp lý nhất định, độc giả có thể tham khảo trong thực chiến. Trong thế cục này, bên đen nếu có hai Tượng, có thể thủ hoà Pháo, Tốt.",
+      "tags": ["cannon_pawn_endgame", "cannon_pawn_vs_two_advisors", "red_wins"]
+    },
+    {
+      "study_id": "CH2_EG_H119_PHAO_TOT_THAP_KHO_THANG_HAI_SI",
+      "name_vi": "12. Pháo Tốt thấp khó thắng hai Sĩ (hình 119)",
+      "source_book_page": "100",
+      "initial_fen_red_perspective": "4k3/4aa3/9/9/3P4/3C5/9/9/4K3/9 w - - 0 1",
+      "player_to_move_on_fen": "red",
+      "goal_for_red": "DRAW",
+      "expected_outcome_score_for_red": 0,
+      "difficulty_level": "basic",
+      "description_general_vi": "Pháo, Tốt thấp tấn công hai Sĩ, nếu Tướng bên đen lên đỉnh, tạo thành đường thẳng với hai Sĩ, có thể thủ hoà, nếu không, dễ bị thua.",
+      "key_recognition_features_red_pov": [
+        {"type": "piece_count_exact", "player": "self", "piece_counts": {"C":1, "P":1, "K":1}},
+        {"type": "piece_count_exact", "player": "opponent", "piece_counts": {"k":1, "a":2}}
+      ],
+      "main_line_kifu_uci_for_red": ["d2d3", "d3d2", "d2f2", "f2f3", "e0f0", "d4e4", "e4d4", "f3b3", "b3b11", "b11e11", "d4e4", "e4d4"],
+      "opponent_best_defense_uci": ["e8f7", "f7e8", "e8d8", "d8e7", "f9e9", "e9f9", "f9e9", "e7d8", "d8e7", "e7d8", "f9e9", "e9f9"],
+      "analysis_and_comments_vi": "Nước đi: Đỏ đi trước.\n1. Pháo 4 tiến 1 (C d2-d3), Sĩ 5 tiến 4 (a e8-f7).\n2. Pháo 4 lùi 1 (C d3-d2), Sĩ 4 lùi 5! (a f7-e8). Chú thích(1): Nếu đổi nước đi thành Sĩ 4 tiến 5 (a f7-e7), thì Pháo 4 bình 6 (C d2-f2), Sĩ 5 lùi 6 (a e7-d8), Pháo 6 bình 8 (C f2-h2), Sĩ 4 lùi 5 (a e8-f7), Pháo 8 bình 4 (C h2-d2), Sĩ 5 lùi 4 (a f7-e8), Pháo 4 tiến 9 (C d2-d11) được Sĩ, đỏ chắc thắng.\n3. Pháo 4 bình 6 (C d2-f2), Sĩ 5 lùi 6 (a e8-d8).\n4. Pháo 6 tiến 1 (C f2-f3), Sĩ 6 tiến 5 (a d8-e7).\n5. Tướng 5 bình 6 (K e0-f0), Tướng 6 bình 5 (k f9-e9).\n6. Tốt 3 bình 4 (P d4-e4), Tướng 5 bình 6 (k e9-f9).\n7. Tốt 4 bình 3 (P e4-d4), Tướng 6 bình 5 (k f9-e9).\n8. Pháo 6 bình 2 (C f3-b3), Sĩ 5 lùi 6 (a e7-d8).\n9. Pháo 2 tiến 8 (C b3-b11), Sĩ 6 tiến 5 (a d8-e7).\n10. Pháo 2 bình 5 (C b11-e11), Sĩ 5 lùi 6 (a e7-d8).\n11. Tốt 3 bình 4 (P d4-e4), Tướng 5 bình 6 (k e9-f9).\n12. Tốt 4 bình 3 (P e4-d4), Tướng 6 bình 5 (k f9-e9) (Hoà cờ).",
+      "tags": ["cannon_pawn_endgame", "cannon_pawn_vs_two_advisors", "draw_tactic"]
+    },
+    {
+      "study_id": "CH2_EG_H120_PHAO_TOT_THAP_KHEO_THANG_HAI_SI",
+      "name_vi": "13. Pháo Tốt thấp khéo thắng hai Sĩ (hình 120)",
+      "source_book_page": "101",
+      "initial_fen_red_perspective": "4k3/4aa3/9/9/3P4/9/1C2K3/9/9/9 w - - 0 1",
+      "player_to_move_on_fen": "red",
+      "goal_for_red": "WIN",
+      "expected_outcome_score_for_red": 100000,
+      "difficulty_level": "intermediate",
+      "description_general_vi": "Nước đi: Đỏ đi trước.",
+      "key_recognition_features_red_pov": [
+        {"type": "piece_count_exact", "player": "self", "piece_counts": {"C":1, "P":1, "K":1}},
+        {"type": "piece_count_exact", "player": "opponent", "piece_counts": {"k":1, "a":2}}
+      ],
+      "main_line_kifu_uci_for_red": ["e2e3", "b2b0", "d4c4", "b0b9", "c4d4", "b9e9", "e3d3", "d3e3", "e9h9", "h9h6", "h6b6", "b6b8"],
+      "opponent_best_defense_uci": ["f8e7", "e7f8", "d8e7", "e7f8", "f8e7", "e7d8", "e9f9", "f8e7", "e7d8", "d8e7", "e7d8"],
+      "analysis_and_comments_vi": "Nước đi: Đỏ đi trước.\n1. Tướng 4 tiến 1 (K e2-e3), Sĩ 4 tiến 5 (a f8-e7).\n2. Pháo 2 lùi 2! (C b2-b0), Sĩ 5 lùi 4 (a e7-f8). Chú thích(1): Nếu đổi nước đi thành Sĩ 5 tiến 4 (a e7-f6), thì Pháo 2 bình 8 (C b0-h0), Sĩ 4 lùi 5 (a f8-e7), Pháo 8 tiến 9 (C h0-h9), bên đỏ có thể vào chiếm vị trí Tướng và thủ thắng. Nếu đổi thành đi Sĩ 5 tiến 6 (a e7-d6), thì Pháo 2 bình 8 (C b0-h0), Sĩ 4 tiến 5 (a f8-e7), Pháo 8 bình 4 (C h0-d0), Tướng 5 bình 4 (k e9-d9), Tướng 4 bình 5 (K e3-f3), đỏ tất thắng.\n3. Tốt 4 bình 3! (P d4-c4), Sĩ 6 tiến 5 (a d8-e7). Chú thích(2): Nếu đổi thành đi Sĩ 4 tiến 5 (a f8-e7), thì Pháo 2 bình 4 (C b0-d0), Tướng 5 bình 4 (k e9-d9), Tướng 4 bình 5 (K e3-f3), Tướng đỏ chiếm trung lộ tất thắng.\n4. Pháo 2 tiến 9! (C b0-b9), Sĩ 5 tiến 4 (a e7-f8).\n5. Tốt 3 bình 4 (P c4-d4), Sĩ 4 lùi 5 (a f8-e7).\n6. Pháo 2 bình 5 (!) (C b9-e9), Sĩ 5 lùi 6 (a e7-d8).\n7. Tướng 4 lùi 1! (K e3-d3), Tướng 5 bình 4 (k e9-f9).\n8. Tướng 4 bình 5! (K d3-e3), Sĩ 4 tiến 5 (a f8-e7).\n9. Pháo 5 bình 8 (C e9-h9), Sĩ 5 tiến 6 (a e7-d8).\n10. Pháo 8 lùi 3 (C h9-h6), Sĩ 6 lùi 5 (a d8-e7).\n11. Pháo 8 bình 2 (C h6-b6), Sĩ 5 tiến 6 (a e7-d8).\n12. Pháo 2 tiến 2 (!) (C b6-b8) (Đỏ tất thắng).\nChú thích:\n(3) Pháo vào vị trí Tướng là mấu chốt để thủ thắng trong thế cục này.\n(4) Sau đó, bên đỏ có thể dùng Pháo đổi hai Sĩ nắm chắc phần thắng.",
+      "tags": ["cannon_pawn_endgame", "cannon_pawn_vs_two_advisors", "red_wins", "tactical_win"]
+    },
+    {
+      "study_id": "CH2_EG_H121_PHAO_TOT_KHEO_THANG_HAI_TOT",
+      "name_vi": "14. Pháo Tốt khéo thắng hai Tốt (hình 121)",
+      "source_book_page": "101-102",
+      "initial_fen_red_perspective": "4k3/6p2/9/4P3/9/1C7/9/9/4K3/9 w - - 0 1",
+      "player_to_move_on_fen": "red",
+      "goal_for_red": "WIN",
+      "expected_outcome_score_for_red": 100000,
+      "difficulty_level": "intermediate",
+      "description_general_vi": "Yếu lĩnh để bên đỏ thủ thắng là: Tìm cách tiêu diệt Tốt chưa qua sông, sau đó diệt Tốt qua sông, mới có thể thủ thắng.",
+      "key_recognition_features_red_pov": [
+        {"type": "piece_count_exact", "player": "self", "piece_counts": {"C":1, "P":1, "K":1}},
+        {"type": "piece_count_exact", "player": "opponent", "piece_counts": {"k":1, "p":2}}
+      ],
+      "main_line_kifu_uci_for_red": ["e5e4", "b3e3", "e4d4", "e0f0", "e3e8", "e3c3", "d4d3", "c3c1", "c1c3", "d3e3", "e3e2", "c3c5", "c5e5", "f0f1"],
+      "opponent_best_defense_uci": ["e9f9", "f9e9", "f9e9", "g7g6", "e9e8", "e8e9", "g6g5", "e9f9", "f9e9", "f9e9", "e9f9", "f9e9", "e6f6"],
+      "analysis_and_comments_vi": "Nước đi: Đỏ đi trước.\n1. Tốt 5 tiến 1 (P e5-e4), Tướng 4 bình 5 (k e9-f9). Chú thích(1): Nếu thay đổi nước đi thành Tốt 7 tiến 1 (p g7-g6), thì Tốt 5 bình 6 (P e4-f4), sau đó Pháo 2 bình 6 (C b3-f3) thủ thẳng.\n2. Pháo 2 bình 5 (C b3-e3), Tướng 5 bình 4 (k f9-e9).\n3. Tốt 5 bình 4 (!) (P e4-d4), Tướng 4 bình 5 (k e9-f9).\n4. Tướng 5 bình 6 (K e0-f0), Tốt 6 bình 5 (p g7-f7, assuming Tốt 6 is black's g-pawn).\n5. Pháo 5 tiến 5 (C e3-e8), Tướng 5 tiến 1 (k f9-f8).\n6. Pháo 5 bình 3! (C e8-c8), Tướng 5 tiến 1 (k f8-f9).\n7. Tốt 4 tiến 1! (P d4-d3), Tốt 7 tiến 1 (p g7-g6).\n8. Tốt 4 bình 3 (!) (P d3-c3), Tướng 5 lùi 1 (k f9-e9).\n9. Pháo 3 lùi 2 (C c8-c6), Tướng 5 tiến 1 (k e9-f9).\n10. Tốt 3 bình 4 (P c3-d3), Tướng 5 lùi 1 (k f9-e9).\n11. Tốt 4 bình 5 (P d3-e3), Tướng 5 lùi 1 (k e9-f9).\n12. Pháo 3 tiến 2 (C c6-c8), Tướng 5 bình 6 (k f9-e9).\n13. Pháo 3 bình 5 (C c8-e8), Tốt 5 bình 6 (p f7-e7).\n14. Tướng 6 tiến 1 (K f0-f1). Tiếp theo, bên đỏ ăn Tốt, thủ thắng.\nChú thích:\n(2) Dùng Tốt quản Tốt, là then chốt để thủ thắng.\n(3) Thực hiện các kế hoạch công phá, kỹ thuật xuất sắc.",
+      "tags": ["cannon_pawn_endgame", "cannon_pawn_vs_two_pawns", "red_wins"]
+    },
+    {
+      "study_id": "CH2_EG_H122_PHAO_HAI_SI_TAT_THANG_TOT_TUONG",
+      "name_vi": "15. Pháo hai Sĩ tất thắng Tốt Tượng (hình 122)",
+      "source_book_page": "102-103",
+      "initial_fen_red_perspective": "4k3/4e4/5p3/9/9/3AA3/3C5/3K4/9/9 w - - 0 1",
+      "player_to_move_on_fen": "red",
+      "goal_for_red": "WIN",
+      "expected_outcome_score_for_red": 100000,
+      "difficulty_level": "intermediate",
+      "description_general_vi": "Pháo và một Sĩ có thể thắng một Tượng, nếu bên đen có thêm một Tốt, bên đỏ phải có hai Sĩ mới có thể thủ thắng.",
+      "key_recognition_features_red_pov": [
+        {"type": "piece_count_exact", "player": "self", "piece_counts": {"C":1, "A":2, "K":1}},
+        {"type": "piece_count_exact", "player": "opponent", "piece_counts": {"k":1, "p":1, "e":1}}
+      ],
+      "main_line_kifu_uci_for_red": ["c2f2", "d1d2", "d2e2", "e3f4", "e2e1", "f2d2", "d2e2", "e1e2", "e2e1", "e1d1", "d1e1", "e2e1", "e1d1", "d1e1", "e1f1", "f1e1", "e3d2", "d2e3", "e1e2"],
+      "opponent_best_defense_uci": ["f6g6", "e9e8", "e8f8", "g6f6", "f8e8", "f6e6", "e8f8", "f8e8", "e6f6", "f8e8", "e8f8", "e8f7", "f7e7", "e7e8", "e8f8", "f8e8", "e8f8", "f8e8"],
+      "analysis_and_comments_vi": "Nước đi: Đỏ đi trước.\n1. Pháo 7 bình 4 (C c2-f2), Tốt 6 bình 7 (p f6-g6).\n2. Tướng 4 tiến 1 (K d1-d2), Tướng 5 tiến 1 (k e9-e8).\n3. Tướng 4 bình 5 (!) (K d2-e2), Tốt 7 bình 6 (p g6-f6).\n4. Sĩ 5 tiến 4 (!) (A e3-f4), Tốt 6 bình 5 (p f6-e6).\n5. Tướng 5 lùi 1 (K e2-e1), Tốt 5 bình 4 (p e6-f6).\n6. Pháo 4 bình 6 (C f2-d2), Tốt 4 bình 3 (p f6-e6).\n7. Pháo 6 bình 5 (C d2-e2), Tốt 3 bình 4 (p e6-f6).\n8. Tướng 5 tiến 1 (!) (K e1-e2), Tướng 5 lùi 1 (k e8-f8).\n9. Pháo 5 tiến 7 (C e2-e9), Tốt 4 bình 5 (p f6-e6).\n10. Tướng 5 lùi 1 (K e2-e1), Tốt 5 bình 6 (p e6-f6).\n11. Tướng 5 bình 4 (K e1-d1), Tướng 5 bình 6 (k f8-e8).\n12. Pháo 5 lùi 7 (C e9-e2), Tốt 6 tiến 1 (p f6-f5).\n13. Tướng 4 bình 5 (K d1-e1), Tướng 6 tiến 1 (k e8-e7).\n14. Pháo 5 bình 8 (C e2-b2), Tướng 6 lùi 1 (k e7-e8).\n15. Pháo 8 tiến 2 (C b2-b4), Tốt 6 tiến 1 (p f5-f4).\n16. Tướng 5 bình 6 (K e1-f1), Tướng 6 bình 5 (k e8-f8).\n17. Pháo 8 lùi 1 (C b4-b3), Tốt 6 tiến 1 (p f4-f3).\n18. Sĩ 6 lùi 5 (A f4-e3), Tốt 6 bình 5 (p f3-e3).\n19. Pháo 8 tiến 2 (C b3-b5), Tướng 5 tiến 1 (k f8-f7).\n20. Pháo 8 bình 5 (!) (C b5-e5) (Đỏ thắng).\nChú thích:\n(1) Tướng đỏ chiếm trung lộ là sự chuẩn bị tất yếu để thủ thắng.\n(2) Bên đỏ đưa Sĩ đánh Tốt là nước đi then chốt.\n(3) Bên đen không thể ăn Sĩ, nếu không, bên đỏ sẽ dùng Pháo ăn Tốt.\n(4) Bên đỏ tiến Tướng bảo vệ Sĩ là một nước then chốt khác để thủ thẳng, nếu vội vàng đi Pháo 5 tiến 7 (C e2-e9), thì Tốt 4 tiến 1 (p f6-f5), Pháo 5 lùi 1 (C e9-e8), Tướng 5 tiến 1 (k f8-f7), từ đó, bên đỏ không thể đi Tướng để giải cứu Pháo. Nếu đi Tướng thì Tốt 4 bình 5 (p f5-e5), bắt Sĩ đỏ, một Pháo bên đỏ không thể thủ thắng.\n(5) Thế cục này bên đỏ ăn Tượng trước, sau đó ăn Tốt, lần lượt tấn công, đánh phá.",
+      "tags": ["cannon_endgame", "cannon_two_advisors_vs_pawn_elephant", "red_wins"]
+    },
+    {
+      "study_id": "CH2_EG_H173_XE_PHAO_SI_TUONG_TOAN_TAT_THANG_XE_HAI_TUONG",
+      "name_vi": "4. Xe Pháo Sĩ Tượng toàn tất thắng Xe hai Tượng (hình 173)",
+      "source_book_page": "139-140",
+      "initial_fen_red_perspective": "1r2k3/4ae3/4a4/9/9/9/P1P1P1P1P/1C2E3/4A3/RHEAKAEHR w - - 0 1",
+      "player_to_move_on_fen": "red",
+      "goal_for_red": "WIN",
+      "expected_outcome_score_for_red": 100000,
+      "difficulty_level": "complex",
+      "description_general_vi": "Xe, Pháo, Sĩ, Tượng toàn chắc chắn sẽ thắng Xe, hai Tượng, yếu lĩnh để thủ thắng: (1) Tránh đổi Xe thành hoà; (2) Xe, Tướng phòng thủ đường lặc đạo, lùi Pháo quay về, coi Sĩ, Tượng là giá Pháo để trợ giúp tấn công.",
+      "key_recognition_features_red_pov": [
+        {"type": "piece_count_exact", "player": "self", "piece_counts": {"R":2,"H":2,"E":2,"A":2,"K":1,"C":1,"P":5}},
+        {"type": "piece_count_exact", "player": "opponent", "piece_counts": {"r":1,"e":2,"k":1}}
+      ],
+      "main_line_kifu_uci_for_red": ["f0f2","d0c1","f2e2","e2b2","c1c3","e0e1","e1f1","b2f2","f1e1","f2d2","d1e0","d2f2","e0f0","f0e0","f2f1","f1i1","i1g1","g1f1","f1f3","e0d0","f3g3","g3g7","g7e7","e7e5","e5e2","e2f2","f2e2","e2e5"],
+      "opponent_best_defense_uci": ["e9e8","e6g8","g8e6","b8e8","e8e6","e8f8","f8e8","e8f8","f8e8","e8f8","f8e8","e8f8","f8e8","e8f8","g8e6","e6g8","e8f8","f8e8","e8e7","e7e8","f8e8","e8b8","f8e8","b8e8","e8e9","e9f9","f9e9","e9f9"],
+      "analysis_and_comments_vi": "Nước đi: Hình 173, đỏ đi trước.\n1. Xe 6 tiến 2 (f0f2), Tướng 5 tiến 1 (e9e8).\n2. Sĩ 5 lùi 6 (d0c1), Tượng 5 lùi 7 (e6g8).\n3. Xe 6 bình 5 (f2e2), Tượng 7 tiến 5 (g8e6).\n4. Xe 5 bình 2 (e2b2), Xe 8 bình 5 (b8e8).\n5. Pháo 5 tiến 2 (c1c3), Xe 5 tiến 2 (e8e6). Chú thích(1): Nếu đổi nước đi thành Tướng 5 lùi 1 (e8f8), thì Xe 2 lùi 1 (b2b1), Xe 5 tiến 2 (e6e4), Xe 4 bình 7 (b1g1), được Tượng.\n6. Tướng 6 lùi 1 (e0e1), Tướng 5 lùi 1 (e8f8).\n7. Tướng 6 bình 5 (e1f1), Tướng 5 bình 4 (f8e8).\n8. Xe 2 bình 6 (b2f2), Tướng 4 bình 5 (e8f8).\n9. Tướng 5 bình 4 (f1e1), Tướng 5 bình 6 (f8e8).\n10. Xe 6 bình 4 (f2d2), Tướng 6 bình 5 (e8f8).\n11. Sĩ 4 lùi 5 (d1e0), Tướng 5 bình 4 (f8e8).\n12. Xe 4 bình 6 (d2f2), Tướng 4 bình 5 (e8f8).\n13. Sĩ 5 tiến 6 (e0f0), Tướng 5 tiến 1 (f8e8).\n14. Pháo 5 lùi 1 (c3c2), Tướng 5 lùi 1 (e8f8).\n15. Xe 6 lùi 1 (f2f1), Tượng 3 lùi 1 (g8e6).\n16. Xe 6 bình 9 (f1i1), Tượng 1 lùi 3 (e6g8). Chú thích(2): Nếu đổi nước đi thành Tướng 5 bình 4 (f8e8), thì Pháo 5 bình 6 (c2d2), Tướng 4 bình 5 (e8f8), Xe 9 tiến 2 (i1i3), Tượng 5 lùi 3 (g8e6), Xe 9 bình 4 (i3f3) được Tượng.\n17. Xe 9 bình 7 (i1g1), Tướng 5 bình 4 (f8e8).\n18. Xe 7 bình 6 (g1f1), Tướng 4 bình 5 (e8f8).\n19. Xe 6 tiến 2 (f1f3), Xe 5 lùi 1 (e6e7).\n20. Tướng 4 tiến 1 (e0d0), Xe 5 tiến 1 (e7e8). Chú thích(3): Nếu đổi nước đi thành Tướng 5 tiến 1 (f8e8), thì Xe 6 bình 7 (f3g3), Tướng 5 bình 4 (e8f8), Xe 7 tiến 2 (g3g5) được Tượng.\n21. Xe 6 bình 7 (f3g3), Tướng 5 bình 4 (f8e8).\n22. Pháo 5 bình 8 (c2b2), Xe 5 bình 2 (e8b8). Chú thích(4): Nếu đổi nước đi thành Tướng 4 bình 5 (e8f8), thì Pháo 8 tiến 8 (b2b9), Tượng 3 tiến 1 (g8i6), Xe 7 bình 9 (g3i3), Tượng 5 tiến 3 (i6g8), Xe 9 bình 4 (i3f3) được Tượng.\n23. Pháo 8 bình 6 (b2d2), Tướng 4 bình 5 (f8e8).\n24. Pháo 6 bình 5 (d2e2), Xe 2 bình 5 (b8e8).\n25. Xe 7 tiến 2 (g3g5), Tướng 5 tiến 1 (e8e9).\n26. Xe 7 bình 6 (g5f5), Xe 5 lùi 2 (e8e6).\n27. Xe 6 lùi 2 (f5f3), Xe 5 tiến 2 (e6e8).\n28. Xe 6 bình 5 (f3e3) (Rút ăn Xe, bên đỏ chắc thắng).",
+      "tags": ["rook_cannon_endgame", "material_advantage", "red_wins", "complex_endgame"]
     }
-
   ]
 }

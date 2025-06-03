@@ -1,5 +1,5 @@
 # File: backend/engine/ai.py
-# Version: V15.1 - Sửa lỗi MCTS return, logging chi tiết hơn
+# Version: V17.4 - Sử dụng Khai Cuộc hiệu quả, hoàn thiện logic
 
 import copy
 import time
@@ -9,664 +9,996 @@ import math
 from .board import XiangqiBoard, GENERAL, PAWN, CHARIOT, HORSE, CANNON 
 from .rules import GameRules 
 from .evaluation import Evaluation 
-from .referee import Referee, ACTION_TYPE_CHECK, ACTION_TYPE_CHASE_PROTECTED, ACTION_TYPE_CHASE_UNPROTECTED, ACTION_TYPE_OTHER
+from .referee import Referee 
+from .book_knowledge import BookKnowledge # Đảm bảo import BookKnowledge
 
-MCTS_SIMULATION_COUNT_PER_MOVE = 1000 
-MCTS_TIME_LIMIT_PER_MOVE_SECONDS = 5.0 
+# --- Cấu hình cho MCTS ---
+MCTS_SIMULATION_BUDGET_SECONDS_RATIO = 0.60
+MCTS_MIN_SIMULATIONS_FOR_RELIABLE_MOVE = 300 # Tăng nhẹ lên 300 để đảm bảo độ tin cậy cao hơn
 MCTS_UCT_C = 1.414 
-MCTS_ROLLOUT_DEPTH_LIMIT = 30 
+MCTS_ROLLOUT_DEPTH_LIMIT = 10 
+MCTS_SHALLOW_AB_DEPTH_FOR_ROLLOUT = 0 
 
-QUIESCENCE_MAX_DEPTH = 3
-TACTICAL_MOVE_SCORE_THRESHOLD = 50
+# --- Cấu hình cho Alpha-Beta và Quiescence Search ---
+# Giá trị cũ 3,4,5,6 đã được điều chỉnh để phù hợp với MCTS
+QUIESCENCE_MAX_DEPTH = 2 
+AB_DEFAULT_MAX_DEPTH_OPENING = 4
+AB_DEFAULT_MAX_DEPTH_MIDGAME = 5 
+AB_DEFAULT_MAX_DEPTH_ENDGAME = 6 # Giảm nhẹ để dành thời gian cho MCTS nếu cần
+AB_ABSOLUTE_MAX_DEPTH = 7    
 
 class MCTSNode:
-    def __init__(self, board_state_tuple, player_to_move, move_leading_to_node=None, parent=None, book_knowledge=None, rules_instance=None, eval_instance=None):
+    """ Lớp đại diện cho một node trong cây MCTS. """
+    def __init__(self, board_state_tuple, player_to_move, p_move_leading_to_node=None, parent=None, 
+                 book_knowledge=None, rules_instance=None, eval_instance=None, ai_player_instance=None):
         self.board_state_tuple = board_state_tuple
-        self.player_to_move = player_to_move
-        self.move_leading_to_this_node = move_leading_to_node
+        self.player_to_move = player_to_move 
+        self.move_leading_to_this_node = p_move_leading_to_node 
         self.parent = parent
-        self.children = []
-        self.wins = 0.0
+        self.children = [] 
+        self.wins = 0.0 
         self.visits = 0
         self.rules = rules_instance
         self.evaluator = eval_instance
-        self.book_knowledge = book_knowledge
-        self._untried_moves = None
+        self.book_knowledge = book_knowledge # BookKnowledge instance
+        self.ai_player = ai_player_instance 
+        self._untried_moves = None 
         self.is_terminal, self.terminal_value = self._check_terminal_and_value()
 
     def _get_all_possible_moves(self):
+        # Trả về danh sách các nước đi (from_sq, to_sq, piece_char) chưa được thử từ node này
+        # Các nước đi được sắp xếp theo một heuristic cơ bản
         if self._untried_moves is None:
             temp_board = XiangqiBoard()
             temp_board.board = [list(row) for row in self.board_state_tuple]
-            original_rules_board = self.rules.board_instance
-            self.rules.board_instance = temp_board
-            self._untried_moves = self.rules.get_all_valid_moves(self.player_to_move)
-            self.rules.board_instance = original_rules_board
+            
+            original_rules_board = self.rules.board_instance # Lưu lại board gốc của Rules
+            self.rules.board_instance = temp_board # Gán board hiện tại cho Rules để lấy nước đi
+            
+            raw_moves = self.rules.get_all_valid_moves(self.player_to_move)
+            
+            if self.ai_player and self.ai_player.evaluator: # Sắp xếp nếu có evaluator
+                 original_eval_board_for_ordering = self.ai_player.evaluator.board_instance
+                 self.ai_player.evaluator.board_instance = temp_board # Gán board cho evaluator để tính điểm
+                 
+                 raw_moves.sort(key=lambda m: self.ai_player._get_move_score_for_ordering(temp_board, m[0], m[1], m[2], 0, self.player_to_move), reverse=True)
+                 
+                 self.ai_player.evaluator.board_instance = original_eval_board_for_ordering # Khôi phục board cho evaluator
+            
+            self._untried_moves = raw_moves
+            self.rules.board_instance = original_rules_board # Khôi phục board gốc cho Rules
+            
         return self._untried_moves
 
     def is_fully_expanded(self):
-        return not self._get_all_possible_moves()
+        # Kiểm tra xem tất cả các nước đi từ node này đã được expand chưa
+        return not self._get_all_possible_moves() # True nếu _untried_moves rỗng
 
     def best_child_uct(self):
+        # Chọn node con tốt nhất dựa trên công thức UCT (Upper Confidence Bound 1 applied to Trees)
         if not self.children: return None
+        
+        # Ưu tiên node con chưa được visit
         for child in self.children:
             if child.visits == 0: return child
-        log_total_visits = math.log(self.visits) if self.visits > 0 else 0 # Tránh math domain error
-        def uct_value(node):
-            if node.visits == 0: return float('inf')
-            exploitation_term = node.wins / node.visits
-            exploration_term = MCTS_UCT_C * math.sqrt(log_total_visits / node.visits)
-            return exploitation_term + exploration_term
-        return max(self.children, key=uct_value)
+            
+        log_total_visits = math.log(self.visits) if self.visits > 0 else 0
+        
+        best_child_node = None
+        max_uct_value = -float('inf')
+
+        for child_node in self.children:
+            if child_node.visits == 0: return child_node # Nên được xử lý ở trên, nhưng để chắc chắn
+            
+            # UCT = (wins / visits) + C * sqrt(log(total_visits) / visits)
+            # Vì self.wins là theo góc nhìn của self.player_to_move,
+            # còn child_node.wins là theo góc nhìn của child_node.player_to_move (đối thủ của self)
+            # nên cần đảo dấu exploitation_term
+            exploitation_term = - (child_node.wins / child_node.visits)
+            exploration_term = MCTS_UCT_C * math.sqrt(log_total_visits / child_node.visits)
+            current_uct_value = exploitation_term + exploration_term
+            
+            if current_uct_value > max_uct_value:
+                max_uct_value = current_uct_value
+                best_child_node = child_node
+                
+        return best_child_node
 
     def expand(self):
-        possible_moves = self._get_all_possible_moves()
-        if not possible_moves: return None
+        # Mở rộng node hiện tại bằng cách thêm một node con mới từ một nước đi chưa được thử
+        possible_moves_to_try = self._get_all_possible_moves() 
+        if not possible_moves_to_try: return None # Không còn nước đi nào để expand
         
-        # (Logic ưu tiên nước đi chiến lược từ sách có thể thêm ở đây)
-        move_to_expand_tuple = possible_moves.pop(random.randrange(len(possible_moves)))
+        priority_move_uci_from_book = None
+        if self.book_knowledge and self.ai_player:
+            temp_board_for_book_expansion = XiangqiBoard()
+            temp_board_for_book_expansion.board = [list(row) for row in self.board_state_tuple]
+            
+            # AIPlayer.find_best_move đã set context cho book_knowledge bằng board Red POV.
+            # Nếu board_state_tuple của node này (sau khi lật về Red POV nếu cần) khớp với
+            # current_board_for_feature_check của book_knowledge, thì mới gọi get_mcts_expansion_priority_move.
+            # Điều này phức tạp vì MCTS tree có thể không ở Red POV.
+            # Tạm thời, giả sử book_knowledge.set_current_context_for_feature_checking được gọi đúng
+            # cho từng node MCTS nếu cần, hoặc get_mcts_expansion_priority_move xử lý lật bàn cờ nội bộ.
+            # Cách đơn giản hơn: chỉ ưu tiên ở root node (đã xử lý trong AIPlayer.find_best_move)
+            # Tuy nhiên, nếu muốn ưu tiên sâu hơn trong cây, cần logic phức tạp hơn.
+            # Ở đây, ta đang ở trong 1 node con, có thể không phải Red POV.
+            # AIPlayer sẽ cần set context cho BookKnowledge trước khi gọi _perform_mcts_search
+            # và get_mcts_expansion_priority_move sẽ cần nhận board hiện tại của node.
+            
+            # Để đơn giản, MCTS expansion priority sẽ chỉ áp dụng cho root hoặc các node được set context đúng.
+            # Trong hàm này, ta đang ở 1 node bất kỳ, có thể không phải là Red POV.
+            # Ta cần board hiện tại của node này để lấy gợi ý.
+            
+            # Cần đảm bảo book_knowledge.current_board_for_feature_check được cập nhật đúng
+            # với self.board_state_tuple (sau khi lật nếu cần)
+            # Đây là một điểm cần xem xét kỹ lưỡng về kiến trúc.
+            # Tạm thời, để MCTS chạy mà không có gợi ý sâu từ sách ở các node con,
+            # trừ khi có cơ chế set context phức tạp hơn.
+
+            # Logic đơn giản: get_mcts_expansion_priority_move phải có khả năng xử lý
+            # board hiện tại (self.board_state_tuple) và player_to_move.
+            # AIPlayer sẽ truyền self.book_knowledge cho root node.
+            # if self.book_knowledge.current_board_for_feature_check and \
+            #    self.book_knowledge.current_board_for_feature_check.to_tuple() == self.board_state_tuple:
+
+            # AIPlayer.find_best_move đã gọi set_current_context_for_feature_checking rồi.
+            # Hàm get_mcts_expansion_priority_move nên nhận board_obj và player_color
+            # và tự xử lý lật bàn cờ nếu cần.
+            board_for_mcts_expansion_suggestion = XiangqiBoard()
+            board_for_mcts_expansion_suggestion.board = [list(r) for r in self.board_state_tuple]
+            priority_move_uci_from_book = self.book_knowledge.get_mcts_expansion_priority_move(
+                board_for_mcts_expansion_suggestion, self.player_to_move
+            )
+
+
+        move_to_expand_tuple = None 
+        if priority_move_uci_from_book and self.ai_player:
+            # Chuyển UCI sang tuple (from_sq, to_sq, piece_char)
+            # Cần board_obj để xác định piece_char từ from_sq
+            board_obj_for_uci_parse = XiangqiBoard(list(map(list,self.board_state_tuple)))
+            parsed_priority_move = self.ai_player._uci_to_coords_tuple(
+                priority_move_uci_from_book, self.player_to_move, board_obj_for_uci_parse
+            )
+            if parsed_priority_move:
+                # Tìm nước đi ưu tiên trong danh sách _untried_moves
+                for i, move_tuple_valid in enumerate(possible_moves_to_try):
+                    if move_tuple_valid[0] == parsed_priority_move[0] and \
+                       move_tuple_valid[1] == parsed_priority_move[1] and \
+                       move_tuple_valid[2] == parsed_priority_move[2]: 
+                        move_to_expand_tuple = possible_moves_to_try.pop(i)
+                        break # Tìm thấy nước ưu tiên
         
-        temp_board = XiangqiBoard()
-        temp_board.board = [list(row) for row in self.board_state_tuple]
-        temp_board.make_move(move_to_expand_tuple[0], move_to_expand_tuple[1])
+        if not move_to_expand_tuple and possible_moves_to_try: # Nếu không có nước ưu tiên hoặc không tìm thấy
+            move_to_expand_tuple = possible_moves_to_try.pop(0) # Lấy nước đầu tiên (đã được sắp xếp)
         
-        new_board_state_tuple = temp_board.to_tuple()
+        if not move_to_expand_tuple: return None # Thực sự không còn nước nào
+
+        # Tạo node con mới
+        temp_board_after_move = XiangqiBoard()
+        temp_board_after_move.board = [list(row) for row in self.board_state_tuple]
+        temp_board_after_move.make_move(move_to_expand_tuple[0], move_to_expand_tuple[1])
+        new_board_state_tuple = temp_board_after_move.to_tuple()
         next_player = self.rules.get_opponent_color(self.player_to_move)
         
         child_node = MCTSNode(new_board_state_tuple, next_player, 
-                              move_leading_to_node=move_to_expand_tuple, parent=self,
-                              book_knowledge=self.book_knowledge, 
-                              rules_instance=self.rules, 
-                              eval_instance=self.evaluator)
+                              p_move_leading_to_node=move_to_expand_tuple, 
+                              parent=self,
+                              book_knowledge=self.book_knowledge, rules_instance=self.rules, 
+                              eval_instance=self.evaluator, ai_player_instance=self.ai_player)
         self.children.append(child_node)
         return child_node
 
     def _check_terminal_and_value(self):
+        # Kiểm tra xem node có phải là trạng thái kết thúc (thắng/thua/hòa) không
         temp_board = XiangqiBoard()
         temp_board.board = [list(row) for row in self.board_state_tuple]
-        original_rules_board = self.rules.board_instance
-        self.rules.board_instance = temp_board
-        is_mate_current_player, winner_if_mate = self.rules.is_checkmate(self.player_to_move)
-        if is_mate_current_player:
-            self.rules.board_instance = original_rules_board
-            return True, -1.0 
+        
+        original_rules_board = self.rules.board_instance # Lưu
+        self.rules.board_instance = temp_board # Gán
+        
+        is_mate_current_player, _ = self.rules.is_checkmate(self.player_to_move)
+        if is_mate_current_player: # Nếu người chơi hiện tại của node này bị chiếu bí
+            self.rules.board_instance = original_rules_board # Khôi phục
+            return True, -1.0 # Node này là thua cho player_to_move
+            
         is_stalemate_current = self.rules.is_stalemate(self.player_to_move)
-        if is_stalemate_current:
-            self.rules.board_instance = original_rules_board
+        if is_stalemate_current: # Hòa cờ
+            self.rules.board_instance = original_rules_board # Khôi phục
             return True, 0.0
-        self.rules.board_instance = original_rules_board
-        return False, None
+            
+        self.rules.board_instance = original_rules_board # Khôi phục
+        return False, None # Chưa kết thúc
 
 class AIPlayer:
     def __init__(self, game_rules_instance, evaluation_instance, referee_instance, book_knowledge_instance=None):
         self.rules = game_rules_instance 
         self.evaluator = evaluation_instance 
-        if hasattr(self.evaluator, 'book_knowledge') and self.evaluator.book_knowledge is None:
+        # Đảm bảo evaluator cũng có tham chiếu đến book_knowledge nếu cần
+        if hasattr(self.evaluator, 'book_knowledge') and self.evaluator.book_knowledge is None and book_knowledge_instance:
             self.evaluator.book_knowledge = book_knowledge_instance
-        self.referee = referee_instance 
-        self.book_knowledge = book_knowledge_instance
-        self.transposition_table = {} 
-        self.move_count_for_eval = 0 
-        self.current_search_start_time = 0
-        self.time_limit_for_move = 10.0 
-        self.actual_depth_reached_in_last_search = 0 # Sẽ được set bởi AlphaBeta
-        self.mcts_simulations_performed = 0 # Thêm để lưu số sim MCTS
-        self.initial_max_depth_for_this_call = 0
-        self.killer_moves = {} 
-        self.history_heuristic_table = {}
-        self.PREFERRED_OPENING_MOVES_RED_UCI = { "b7e7", "h7e7", "b9c7", "h9g7", "c6c5", "g6g5", "e6e5" }
-        self.PREFERRED_OPENING_MOVES_BLACK_UCI = { "b2e2", "h2e2", "h0g2", "b0c2", "c3c4", "g3g4", "e3e4" }
+        if hasattr(self.evaluator, 'rules') and self.evaluator.rules is None: # Và cả rules
+            self.evaluator.rules = game_rules_instance
 
-    def _reset_search_helpers(self):
-        self.transposition_table.clear()
-        self.killer_moves = {}
-        # self.history_heuristic_table.clear() # Cân nhắc giữ lại history table
+        self.referee = referee_instance 
+        self.book_knowledge = book_knowledge_instance # BookKnowledge instance
+        # Đảm bảo book_knowledge có tham chiếu đến rules (rules của game hiện tại)
+        if self.book_knowledge : 
+             self.book_knowledge.current_rules_instance = game_rules_instance # Gán rules gốc cho book
+
+        self.transposition_table = {} 
+        self.move_count_for_eval = 0 # Số nửa nước đi đã thực hiện trong ván cờ
+        self.current_search_start_time = 0
+        self.time_limit_for_move = 10.0 # Giây
         self.actual_depth_reached_in_last_search = 0
         self.mcts_simulations_performed = 0
+        self.initial_max_depth_for_this_call = 0 # Cho Iterative Deepening của Alpha-Beta
+        self.killer_moves = {} # {depth: [(move1_tuple), (move2_tuple)]}
+        self.history_heuristic_table = {} # {(piece_char, to_sq_tuple): score}
+        # Gợi ý một số nước đi mở đầu tốt để tăng tốc heuristic sắp xếp
+        self.PREFERRED_OPENING_MOVES_RED_UCI = { "h2e2", "b2c2", "b0b1", "h0g2", "c0c1", "g0f0", "e0d0" }
+        self.PREFERRED_OPENING_MOVES_BLACK_UCI = { "h9g7", "b9c7", "a9b9", "h0g2", "c9e7", "g9f7", "e9d9" }
 
 
+    def _reset_search_helpers(self):
+        # Reset các cấu trúc dữ liệu phụ trợ trước mỗi lần tìm nước mới
+        self.transposition_table.clear()
+        self.killer_moves = {} # Killer moves thường được reset cho mỗi search mới
+        # self.history_heuristic_table có thể giữ lại qua nhiều search hoặc reset tùy chiến lược
+        self.actual_depth_reached_in_last_search = 0
+        self.mcts_simulations_performed = 0
+    
     def _uci_to_coords_tuple(self, uci_move_str, player_color_making_move, board_obj):
+        # Chuyển đổi nước đi UCI (ví dụ "h2e2") sang tuple ((row_from, col_from), (row_to, col_to), piece_char_moved)
+        if not uci_move_str or not board_obj: return None
         coords = GameRules.uci_to_coords(uci_move_str)
         if not coords: return None
         from_sq, to_sq = coords
+        
         piece_char = board_obj.get_piece_at(from_sq[0], from_sq[1])
-        if not piece_char: return None
-        piece_info = self.rules.get_piece_info(piece_char)
-        if not piece_info or piece_info['color'] != player_color_making_move: return None
+        if not piece_char: 
+            print(f"DEBUG UCI_PARSE: Không có quân tại {from_sq} trên board_obj cho UCI {uci_move_str}")
+            return None
+            
+        # Phải dùng rules instance phù hợp với board_obj để lấy piece_info
+        rules_to_use = self.rules 
+        if rules_to_use.board_instance.to_tuple() != board_obj.to_tuple():
+            # Nếu board_obj khác với board hiện tại của self.rules, tạo rules tạm
+            print(f"DEBUG UCI_PARSE: Tạo rules tạm cho board_obj khác với self.rules.board_instance")
+            rules_to_use = GameRules(board_obj) # Khởi tạo rules mới với board_obj đó
+
+        piece_info = rules_to_use.get_piece_info(piece_char)
+        if not piece_info or piece_info['color'] != player_color_making_move:
+            print(f"DEBUG UCI_PARSE: Quân {piece_char} tại {from_sq} không phải của {player_color_making_move}. Info: {piece_info}")
+            return None
+            
         return (from_sq, to_sq, piece_char)
 
     def _coords_to_uci_str(self, from_sq, to_sq):
+        # Chuyển đổi tọa độ ((r1,c1), (r2,c2)) sang chuỗi UCI
         return GameRules.coords_to_uci(from_sq, to_sq)
 
     def _get_move_score_for_ordering(self, board_obj_before_move, move_from, move_to, piece_char_moved, current_search_ply_depth, player_color):
-        # --- Giữ nguyên logic từ V15.0, có thể đã được tinh chỉnh ---
+        # Heuristic để sắp xếp các nước đi, giúp Alpha-Beta cắt tỉa hiệu quả hơn
+        original_eval_board = self.evaluator.board_instance # Lưu
+        self.evaluator.board_instance = board_obj_before_move # Gán
+        
         score = 0.0
+        # 1. Ưu tiên nước bắt quân giá trị cao bằng quân giá trị thấp (MVV-LVA)
         piece_at_target_sq = board_obj_before_move.get_piece_at(move_to[0], move_to[1]) 
-        game_ply_at_root = self.move_count_for_eval
-        if game_ply_at_root < 8:
+        
+        game_ply_at_root = self.move_count_for_eval # Số nửa nước đi của ván cờ (không phải độ sâu tìm kiếm)
+
+        # 1.5 Ưu tiên các nước khai cuộc thường gặp ở những nước đầu
+        if game_ply_at_root < 8: # Ví dụ: trong 4 nước đầu tiên của mỗi bên
             move_uci_str = self._coords_to_uci_str(move_from, move_to)
             if move_uci_str:
                 preferred_set = self.PREFERRED_OPENING_MOVES_RED_UCI if player_color == 'red' else self.PREFERRED_OPENING_MOVES_BLACK_UCI
-                if move_uci_str in preferred_set: score += 500
+                if move_uci_str in preferred_set:
+                    score += 500 # Điểm thưởng lớn cho nước đi khai cuộc ưa thích
+
+            # Phạt nhẹ nếu Pháo di chuyển quá sớm mà không ăn quân (để tránh Pháo lạng)
             if piece_char_moved.upper() == 'C' and not piece_at_target_sq:
-                if player_color == 'red' and move_from[0] == 7 and move_to[0] < 5: score -= 300
-                elif player_color == 'black' and move_from[0] == 2 and move_to[0] > 4: score -= 300
-        if current_search_ply_depth in self.killer_moves: 
-            if (move_from, move_to) in self.killer_moves[current_search_ply_depth]: score += 200  
-        if piece_at_target_sq: 
+                if player_color == 'red' and move_from[0] >=7 and move_to[0] < 5 and move_from[0] - move_to[0] > 2 : # Pháo đỏ từ nhà qua sông xa
+                    score -= 200 
+                elif player_color == 'black' and move_from[0] <=2 and move_to[0] > 4 and move_to[0] - move_from[0] > 2: # Pháo đen từ nhà qua sông xa
+                    score -= 200
+
+
+        # 2. Killer Moves (nếu có)
+        if current_search_ply_depth in self.killer_moves: # current_search_ply_depth là độ sâu hiện tại trong cây tìm kiếm
+            if (move_from, move_to) in self.killer_moves[current_search_ply_depth]:
+                score += 200 # Ưu tiên cao thứ hai
+        
+        if piece_at_target_sq: # Nếu là nước bắt quân
             victim_val = self.evaluator.PIECE_BASE_VALUES_MIDGAME.get(piece_at_target_sq.upper(), 0)
-            aggressor_val = self.evaluator.PIECE_BASE_VALUES_MIDGAME.get(piece_char_moved.upper(), 1) 
-            score += (victim_val / (aggressor_val if aggressor_val > 0 else 1) ) * 100 
+            aggressor_val = self.evaluator.PIECE_BASE_VALUES_MIDGAME.get(piece_char_moved.upper(), 1) # Tránh chia cho 0
+            score += (victim_val - aggressor_val / 10.0) * 10 # MVV/LVA
+        
+        # 3. Nước chiếu Tướng (có thể nguy hiểm hoặc tốt)
+        # Tạo bàn cờ tạm sau khi thực hiện nước đi
+        temp_board_after_move_ordering = XiangqiBoard(copy.deepcopy(board_obj_before_move.board))
+        temp_board_after_move_ordering.make_move(move_from, move_to)
+        
+        original_rules_board_ordering = self.rules.board_instance # Lưu
+        self.rules.board_instance = temp_board_after_move_ordering # Gán
+        if self.rules.is_king_in_check(self.rules.get_opponent_color(player_color)): # Nếu chiếu Tướng đối phương
+            score += 80 
+        self.rules.board_instance = original_rules_board_ordering # Khôi phục
+
+        # 4. History Heuristic
         history_score = self.history_heuristic_table.get((piece_char_moved, move_to), 0)
         score += history_score 
-        if game_ply_at_root < 12 and score < 100: 
+
+        # 5. Ưu tiên phát triển các quân mạnh ở đầu game nếu chưa có điểm cao
+        if game_ply_at_root < 12 and score < 100: # Nếu điểm còn thấp và đang ở khai cuộc
             piece_type = self.rules.get_piece_info(piece_char_moved)['type']
             if piece_type in [HORSE, CHARIOT, CANNON]:
-                if player_color == 'red' and move_from[0] >= 7 : score += 30 
-                elif player_color == 'black' and move_from[0] <= 2: score += 30
+                # Ưu tiên đưa các quân này ra khỏi vị trí ban đầu
+                if player_color == 'red' and move_from[0] >= 7 : # Quân đỏ còn ở nhà
+                    score += 30 
+                elif player_color == 'black' and move_from[0] <= 2: # Quân đen còn ở nhà
+                    score += 30
+        
+        self.evaluator.board_instance = original_eval_board # Khôi phục
         return score
 
     def _update_killer_move(self, depth, move_tuple):
-        if depth not in self.killer_moves: self.killer_moves[depth] = []
+        # Cập nhật Killer Moves: lưu 2 nước tốt nhất không bắt quân gây beta-cutoff ở mỗi độ sâu
+        if depth not in self.killer_moves:
+            self.killer_moves[depth] = []
         if move_tuple not in self.killer_moves[depth]:
-            self.killer_moves[depth].insert(0, move_tuple) 
-            if len(self.killer_moves[depth]) > 2: self.killer_moves[depth].pop()
+            self.killer_moves[depth].insert(0, move_tuple) # Thêm vào đầu
+            if len(self.killer_moves[depth]) > 2: # Giữ tối đa 2 killer moves
+                self.killer_moves[depth].pop()
 
     def _update_history_heuristic(self, piece_char, to_sq_tuple, bonus):
+        # Tăng điểm cho nước đi (quân, ô tới) đã dẫn đến beta-cutoff
         current_score = self.history_heuristic_table.get((piece_char, to_sq_tuple), 0)
         self.history_heuristic_table[(piece_char, to_sq_tuple)] = current_score + bonus
 
     def _quiescence_search(self, current_board_obj, alpha, beta, player_to_optimize_for, 
-                           current_total_half_moves, depth_remaining, 
-                           board_history_tuples_for_rep, action_history_for_referee, current_ply_from_root_qs):
-        # --- Giữ nguyên logic Quiescence Search từ V15.0 ---
-        # Đảm bảo self.rules.board_instance và self.evaluator.board_instance được set đúng
+                           current_total_half_moves, depth_remaining, is_maximizing_turn_qs):
+        # Tìm kiếm tĩnh lặng: chỉ xét các nước bắt quân hoặc nước chiếu quan trọng
         original_rules_board_qs = self.rules.board_instance
         original_eval_board_qs = self.evaluator.board_instance
         self.rules.board_instance = current_board_obj
         self.evaluator.board_instance = current_board_obj
 
+        # Đánh giá "stand-pat" (không làm gì cả)
         stand_pat_score = self.evaluator.evaluate_board(player_to_optimize_for, current_total_half_moves)
         
-        # Xác định lượt đi cho node quiescence này một cách cẩn thận
-        # player_to_move_at_this_qs_node là người sẽ thực hiện nước đi từ current_board_obj
-        # Nếu current_ply_from_root_qs là 0, thì player_to_move_at_this_qs_node là người chơi
-        # mà _minimax_alpha_beta_recursive đang tìm nước đi cho (tức là current_player_for_this_node trong minimax)
-        # Tuy nhiên, is_maximizing_turn_qs phải dựa trên player_to_optimize_for
-        # Ví dụ: nếu player_to_optimize_for là 'red', thì khi current_player_for_qs_node là 'red', is_maximizing_turn_qs là True.
-        
-        # Lấy player sẽ đi từ current_board_obj
-        # Điều này phụ thuộc vào việc minimax gọi quiescence cho lượt của ai
-        # Giả sử minimax gọi quiescence khi đến lượt của current_player_for_this_node (trong minimax)
-        # Vậy, is_maximizing_turn_qs sẽ là True nếu current_player_for_this_node == player_to_optimize_for
-        
-        # Lấy player hiện tại của node quiescence này:
-        # Nếu current_ply_from_root_qs là chẵn (0, 2, ...), thì đó là lượt của người chơi bắt đầu nhánh quiescence.
-        # Nếu là lẻ (1, 3, ...), thì là lượt của đối thủ.
-        # Người chơi bắt đầu nhánh quiescence là current_player_for_this_node từ hàm minimax.
-        # Hàm minimax truyền is_maximizing_player_turn.
-        # Nếu is_maximizing_player_turn (trong minimax) là True, thì current_player_for_this_node (trong minimax) là player_to_optimize_for.
-        # Nếu is_maximizing_player_turn (trong minimax) là False, thì current_player_for_this_node (trong minimax) là đối thủ của player_to_optimize_for.
-        
-        # Đơn giản hóa: is_maximizing_turn_qs nên được truyền vào từ minimax, hoặc tính lại dựa trên player_to_optimize_for và current_player_for_qs_node
-        # Giả sử current_board_obj là trạng thái mà current_player_for_this_node (từ minimax) sẽ đi.
-        player_making_move_in_qs = self.rules.get_opponent_color(player_to_optimize_for) if (current_total_half_moves - self.move_count_for_eval) % 2 != 0 else player_to_optimize_for
-        # ^^^ Logic này có thể không hoàn toàn đúng, cần xem xét is_maximizing_player_turn từ minimax
-
-        # Cách đúng hơn: người gọi _quiescence_search phải biết ai là người đi ở current_board_obj
-        # và is_maximizing_turn_qs phải dựa trên đó và player_to_optimize_for.
-        # Trong _minimax_alpha_beta_recursive, khi gọi _quiescence_search:
-        # current_player_for_this_node là người sẽ đi.
-        # is_maximizing_turn_qs = (current_player_for_this_node == player_to_optimize_for)
-        # Ta sẽ sửa ở hàm gọi. Ở đây giả sử is_maximizing_turn_qs được truyền đúng.
-
-        # Tạm thời dùng logic cũ của bạn cho is_maximizing_turn_qs, nhưng nó cần xem lại:
-        is_maximizing_turn_qs = (self.rules.get_piece_info(current_board_obj.get_piece_at(0,0) or 'k')['color'] == player_to_optimize_for if current_ply_from_root_qs % 2 == 0 else \
-                                self.rules.get_opponent_color(player_to_optimize_for) == player_to_optimize_for)
         current_player_for_qs_node = player_to_optimize_for if is_maximizing_turn_qs else self.rules.get_opponent_color(player_to_optimize_for)
 
+        if is_maximizing_turn_qs:
+            alpha = max(alpha, stand_pat_score)
+        else:
+            beta = min(beta, stand_pat_score)
 
-        if is_maximizing_turn_qs: alpha = max(alpha, stand_pat_score)
-        else: beta = min(beta, stand_pat_score)
-        
         if alpha >= beta or depth_remaining == 0:
-            self.rules.board_instance = original_rules_board_qs
-            self.evaluator.board_instance = original_eval_board_qs
+            self.rules.board_instance = original_rules_board_qs; self.evaluator.board_instance = original_eval_board_qs
             return stand_pat_score
 
         all_valid_moves_qs = self.rules.get_all_valid_moves(current_player_for_qs_node)
+        
+        # Chỉ xét các nước bắt quân (tactical moves)
         tactical_moves = []
         for move_from, move_to, piece_moved in all_valid_moves_qs:
-            if current_board_obj.get_piece_at(move_to[0], move_to[1]) is not None: # Chỉ bắt quân
+            if current_board_obj.get_piece_at(move_to[0], move_to[1]) is not None: # Là nước bắt quân
                 tactical_moves.append((move_from, move_to, piece_moved))
+            # TODO: Có thể thêm cả các nước chiếu Tướng vào đây
         
         tactical_moves.sort(key=lambda m: self._get_move_score_for_ordering(current_board_obj, m[0], m[1], m[2], 0, current_player_for_qs_node), reverse=True)
 
-        if not tactical_moves:
-            self.rules.board_instance = original_rules_board_qs
-            self.evaluator.board_instance = original_eval_board_qs
-            return stand_pat_score
+        if not tactical_moves: # Nếu không có nước bắt quân nào
+            self.rules.board_instance = original_rules_board_qs; self.evaluator.board_instance = original_eval_board_qs
+            return stand_pat_score # Trả về điểm stand-pat
+
+        best_val_qs = stand_pat_score # Khởi tạo với stand_pat, nếu không có nước tactical nào tốt hơn
+        if not is_maximizing_turn_qs and len(tactical_moves) > 0 : best_val_qs = float('inf') 
+        elif is_maximizing_turn_qs and len(tactical_moves) > 0 : best_val_qs = float('-inf')
+
 
         for move_from, move_to, piece_char_moved in tactical_moves:
             new_board_obj_qs = XiangqiBoard(copy.deepcopy(current_board_obj.board))
             new_board_obj_qs.make_move(move_from, move_to)
+            
             score = self._quiescence_search(new_board_obj_qs, alpha, beta, player_to_optimize_for,
                                            current_total_half_moves + 1, depth_remaining - 1,
-                                           board_history_tuples_for_rep, action_history_for_referee,
-                                           current_ply_from_root_qs + 1) # Sai: is_maximizing_turn_qs phải được truyền vào
-            if is_maximizing_turn_qs: alpha = max(alpha, score)
-            else: beta = min(beta, score)
-            if alpha >= beta: break
+                                           not is_maximizing_turn_qs) # Đổi lượt
+            
+            if is_maximizing_turn_qs: 
+                best_val_qs = max(best_val_qs, score)
+                alpha = max(alpha, score)
+            else: 
+                best_val_qs = min(best_val_qs, score)
+                beta = min(beta, score)
+            
+            if alpha >= beta: # Cắt tỉa
+                break
         
-        self.rules.board_instance = original_rules_board_qs
-        self.evaluator.board_instance = original_eval_board_qs
-        return alpha if is_maximizing_turn_qs else beta
-
+        self.rules.board_instance = original_rules_board_qs; self.evaluator.board_instance = original_eval_board_qs
+        return best_val_qs
 
     def _minimax_alpha_beta_recursive(self, current_board_obj, depth, alpha, beta, is_maximizing_player_turn, player_to_optimize_for, 
                                       board_history_tuples_for_repetition, action_history_for_referee, current_ply_from_root):
-        # --- Phần đầu giữ nguyên (Timeout, TT lookup) ---
+        # Hàm đệ quy Alpha-Beta
         self.actual_depth_reached_in_last_search = max(self.actual_depth_reached_in_last_search, self.initial_max_depth_for_this_call - depth)
-        if time.time() - self.current_search_start_time > self.time_limit_for_move: raise TimeoutError("AI search time limit exceeded")
+        
+        # Kiểm tra giới hạn thời gian
+        if time.time() - self.current_search_start_time > self.time_limit_for_move:
+            raise TimeoutError("AI search time limit exceeded")
+
+        # Transposition Table Lookup
         board_tuple_for_tt = current_board_obj.to_tuple()
         tt_key = (board_tuple_for_tt, depth, is_maximizing_player_turn, player_to_optimize_for)
         if tt_key in self.transposition_table:
             tt_entry = self.transposition_table[tt_key]
-            if tt_entry['depth'] >= depth:
+            if tt_entry['depth'] >= depth: # Chỉ dùng nếu entry có độ sâu bằng hoặc lớn hơn
                 if tt_entry['type'] == 'exact': return tt_entry['score']
                 if tt_entry['type'] == 'lower_bound': alpha = max(alpha, tt_entry['score'])
                 elif tt_entry['type'] == 'upper_bound': beta = min(beta, tt_entry['score'])
                 if alpha >= beta: return tt_entry['score']
 
+        # Lưu và thiết lập board hiện tại cho Rules, Evaluator, Referee
         original_rules_board = self.rules.board_instance
         original_eval_board = self.evaluator.board_instance
+        original_referee_board = self.referee.board_instance
         self.rules.board_instance = current_board_obj
         self.evaluator.board_instance = current_board_obj
-
+        self.referee.board_instance = current_board_obj 
+        
         current_player_for_this_node = player_to_optimize_for if is_maximizing_player_turn else self.rules.get_opponent_color(player_to_optimize_for)
+        
+        # Kiểm tra điều kiện kết thúc đệ quy (node lá)
         is_checkmate_current, _ = self.rules.is_checkmate(current_player_for_this_node)
         is_stalemate_current = self.rules.is_stalemate(current_player_for_this_node)
         current_total_half_moves_at_node = self.move_count_for_eval + current_ply_from_root
 
-        if depth == 0 or is_checkmate_current or is_stalemate_current:
-            # Sửa cách gọi Quiescence Search
+        if depth <= 0 or is_checkmate_current or is_stalemate_current: 
             eval_score = self._quiescence_search(current_board_obj, alpha, beta, 
-                                                 player_to_optimize_for, # Người chơi mà chúng ta đang tối ưu cho
+                                                 player_to_optimize_for, 
                                                  current_total_half_moves_at_node, 
-                                                 QUIESCENCE_MAX_DEPTH, 
-                                                 board_history_tuples_for_repetition, 
-                                                 action_history_for_referee, 
-                                                 0, # current_ply_from_root_qs
-                                                 # is_maximizing_player_turn # Truyền is_maximizing_turn cho QS
-                                                 ) # Cần sửa _quiescence_search để nhận is_maximizing_turn
-            
+                                                 QUIESCENCE_MAX_DEPTH,
+                                                 is_maximizing_player_turn # Lượt của node hiện tại trong Alpha-Beta
+                                                 )
+            # Khôi phục board cho các instance
             self.rules.board_instance = original_rules_board
             self.evaluator.board_instance = original_eval_board
+            self.referee.board_instance = original_referee_board
+            # Lưu vào Transposition Table
             self.transposition_table[tt_key] = {'score': eval_score, 'type': 'exact', 'depth': depth}
             return eval_score
 
-        # --- Phần còn lại của minimax (lặp lại 3 lần, sinh nước đi, lặp qua nước đi, đệ quy, TT store) giữ nguyên ---
-        # ... (Logic kiểm tra lặp lại 3 lần)
+        # Kiểm tra lặp 3 lần
         current_board_tuple_for_hist = current_board_obj.to_tuple() 
         history_to_check_3fold = board_history_tuples_for_repetition + [(current_board_tuple_for_hist, current_player_for_this_node)]
         if self.rules.check_threefold_repetition_from_history(current_board_tuple_for_hist, current_player_for_this_node, history_to_check_3fold):
             self.rules.board_instance = original_rules_board
             self.evaluator.board_instance = original_eval_board
+            self.referee.board_instance = original_referee_board
             self.transposition_table[tt_key] = {'score': self.evaluator.STALEMATE_SCORE, 'type': 'exact', 'depth': depth}
             return self.evaluator.STALEMATE_SCORE
-
+        
         possible_moves_tuples = self.rules.get_all_valid_moves(current_player_for_this_node)
-        if not possible_moves_tuples: 
+        if not possible_moves_tuples: # Hết nước đi hợp lệ (có thể là stalemate hoặc checkmate đã bị miss ở trên)
             eval_score = self.evaluator.evaluate_board(player_to_optimize_for, current_total_half_moves_at_node)
             self.rules.board_instance = original_rules_board
             self.evaluator.board_instance = original_eval_board
+            self.referee.board_instance = original_referee_board
             self.transposition_table[tt_key] = {'score': eval_score, 'type': 'exact', 'depth': depth}
             return eval_score
-        
+
+        # Sắp xếp nước đi
         possible_moves_tuples.sort(key=lambda move_tuple: self._get_move_score_for_ordering(current_board_obj, move_tuple[0], move_tuple[1], move_tuple[2], depth, current_player_for_this_node), reverse=True)
         
         best_val = float('-inf') if is_maximizing_player_turn else float('inf')
-        original_alpha_for_tt = alpha 
-        best_move_found_in_node = None
+        original_alpha_for_tt = alpha # Cần để xác định loại TT entry (exact, lower, upper)
+        best_move_found_in_node = None # Nước đi tốt nhất tìm được ở node này
 
         for i, (move_from, move_to, piece_char_moved) in enumerate(possible_moves_tuples):
-            # ... (Logic kiểm tra referee - giữ nguyên)
+            # Kiểm tra luật cấm của Referee
             action_type, target_info, board_data_after_action = self.referee.get_action_details(current_board_obj, move_from, move_to, piece_char_moved)
-            board_tuple_after_action = current_board_obj.to_tuple(board_data_after_action) 
-            # ... (phần còn lại của referee check)
+            board_tuple_after_action = XiangqiBoard(board_data_after_action).to_tuple() # Convert sang tuple để hash
+            
+            current_action_entry = {"player": current_player_for_this_node, "action_type": action_type, "target_key": self.referee._generate_target_key(action_type, target_info, piece_char_moved, move_from), "board_tuple_after_action": board_tuple_after_action, "move_tuple": (move_from, move_to)}
+            history_for_referee_check_this_node = action_history_for_referee + [current_action_entry]
+            
+            is_forbidden = self.referee.check_forbidden_perpetual_action(current_player_for_this_node, (move_from, move_to), action_type, target_info, board_tuple_after_action, piece_char_moved, history_for_referee_check_this_node )
+            
+            if is_forbidden:
+                # Phạt nặng nếu nước đi bị cấm (thường là xử thua)
+                eval_for_forbidden = -self.evaluator.CHECKMATE_SCORE * 0.95 if is_maximizing_player_turn else self.evaluator.CHECKMATE_SCORE * 0.95
+                if is_maximizing_player_turn: best_val = max(best_val, eval_for_forbidden); alpha = max(alpha, eval_for_forbidden) 
+                else: best_val = min(best_val, eval_for_forbidden); beta = min(beta, eval_for_forbidden)
+                if alpha >= beta: break # Cắt tỉa
+                continue # Bỏ qua nước đi bị cấm này
 
+            # Tạo board mới cho node con
             new_board_hist_tuples_for_child = board_history_tuples_for_repetition + [(board_tuple_after_action, self.rules.get_opponent_color(current_player_for_this_node))]
-            new_action_hist_for_child = action_history_for_referee + [{"player": current_player_for_this_node, "action_type": action_type, "target_key": "...", "board_tuple_after_action": board_tuple_after_action, "move_tuple": (move_from, move_to)}]
-            new_board_obj_for_recursive_call = XiangqiBoard(board_data_after_action) 
-            new_depth = depth - 1 # (Có thể thêm search extensions ở đây)
-
+            new_action_hist_for_child = history_for_referee_check_this_node
+            new_board_obj_for_recursive_call = XiangqiBoard(board_data_after_action) # Tạo từ board_data_after_action
+            
+            new_depth = depth - 1 
+            
+            # Gọi đệ quy
             evaluation = self._minimax_alpha_beta_recursive(new_board_obj_for_recursive_call, new_depth, alpha, beta, 
-                                                            not is_maximizing_player_turn, 
-                                                            player_to_optimize_for, 
+                                                            not is_maximizing_player_turn, player_to_optimize_for, 
                                                             new_board_hist_tuples_for_child, new_action_hist_for_child,
                                                             current_ply_from_root + 1) 
+            
             if is_maximizing_player_turn:
                 if evaluation > best_val: best_val = evaluation; best_move_found_in_node = (move_from, move_to, piece_char_moved)
                 alpha = max(alpha, evaluation)
-            else: 
+            else: # Minimizing player
                 if evaluation < best_val: best_val = evaluation; best_move_found_in_node = (move_from, move_to, piece_char_moved)
                 beta = min(beta, evaluation)
             
-            if alpha >= beta: 
-                if not current_board_obj.get_piece_at(move_to[0], move_to[1]): 
+            if alpha >= beta: # Cắt tỉa Alpha-Beta
+                # Nếu là nước không bắt quân gây ra cắt tỉa, lưu vào Killer Moves và History Heuristic
+                if not current_board_obj.get_piece_at(move_to[0], move_to[1]): # Không phải nước bắt quân
                     self._update_killer_move(depth, (move_from, move_to))
-                    self._update_history_heuristic(piece_char_moved, move_to, depth * depth) 
+                    self._update_history_heuristic(piece_char_moved, move_to, depth * depth) # Thưởng bằng bình phương độ sâu còn lại
                 break 
         
+        # Khôi phục board cho các instance
         self.rules.board_instance = original_rules_board
         self.evaluator.board_instance = original_eval_board
+        self.referee.board_instance = original_referee_board
+
+        # Lưu vào Transposition Table
         tt_store_type = 'exact'
-        if best_val <= original_alpha_for_tt: tt_store_type = 'upper_bound'
-        elif best_val >= beta: tt_store_type = 'lower_bound'
+        if best_val <= original_alpha_for_tt: tt_store_type = 'upper_bound' # Giá trị thực có thể thấp hơn
+        elif best_val >= beta: tt_store_type = 'lower_bound' # Giá trị thực có thể cao hơn
         self.transposition_table[tt_key] = {'score': best_val, 'type': tt_store_type, 'depth': depth, 'best_move': best_move_found_in_node if tt_store_type != 'upper_bound' else None}
+        
         return best_val
 
-
     def _mcts_simulation_phase(self, node_to_simulate_from):
-        # --- Giữ nguyên logic từ V15.0, đảm bảo evaluator dùng đúng board ---
-        current_board_sim = XiangqiBoard()
-        current_board_sim.board = [list(row) for row in node_to_simulate_from.board_state_tuple]
+        # Giai đoạn mô phỏng của MCTS (Rollout)
+        # Từ node lá của giai đoạn Expansion, mô phỏng ván cờ đến hết hoặc đến độ sâu giới hạn
+        current_board_sim_obj = XiangqiBoard()
+        current_board_sim_obj.board = [list(row) for row in node_to_simulate_from.board_state_tuple]
         current_player_sim = node_to_simulate_from.player_to_move
         
-        original_rules_board_sim = self.rules.board_instance
-        original_eval_board_sim = self.evaluator.board_instance
-        self.rules.board_instance = current_board_sim
-        self.evaluator.board_instance = current_board_sim # QUAN TRỌNG
-
+        original_ai_rules_board = self.rules.board_instance # Lưu lại board gốc của AIPlayer.rules
+        original_ai_eval_board = self.evaluator.board_instance # Lưu lại board gốc của AIPlayer.evaluator
+        
+        # Tính toán số nước đi đã thực hiện để đến được node này từ gốc của MCTS tree
+        ply_offset_mcts = 0 
+        temp_node_for_ply = node_to_simulate_from
+        while temp_node_for_ply.parent:
+            ply_offset_mcts += 1
+            temp_node_for_ply = temp_node_for_ply.parent
+        rollout_move_count_start = self.move_count_for_eval + ply_offset_mcts
+        
         for i_rollout in range(MCTS_ROLLOUT_DEPTH_LIMIT):
-            is_mate_sim, winner_sim = self.rules.is_checkmate(current_player_sim)
+            self.rules.board_instance = current_board_sim_obj # Gán board sim cho AIPlayer.rules
+            self.evaluator.board_instance = current_board_sim_obj # Gán board sim cho AIPlayer.evaluator
+
+            is_mate_sim, _ = self.rules.is_checkmate(current_player_sim)
             if is_mate_sim:
-                self.rules.board_instance = original_rules_board_sim
-                self.evaluator.board_instance = original_eval_board_sim
-                # Kết quả theo góc nhìn của node_to_simulate_from.player_to_move
-                # Nếu current_player_sim (người bị chiếu bí) là node_to_simulate_from.player_to_move -> thua (-1.0)
-                # Nếu current_player_sim là đối thủ -> thắng (1.0)
-                return -1.0 if current_player_sim == node_to_simulate_from.player_to_move else 1.0
+                self.rules.board_instance = original_ai_rules_board # Khôi phục
+                self.evaluator.board_instance = original_ai_eval_board # Khôi phục
+                return -1.0 # Người chơi hiện tại của node mô phỏng bị chiếu bí -> thua
 
             if self.rules.is_stalemate(current_player_sim):
-                self.rules.board_instance = original_rules_board_sim
-                self.evaluator.board_instance = original_eval_board_sim
-                return 0.0
+                self.rules.board_instance = original_ai_rules_board # Khôi phục
+                self.evaluator.board_instance = original_ai_eval_board # Khôi phục
+                return 0.0 # Hòa
 
             possible_moves_sim = self.rules.get_all_valid_moves(current_player_sim)
-            if not possible_moves_sim: 
-                self.rules.board_instance = original_rules_board_sim
-                self.evaluator.board_instance = original_eval_board_sim
-                # Nếu không có nước đi và không bị chiếu bí -> stalemate
+            if not possible_moves_sim: # Hết nước đi (có thể là hòa do hết nước)
+                self.rules.board_instance = original_ai_rules_board # Khôi phục
+                self.evaluator.board_instance = original_ai_eval_board # Khôi phục
                 return 0.0 
 
-            # Rollout Policy: Tạm thời random, có thể cải thiện bằng heuristic nhanh
-            chosen_move_sim = random.choice(possible_moves_sim)
-            current_board_sim.make_move(chosen_move_sim[0], chosen_move_sim[1])
+            chosen_move_sim_tuple = None
+            # Sử dụng Alpha-Beta nông để chọn nước đi trong rollout (Hybrid MCTS-AB)
+            if MCTS_SHALLOW_AB_DEPTH_FOR_ROLLOUT >= 0 and i_rollout < 1: # Chỉ dùng AB cho vài nước đầu của rollout
+                best_val_for_rollout_move = -float('inf') 
+                alpha_r, beta_r = float('-inf'), float('inf')
+                
+                # Sắp xếp các nước đi đầu tiên của rollout
+                possible_moves_sim.sort(key=lambda m: self._get_move_score_for_ordering(current_board_sim_obj, m[0],m[1],m[2],0,current_player_sim), reverse=True)
+
+                # Chỉ xét vài nước đầu tiên (ví dụ 3 nước) để tiết kiệm thời gian
+                for r_move_from, r_move_to, r_piece_moved in possible_moves_sim[:3]: 
+                    temp_board_rollout = XiangqiBoard(copy.deepcopy(current_board_sim_obj.board))
+                    temp_board_rollout.make_move(r_move_from, r_move_to)
+                    
+                    # Gọi Alpha-Beta cho đối thủ của current_player_sim
+                    val = self._minimax_alpha_beta_recursive(
+                        temp_board_rollout, MCTS_SHALLOW_AB_DEPTH_FOR_ROLLOUT, 
+                        alpha_r, beta_r, False, current_player_sim, # False vì giờ là lượt đối thủ của current_player_sim
+                        [], [], # Lịch sử board và action rỗng cho AB nông này
+                        rollout_move_count_start + i_rollout + 1 # Số nước đi tổng cộng
+                    )
+                    current_move_score = -val # Vì val là điểm của đối thủ, ta muốn điểm của current_player_sim
+                    if current_move_score > best_val_for_rollout_move:
+                        best_val_for_rollout_move = current_move_score
+                        chosen_move_sim_tuple = (r_move_from, r_move_to, r_piece_moved)
+                
+                if not chosen_move_sim_tuple and possible_moves_sim : # Nếu AB không tìm được, chọn nước đầu (đã sắp xếp)
+                    chosen_move_sim_tuple = possible_moves_sim[0]
+            
+            if not chosen_move_sim_tuple: # Nếu vẫn không có (ví dụ AB sâu = -1), chọn ngẫu nhiên
+                 if not possible_moves_sim: # Double check, đã có ở trên
+                    self.rules.board_instance = original_ai_rules_board
+                    self.evaluator.board_instance = original_ai_eval_board
+                    return 0.0 
+                 chosen_move_sim_tuple = random.choice(possible_moves_sim)
+
+            current_board_sim_obj.make_move(chosen_move_sim_tuple[0], chosen_move_sim_tuple[1])
             current_player_sim = self.rules.get_opponent_color(current_player_sim)
         
-        # Hết độ sâu rollout, dùng hàm đánh giá
-        # Đánh giá theo góc nhìn của player_to_move của node gốc của rollout (node_to_simulate_from)
-        final_rollout_eval = self.evaluator.evaluate_board(node_to_simulate_from.player_to_move, 
-                                                           self.move_count_for_eval + i_rollout + 1) # Ước lượng số nước
-        self.rules.board_instance = original_rules_board_sim
-        self.evaluator.board_instance = original_eval_board_sim
+        # Sau MCTS_ROLLOUT_DEPTH_LIMIT nước, đánh giá bàn cờ
+        self.evaluator.board_instance = current_board_sim_obj # Gán board cuối cùng của rollout cho evaluator
+        # Đánh giá từ góc nhìn của người chơi ở node_to_simulate_from (cha của chuỗi rollout này)
+        final_eval_score = self.evaluator.evaluate_board(node_to_simulate_from.player_to_move, 
+                                                           rollout_move_count_start + MCTS_ROLLOUT_DEPTH_LIMIT)
         
-        if final_rollout_eval > 200: return 0.8 # Thắng nhẹ
-        elif final_rollout_eval < -200: return -0.8 # Thua nhẹ
+        self.rules.board_instance = original_ai_rules_board # Khôi phục board gốc cho AIPlayer.rules
+        self.evaluator.board_instance = original_ai_eval_board # Khôi phục board gốc cho AIPlayer.evaluator
+        
+        # Chuẩn hóa kết quả về -1 (thua), 0 (hòa), 1 (thắng) cho backpropagation
+        if final_eval_score > 150: return 1.0 # Thắng cho node_to_simulate_from.player_to_move
+        elif final_eval_score < -150: return -1.0 # Thua
         return 0.0 # Hòa
 
+    def _mcts_backpropagate_refined(self, path_of_nodes, final_rollout_value, player_of_rollout_leaf_node):
+        # Cập nhật số lần visit và wins cho các node trên đường đi từ root đến node lá đã mô phỏng
+        for node_in_path in reversed(path_of_nodes):
+            node_in_path.visits += 1
+            # final_rollout_value là theo góc nhìn của player_of_rollout_leaf_node
+            # Nếu player_to_move của node_in_path trùng với player_of_rollout_leaf_node, thì win cộng dồn
+            # Nếu khác, thì win trừ đi (vì đó là thắng/thua của đối thủ)
+            if node_in_path.player_to_move == player_of_rollout_leaf_node:
+                node_in_path.wins += final_rollout_value
+            else:
+                node_in_path.wins -= final_rollout_value # Vì rollout_value là của đối thủ node này
 
-    def _mcts_backpropagate(self, node, rollout_result):
-        # rollout_result là theo góc nhìn của node.player_to_move
-        # (tức là, 1.0 nếu node.player_to_move thắng từ rollout đó)
-        temp_node = node
-        while temp_node:
-            temp_node.visits += 1
-            # Nếu player của node cha là đối thủ của player của node hiện tại (luôn đúng),
-            # thì kết quả thắng của con là thua của cha.
-            # rollout_result là cho player của node (lá) mà rollout bắt đầu.
-            # Khi backpropagate lên cha, nếu cha là đối thủ, thì win của cha là -rollout_result.
-            if temp_node.player_to_move != self.rules.get_opponent_color(temp_node.parent.player_to_move if temp_node.parent else ""):
-                 temp_node.wins += rollout_result # Đúng nếu result là cho player của node hiện tại
-            else: # Lượt của đối thủ của người chơi ở node cha
-                 temp_node.wins -= rollout_result # (rollout_result là cho player của node lá)
-            
-            # Đơn giản hóa: result truyền vào là cho player của node hiện tại (node)
-            # Khi lên cha, thì kết quả đó phải đảo ngược cho cha.
-            # rollout_result = -rollout_result # Đảo ngược cho tầng trên
-            temp_node = temp_node.parent
-            if temp_node: # Đảo ngược kết quả cho player của node cha
-                rollout_result *= -1.0
-
-
-    def _perform_mcts_search(self, root_board_obj, player_color_ai, time_limit_seconds):
+    def _perform_mcts_search(self, root_board_obj, player_color_ai, time_budget_seconds):
+        # Thực hiện tìm kiếm MCTS
+        # player_color_ai là người chơi mà AI đang tìm nước đi cho (ở root_node)
         root_node = MCTSNode(root_board_obj.to_tuple(), player_color_ai, 
-                             book_knowledge=self.book_knowledge, 
-                             rules_instance=self.rules, 
-                             eval_instance=self.evaluator)
+                             book_knowledge=self.book_knowledge, rules_instance=self.rules, 
+                             eval_instance=self.evaluator, ai_player_instance=self)
         start_mcts_time = time.time()
         sims_count = 0
-        # for _ in range(MCTS_SIMULATION_COUNT_PER_MOVE): # Hoặc dùng time_limit
-        while time.time() - start_mcts_time < time_limit_seconds - 0.05 : # Để lại chút thời gian
-            # if time.time() - start_mcts_time > time_limit_seconds - 0.02: break
-            sims_count += 1
-            node_to_explore = root_node
-            # 1. Selection
-            while not node_to_explore.is_terminal:
-                if not node_to_explore.is_fully_expanded():
-                    break # Sẽ expand node này
-                selected_child = node_to_explore.best_child_uct()
-                if selected_child is None: # Không có con nào để chọn (ví dụ, tất cả con là terminal)
-                    break 
-                node_to_explore = selected_child
-            
-            # 2. Expansion
-            if not node_to_explore.is_terminal and not node_to_explore.is_fully_expanded():
-                expanded_child = node_to_explore.expand()
-                if expanded_child:
-                    node_to_explore = expanded_child 
-            
-            # 3. Simulation
-            rollout_val_for_player_at_node_to_explore = 0.0
-            if node_to_explore.is_terminal:
-                rollout_val_for_player_at_node_to_explore = node_to_explore.terminal_value
-            else:
-                rollout_val_for_player_at_node_to_explore = self._mcts_simulation_phase(node_to_explore)
+        
+        # Lấy và sao lưu danh sách nước đi ban đầu của gốc, phòng trường hợp MCTS không tìm được con nào
+        root_node_all_moves = root_node._get_all_possible_moves() # Khởi tạo _untried_moves
+        initial_root_moves_backup = list(root_node_all_moves or []) 
 
-            # 4. Backpropagation
-            self._mcts_backpropagate(node_to_explore, rollout_val_for_player_at_node_to_explore)
-        
-        self.mcts_simulations_performed = sims_count # Lưu lại số sim
-        print(f"MCTS: Hoàn thành {self.mcts_simulations_performed} simulations trong {time.time() - start_mcts_time:.2f}s")
-        
-        if not root_node.children:
-            print(f"MCTS Warning: Root node cho {player_color_ai} không có con nào sau simulations.")
-            return None 
-        
-        # Chọn nước đi dựa trên số lần visit cao nhất (robust)
-        # Hoặc tỉ lệ thắng cao nhất nếu số visit đủ lớn
-        best_child_for_move = None
-        if any(c.visits > 0 for c in root_node.children):
-            best_child_for_move = max(root_node.children, key=lambda node: node.visits)
-        elif root_node.children: # Nếu tất cả visit = 0, chọn ngẫu nhiên hoặc con đầu tiên
-            print(f"MCTS Warning: Tất cả các con của root cho {player_color_ai} có 0 visits. Chọn con đầu tiên.")
-            best_child_for_move = root_node.children[0]
-        
-        if best_child_for_move and best_child_for_move.move_leading_to_this_node:
-            # print(f"MCTS best move debug: {best_child_for_move.move_leading_to_this_node}")
-            return best_child_for_move.move_leading_to_this_node
-        else:
-            print(f"MCTS Error: Không thể chọn best_child_for_move hoặc không có move_leading_to_this_node.")
+        if not initial_root_moves_backup: # Nếu gốc không có nước đi nào
+            print(f"MCTS WARN: Root node cho {player_color_ai} không có nước đi hợp lệ nào ban đầu.")
             return None
 
+        # Giới hạn số simulation dựa trên thời gian
+        max_sims_for_budget = MCTS_MIN_SIMULATIONS_FOR_RELIABLE_MOVE * 10 # Con số lớn tùy ý ban đầu
+        if time_budget_seconds < 1.0: max_sims_for_budget = MCTS_MIN_SIMULATIONS_FOR_RELIABLE_MOVE 
+        elif time_budget_seconds < 0.5: max_sims_for_budget = MCTS_MIN_SIMULATIONS_FOR_RELIABLE_MOVE // 2
+        max_sims_for_budget = max(10, max_sims_for_budget) # Ít nhất cũng chạy vài sim
+
+        # Vòng lặp chính của MCTS
+        while time.time() - start_mcts_time < time_budget_seconds - 0.05 and sims_count < max_sims_for_budget : # Trừ hao 0.05s
+            sims_count += 1
+            node_to_explore = root_node
+            path = [root_node] # Đường đi từ root đến node lá được chọn
+            
+            # 1. Selection: Chọn node lá tốt nhất để expand
+            while not node_to_explore.is_terminal:
+                if not node_to_explore.is_fully_expanded(): # Nếu còn nước chưa thử
+                    break # Đi đến Expansion
+                selected_child = node_to_explore.best_child_uct()
+                if selected_child is None: # Không có con nào (hiếm khi xảy ra nếu is_fully_expanded là False)
+                    break 
+                node_to_explore = selected_child
+                path.append(node_to_explore)
+            
+            # 2. Expansion: Mở rộng node lá đã chọn (nếu chưa phải terminal và chưa fully expanded)
+            if not node_to_explore.is_terminal and not node_to_explore.is_fully_expanded():
+                expanded_child = node_to_explore.expand()
+                if expanded_child: # Nếu expand thành công
+                    node_to_explore = expanded_child # Chuyển sang node con mới để mô phỏng
+                    path.append(node_to_explore)
+            
+            # 3. Simulation (Rollout): Từ node_to_explore, mô phỏng ván cờ
+            rollout_val = 0.0
+            if node_to_explore.is_terminal: # Nếu node đã là terminal (ví dụ: do expand ra node checkmate)
+                rollout_val = node_to_explore.terminal_value
+            else: # Nếu không phải terminal, thực hiện rollout
+                rollout_val = self._mcts_simulation_phase(node_to_explore) # Kết quả là theo góc nhìn của node_to_explore.player_to_move
+
+            # 4. Backpropagation: Cập nhật kết quả rollout ngược lên cây
+            self._mcts_backpropagate_refined(path, rollout_val, node_to_explore.player_to_move)
+        
+        self.mcts_simulations_performed = sims_count
+        print(f"INFO MCTS: Hoàn thành {self.mcts_simulations_performed} simulations trong {time.time() - start_mcts_time:.2f}s")
+        
+        # Chọn nước đi tốt nhất từ root node (thường là node con có số lần visit cao nhất)
+        if not root_node.children:
+            print(f"MCTS WARN: Root node cho {player_color_ai} không có con nào sau simulations.")
+            if initial_root_moves_backup:
+                print(f"MCTS FALLBACK (no children): Chọn nước ngẫu nhiên từ gốc ({len(initial_root_moves_backup)} moves).")
+                return random.choice(initial_root_moves_backup)
+            return None 
+        
+        best_child_for_move = None
+        # Chọn con có số visit cao nhất, nếu không có visit thì chọn con có win/loss tốt nhất (hiếm)
+        if any(c.visits > 0 for c in root_node.children):
+            best_child_for_move = max(root_node.children, key=lambda node: node.visits)
+        elif root_node.children: # Nếu tất cả children đều có 0 visit (ví dụ budget quá thấp)
+            print(f"MCTS WARN: Tất cả các con của root cho {player_color_ai} có 0 visits. Chọn con đầu tiên (đã được sắp xếp).")
+            # Sắp xếp lại các con của gốc theo một tiêu chí nào đó nếu visits = 0, ví dụ prior_value (nếu có)
+            # Hoặc đơn giản là lấy con đầu tiên từ danh sách đã được sắp xếp ở _get_all_possible_moves
+            # (Hàm expand đã pop từ _untried_moves, nên children[0] là một lựa chọn hợp lý)
+            best_child_for_move = root_node.children[0] 
+        
+        if best_child_for_move and best_child_for_move.move_leading_to_this_node:
+            return best_child_for_move.move_leading_to_this_node
+        else:
+            print(f"MCTS ERROR: Không thể chọn best_child_for_move.")
+            if initial_root_moves_backup:
+                print(f"MCTS FALLBACK (no best_child): Chọn nước ngẫu nhiên từ gốc ({len(initial_root_moves_backup)} moves).")
+                return random.choice(initial_root_moves_backup)
+            print(f"MCTS CRITICAL ERROR: Không có nước đi nào từ gốc và không có fallback.")
+            return None
 
     def find_best_move(self, initial_max_depth_suggestion_ignored, player_color_ai, 
-                       current_board_history_tuples_param=None, 
-                       current_action_history_param=None, 
-                       current_move_count_from_game=0, 
-                       game_kifu_uci_list_param=None,
-                       time_limit_seconds=10): 
+                       current_board_history_tuples_param=None, current_action_history_param=None, 
+                       current_move_count_from_game=0, game_kifu_uci_list_param=None,
+                       time_limit_seconds=10):
         
         self.current_search_start_time = time.time()
         self.time_limit_for_move = float(time_limit_seconds) 
-        self._reset_search_helpers() 
+        self._reset_search_helpers() # Reset TT, killer moves, etc.
+        self.move_count_for_eval = current_move_count_from_game # Số nửa nước đi
         
-        current_board_history_tuples = copy.deepcopy(current_board_history_tuples_param if current_board_history_tuples_param is not None else [])
-        current_action_history = copy.deepcopy(current_action_history_param if current_action_history_param is not None else [])
-        game_kifu_uci_list = copy.deepcopy(game_kifu_uci_list_param if game_kifu_uci_list_param is not None else [])
+        current_game_board_obj = self.rules.board_instance # Board hiện tại của game
+        self.evaluator.board_instance = current_game_board_obj # Gán board cho evaluator
         
-        self.move_count_for_eval = current_move_count_from_game 
-        current_game_board_obj = self.rules.board_instance
+        # Thiết lập context cho BookKnowledge (board phải là Red POV)
+        if self.book_knowledge:
+            self.book_knowledge.current_rules_instance = self.rules # Gán rules của game cho book
+            # Lấy board Red POV để BookKnowledge kiểm tra features
+            board_red_pov_for_book_tuple = self.book_knowledge.get_mirrored_board_tuple(current_game_board_obj.to_tuple()) if player_color_ai == 'black' else current_game_board_obj.to_tuple()
+            board_red_pov_for_book_obj = XiangqiBoard() # Tạo instance mới
+            board_red_pov_for_book_obj.board = [list(row) for row in board_red_pov_for_book_tuple]
+            # Tạo rules mới cho board đã lật này, vì self.rules đang dùng board gốc
+            rules_red_pov_for_book = GameRules(board_red_pov_for_book_obj) 
+            self.book_knowledge.set_current_context_for_feature_checking(board_red_pov_for_book_obj, rules_red_pov_for_book)
 
-        # Cập nhật board_instance cho evaluator (quan trọng!)
-        self.evaluator.board_instance = current_game_board_obj
-        # Và cho rules (mặc dù nó thường được set lại bên trong các hàm tìm kiếm)
-        self.rules.board_instance = current_game_board_obj
+        print(f"INFO AI ({player_color_ai}): Tìm nước. Tổng nước đi: {self.move_count_for_eval}. TimeLimit: {self.time_limit_for_move:.1f}s.")
 
-
-        print(f"AI ({player_color_ai}) bắt đầu tìm nước. Tổng nước đi: {self.move_count_for_eval}. Giới hạn thời gian: {self.time_limit_for_move:.1f}s.")
-
+        # --- Thứ tự ưu tiên tìm nước ---
         # 1. Sách Khai Cuộc
-        if self.book_knowledge and self.move_count_for_eval < 12:
-            book_move_uci_str = self.book_knowledge.get_book_move_for_position(current_game_board_obj, player_color_ai, game_kifu_uci_list)
-            if book_move_uci_str:
-                parsed_book_move = self._uci_to_coords_tuple(book_move_uci_str, player_color_ai, current_game_board_obj)
-                if parsed_book_move:
-                    # (Kiểm tra tính hợp lệ của nước đi từ sách - giữ nguyên)
-                    print(f"AI ({player_color_ai}) chơi từ sách: {book_move_uci_str} -> {self._coords_to_uci_str(parsed_book_move[0], parsed_book_move[1])} ({parsed_book_move[2]})")
-                    return parsed_book_move 
+        if self.book_knowledge and self.move_count_for_eval < 12: # Giới hạn tra cứu khai cuộc, ví dụ 6 nước đầu của mỗi bên
+            # game_kifu_uci_list_param là kỳ phổ của ván cờ hiện tại
+            book_opening_move_uci = self.book_knowledge.get_book_move_for_opening(current_game_board_obj, player_color_ai, game_kifu_uci_list_param)
+            if book_opening_move_uci:
+                parsed_move = self._uci_to_coords_tuple(book_opening_move_uci, player_color_ai, current_game_board_obj)
+                if parsed_move: 
+                    # Kiểm tra nước đi từ sách có hợp lệ không (phòng trường hợp sách có lỗi hoặc không tương thích)
+                    temp_board_check = XiangqiBoard(copy.deepcopy(current_game_board_obj.board))
+                    temp_board_check.make_move(parsed_move[0], parsed_move[1])
+                    # Tạo rules tạm cho board sau nước đi từ sách
+                    temp_rules_check = GameRules(temp_board_check)
+                    if not temp_rules_check.is_king_in_check(player_color_ai) and not temp_rules_check.generals_facing():
+                        print(f"INFO AI: Chơi từ Sách Khai Cuộc: {book_opening_move_uci} ({parsed_move[2]})")
+                        return parsed_move
+                    else:
+                        print(f"WARN AI: Nước đi từ sách khai cuộc {book_opening_move_uci} không hợp lệ. Bỏ qua.")
         
-        # 2. Quyết định thuật toán và thực thi
-        best_move_found = None
         game_progress = self.evaluator.get_game_progress_score(self.move_count_for_eval)
         
-        # Ưu tiên MCTS nếu có đủ thời gian và không phải tàn cuộc quá sâu
-        # (Có thể thêm điều kiện: nếu không có nước đi nào quá tốt từ Alpha-Beta ở độ sâu nông ban đầu)
-        # Hoặc, nếu là lượt đầu của AI (ví dụ, Đen đi sau), MCTS có thể tốt hơn để tạo đa dạng
-        should_try_mcts = (game_progress < 2.0 and self.time_limit_for_move > 2.5) # Ví dụ: không dùng MCTS nếu thời gian quá ít
+        # 2. Sách Sát Pháp (Ưu tiên cao, có thể xảy ra bất cứ lúc nào)
+        if self.book_knowledge:
+            # Context cho book_knowledge đã được set ở đầu hàm find_best_move
+            # get_kill_pattern_move cần board hiện tại (chưa lật) và màu quân AI
+            kill_move_uci = self.book_knowledge.get_kill_pattern_move(current_game_board_obj, player_color_ai)
+            if kill_move_uci: # Giả sử get_kill_pattern_move trả về một nước UCI hoặc None
+                parsed_move = self._uci_to_coords_tuple(kill_move_uci, player_color_ai, current_game_board_obj)
+                if parsed_move:
+                    temp_board_check = XiangqiBoard(copy.deepcopy(current_game_board_obj.board))
+                    temp_board_check.make_move(parsed_move[0], parsed_move[1])
+                    temp_rules_check = GameRules(temp_board_check)
+                    if not temp_rules_check.is_king_in_check(player_color_ai) and not temp_rules_check.generals_facing():
+                        print(f"INFO AI: Thực hiện Sát Pháp! Nước: {kill_move_uci} ({parsed_move[2]})")
+                        return parsed_move
+                    else:
+                        print(f"WARN AI: Nước đi từ sách sát pháp {kill_move_uci} không hợp lệ. Bỏ qua.")
         
-        if should_try_mcts:
-            print(f"AI ({player_color_ai}) thử MCTS. Game progress: {game_progress:.2f}")
-            mcts_budget = self.time_limit_for_move * 0.6 # Dành phần lớn thời gian cho MCTS nếu thử
-            if self.move_count_for_eval < 4: mcts_budget = self.time_limit_for_move * 0.8 # Nhiều hơn cho khai cuộc
-
-            best_move_found = self._perform_mcts_search(current_game_board_obj, player_color_ai, mcts_budget)
-            if best_move_found:
-                time_taken = time.time() - self.current_search_start_time
-                print(f"AI ({player_color_ai}) MCTS hoàn tất. Nước: {self._coords_to_uci_str(best_move_found[0], best_move_found[1])} ({best_move_found[2]}). Sims: {self.mcts_simulations_performed}. T.gian: {time_taken:.2f}s")
-                # self.actual_depth_reached_in_last_search có thể set là self.mcts_simulations_performed
-                return best_move_found
-            else:
-                print(f"AI ({player_color_ai}) MCTS không tìm thấy nước đi, chuyển sang Alpha-Beta.")
+        # 3. Sách Cờ Tàn (Chỉ kiểm tra nếu thực sự vào tàn cuộc và sau một số nước nhất định)
+        # Ngưỡng game_progress và move_count_for_eval cần được tinh chỉnh
+        if self.book_knowledge and game_progress >= 1.8 and self.move_count_for_eval >= 20: # Ví dụ: sau 10 hiệp
+            print(f"INFO AI ({player_color_ai}): Giai đoạn cờ tàn (prog: {game_progress:.2f}), kiểm tra sách cờ tàn.")
+            # Context cho book_knowledge đã được set
+            book_endgame_move_uci = self.book_knowledge.find_and_get_endgame_move(current_game_board_obj, player_color_ai, game_kifu_uci_list_param)
+            if book_endgame_move_uci:
+                parsed_move = self._uci_to_coords_tuple(book_endgame_move_uci, player_color_ai, current_game_board_obj)
+                if parsed_move:
+                    temp_board_check = XiangqiBoard(copy.deepcopy(current_game_board_obj.board))
+                    temp_board_check.make_move(parsed_move[0], parsed_move[1])
+                    temp_rules_check = GameRules(temp_board_check)
+                    if not temp_rules_check.is_king_in_check(player_color_ai) and not temp_rules_check.generals_facing():
+                        print(f"INFO AI: Chơi từ Sách Cờ Tàn: {book_endgame_move_uci} ({parsed_move[2]})")
+                        return parsed_move
+                    else:
+                        print(f"WARN AI: Nước đi từ sách cờ tàn {book_endgame_move_uci} không hợp lệ. Bỏ qua.")
         
-        # Nếu MCTS không được thử hoặc thất bại, dùng Alpha-Beta
-        if not best_move_found:
-            print(f"AI ({player_color_ai}) sử dụng Alpha-Beta. Game progress: {game_progress:.2f}")
-            # Tính toán thời gian còn lại cho Alpha-Beta
-            time_spent_on_mcts = time.time() - self.current_search_start_time if should_try_mcts else 0
-            remaining_time_for_ab = self.time_limit_for_move - time_spent_on_mcts - 0.1 # Trừ hao 0.1s
-            if remaining_time_for_ab < 0.5: # Nếu còn quá ít thời gian
-                print(f"AI ({player_color_ai}) Alpha-Beta: Không đủ thời gian còn lại ({remaining_time_for_ab:.2f}s).")
-                # Cố gắng tìm nước nhanh ở độ sâu 1 hoặc 2
-                effective_upper_depth_limit = 1 if remaining_time_for_ab < 1.0 else 2
+        # 4. Lựa chọn thuật toán tìm kiếm chính (MCTS-AB hoặc Alpha-Beta)
+        best_move_found = None
+        use_mcts_primary = False # Mặc định không dùng MCTS trừ khi điều kiện thỏa mãn
+        # Điều kiện sử dụng MCTS (ví dụ: đầu/giữa game, đủ thời gian)
+        if game_progress < 1.0 and self.time_limit_for_move > 0.8: # Khai cuộc (ngoài sách)
+            use_mcts_primary = True
+            print(f"INFO AI: Giai đoạn Khai cuộc (ngoài sách), sử dụng MCTS-AB.")
+        elif game_progress < 1.9 and self.time_limit_for_move > 1.5: # Trung cuộc
+            use_mcts_primary = True
+            print(f"INFO AI: Giai đoạn Trung cuộc, sử dụng MCTS-AB.")
+        
+        if use_mcts_primary:
+            mcts_time_budget = self.time_limit_for_move * MCTS_SIMULATION_BUDGET_SECONDS_RATIO
+            if self.move_count_for_eval < 6 : mcts_time_budget = self.time_limit_for_move * 0.70 # Ít thời gian hơn cho những nước đầu
+            
+            print(f"INFO AI: MCTS-AB budget: {mcts_time_budget:.2f}s")
+            best_move_found_mcts = self._perform_mcts_search(current_game_board_obj, player_color_ai, mcts_time_budget)
+            if best_move_found_mcts:
+                self.actual_depth_reached_in_last_search = self.mcts_simulations_performed # Lưu số sims thay cho depth
+                print(f"INFO AI: MCTS-AB chọn nước: {self._coords_to_uci_str(best_move_found_mcts[0], best_move_found_mcts[1])} ({best_move_found_mcts[2]}). Sims: {self.mcts_simulations_performed}.")
+                return best_move_found_mcts
             else:
-                # Điều chỉnh độ sâu tối đa dựa trên game_progress và thời gian còn lại
-                absolute_max_depth_ab = 10 # Giảm giới hạn tuyệt đối cho AB nếu MCTS đã chạy
-                if game_progress < 0.8: 
-                    effective_upper_depth_limit = min(absolute_max_depth_ab, 3 if remaining_time_for_ab < 4 else 4) 
-                elif game_progress < 1.8: 
-                    effective_upper_depth_limit = min(absolute_max_depth_ab, 4 if remaining_time_for_ab < 6 else 5) 
-                else: 
-                    effective_upper_depth_limit = min(absolute_max_depth_ab, 5 if remaining_time_for_ab < 8 else 7)
-            
-            print(f"AI ({player_color_ai}) Alpha-Beta. Giới hạn độ sâu lặp: {effective_upper_depth_limit}. Thời gian còn lại: {remaining_time_for_ab:.2f}s")
-            
-            best_move_overall_ab = None
-            best_eval_overall_ab = float('-inf')
-            original_search_start_time_for_ab_iter = self.current_search_start_time # Lưu lại để tính timeout cho AB
-            # Nếu MCTS đã chạy, current_search_start_time đã bị "tiêu hao"
-            # Cần một mốc thời gian mới cho riêng Alpha-Beta
-            ab_start_time_this_instance = time.time()
+                print(f"WARN AI: MCTS-AB không tìm thấy nước đi, chuyển sang Alpha-Beta.")
+        
+        # Fallback hoặc nếu là Tàn cuộc / không đủ thời gian cho MCTS / MCTS không tìm được nước
+        print(f"INFO AI: Sử dụng Alpha-Beta với Quiescence. Game Prog: {game_progress:.2f}")
+        
+        time_spent_so_far = time.time() - self.current_search_start_time
+        remaining_time_for_ab = self.time_limit_for_move - time_spent_so_far - 0.05 # Trừ hao
+        
+        # Xác định độ sâu hiệu quả cho Alpha-Beta dựa trên giai đoạn và thời gian còn lại
+        effective_ab_depth = AB_DEFAULT_MAX_DEPTH_ENDGAME
+        if game_progress < 0.8: effective_ab_depth = AB_DEFAULT_MAX_DEPTH_OPENING
+        elif game_progress < 1.8: effective_ab_depth = AB_DEFAULT_MAX_DEPTH_MIDGAME
+        
+        # Điều chỉnh độ sâu dựa trên thời gian còn lại
+        if remaining_time_for_ab < 0.3: effective_ab_depth = min(effective_ab_depth, 1) 
+        elif remaining_time_for_ab < 1.0: effective_ab_depth = min(effective_ab_depth, 2)
+        elif remaining_time_for_ab < 2.5: effective_ab_depth = min(effective_ab_depth, 3)
+        elif game_progress < 1.8 : # Nếu là trung cuộc
+             effective_ab_depth = min(effective_ab_depth, AB_DEFAULT_MAX_DEPTH_MIDGAME) 
+        
+        if game_progress >= 1.8 : # Nếu là tàn cuộc
+            if remaining_time_for_ab > 5.0: effective_ab_depth = min(AB_ABSOLUTE_MAX_DEPTH, AB_DEFAULT_MAX_DEPTH_ENDGAME + 1)
+            elif remaining_time_for_ab > 2.5: effective_ab_depth = min(AB_ABSOLUTE_MAX_DEPTH, AB_DEFAULT_MAX_DEPTH_ENDGAME)
+        
+        effective_ab_depth = max(1, effective_ab_depth) # Ít nhất là 1
 
-
-            for current_search_depth_iter in range(1, effective_upper_depth_limit + 1):
-                # Cập nhật lại time_limit_for_move cho _minimax_alpha_beta_recursive dựa trên remaining_time_for_ab
-                # Hoặc, _minimax_alpha_beta_recursive nên nhận một tham số time_budget riêng
-                # Tạm thời, nó vẫn dùng self.time_limit_for_move, nhưng check timeout bên trong
-                # Cần đảm bảo self.current_search_start_time là đúng cho check timeout của minimax
-                # self.current_search_start_time = ab_start_time_this_instance # Reset cho mỗi lần gọi minimax? Không, cho cả find_best_move
-                # Cách tốt hơn: minimax nhận time_budget
-                
-                # Nếu dùng self.time_limit_for_move, nó phải là thời điểm kết thúc tuyệt đối
-                # self.current_search_start_time là thời điểm bắt đầu của find_best_move
-                # Thời gian còn lại cho vòng lặp ID này:
-                time_left_for_this_id_iteration = (self.current_search_start_time + self.time_limit_for_move) - time.time() - 0.05
-                if time_left_for_this_id_iteration < 0.1 : # Nếu còn quá ít, không chạy sâu hơn
-                    print(f"AI ({player_color_ai}) Alpha-Beta: Hết giờ trước khi bắt đầu depth {current_search_depth_iter}.")
+        print(f"INFO AI: Alpha-Beta. Max Depth (Iterative): {effective_ab_depth}. Time left for AB: {remaining_time_for_ab:.2f}s")
+        
+        best_move_ab = None
+        # Khởi tạo best_eval_ab đúng cho người chơi hiện tại
+        best_eval_ab = -float('inf') if player_color_ai == 'red' else float('inf') 
+        
+        if remaining_time_for_ab < 0.05: # Nếu gần như không còn thời gian
+            print(f"WARN AI: Không đủ thời gian cho Alpha-Beta ({remaining_time_for_ab:.2f}s).")
+        else:
+            # Iterative Deepening Alpha-Beta
+            for current_search_depth_iter in range(1, effective_ab_depth + 1):
+                iter_start_time = time.time()
+                # Kiểm tra thời gian trước khi bắt đầu một độ sâu mới
+                time_budget_for_this_iter = (self.current_search_start_time + self.time_limit_for_move) - time.time() - 0.02 # Trừ hao
+                if time_budget_for_this_iter < 0.01 and current_search_depth_iter > 1 : # Nếu không đủ thời gian cho iter tiếp theo
+                    print(f"INFO AI: Alpha-Beta: Hết giờ trước khi bắt đầu depth {current_search_depth_iter}.")
                     break
 
-
-                self.initial_max_depth_for_this_call = current_search_depth_iter 
-                self.actual_depth_reached_in_last_search = 0 # Reset cho mỗi độ sâu ID
+                self.initial_max_depth_for_this_call = current_search_depth_iter # Độ sâu tối đa cho lần gọi _minimax_alpha_beta_recursive này
+                self.actual_depth_reached_in_last_search = 0 # Reset cho mỗi lần lặp ID
                 
-                # ... (phần còn lại của vòng lặp Iterative Deepening Alpha-Beta giữ nguyên) ...
-                # Đảm bảo self.rules.board_instance và self.evaluator.board_instance được set đúng
+                current_iter_best_move = None
+                # Khởi tạo current_iter_eval đúng
+                current_iter_eval = -float('inf') if player_color_ai == 'red' else float('inf')
+                alpha, beta = float('-inf'), float('inf')
+
+                # Đảm bảo board cho rules, evaluator, referee là board hiện tại của game
                 self.rules.board_instance = current_game_board_obj
                 self.evaluator.board_instance = current_game_board_obj
+                self.referee.board_instance = current_game_board_obj 
 
-                current_best_move_this_iter = None
-                current_max_eval_this_iter = float('-inf')
-                alpha, beta = float('-inf'), float('inf')
                 possible_moves_ab = self.rules.get_all_valid_moves(player_color_ai)
-                if not possible_moves_ab: break 
+                if not possible_moves_ab: break # Không còn nước đi
 
+                # Sắp xếp nước đi cho Alpha-Beta
                 possible_moves_ab.sort(key=lambda m: self._get_move_score_for_ordering(current_game_board_obj, m[0], m[1], m[2], current_search_depth_iter, player_color_ai), reverse=True)
                 
                 try:
-                    for move_from, move_to, piece_char_moved in possible_moves_ab:
-                        # ... (Referee check - giữ nguyên) ...
-                        temp_board_obj_ab = XiangqiBoard(copy.deepcopy(current_game_board_obj.board)) # Tạo board mới cho mỗi nước thử
-                        temp_board_obj_ab.make_move(move_from, move_to) # Thực hiện trên board mới
+                    for i_move, (move_from, move_to, piece_char_moved) in enumerate(possible_moves_ab):
+                        # Kiểm tra luật cấm của Referee cho nước đi này
+                        action_type, target_info, board_data_after_action = self.referee.get_action_details(current_game_board_obj, move_from, move_to, piece_char_moved)
+                        board_tuple_after_action = XiangqiBoard(board_data_after_action).to_tuple()
+                        current_action_entry = {"player": player_color_ai, "action_type": action_type, "target_key": self.referee._generate_target_key(action_type, target_info, piece_char_moved, move_from), "board_tuple_after_action": board_tuple_after_action, "move_tuple": (move_from, move_to)}
+                        history_for_referee_check_node = (current_action_history_param or []) + [current_action_entry]
+                        
+                        is_forbidden = self.referee.check_forbidden_perpetual_action(player_color_ai, (move_from, move_to), action_type, target_info, board_tuple_after_action, piece_char_moved, history_for_referee_check_node)
+                        if is_forbidden:
+                            # print(f"DEBUG AI: Nước đi {self._coords_to_uci_str(move_from, move_to)} bị cấm bởi Referee.")
+                            continue # Bỏ qua nước đi bị cấm
 
-                        # Chuẩn bị history cho đệ quy
-                        board_hist_child = current_board_history_tuples + [(temp_board_obj_ab.to_tuple(), self.rules.get_opponent_color(player_color_ai))]
-                        action_hist_child = current_action_history # (Cần cập nhật action cho nước hiện tại nếu referee dùng)
-
+                        temp_board_obj_ab = XiangqiBoard(copy.deepcopy(board_data_after_action)) # Tạo board mới từ board_data_after_action
+                        
+                        # Lịch sử board cho kiểm tra lặp 3 lần
+                        board_hist_child = (current_board_history_tuples_param or []) + [(temp_board_obj_ab.to_tuple(), self.rules.get_opponent_color(player_color_ai))]
+                        
+                        # Gọi đệ quy Alpha-Beta cho đối thủ
                         evaluation = self._minimax_alpha_beta_recursive(
-                            temp_board_obj_ab, current_search_depth_iter - 1, 
-                            alpha, beta, False, player_color_ai, 
-                            board_hist_child, action_hist_child, 1 
+                            temp_board_obj_ab, current_search_depth_iter - 1, # Giảm độ sâu
+                            alpha, beta, False, player_color_ai, # False vì giờ là lượt của đối thủ (minimizing)
+                            board_hist_child, history_for_referee_check_node, # Truyền lịch sử
+                            self.move_count_for_eval + 1 # Ply_from_root cho minimax, bắt đầu từ 1 cho nước đi đầu tiên của AI
                         )
-                        if evaluation > current_max_eval_this_iter:
-                            current_max_eval_this_iter = evaluation
-                            current_best_move_this_iter = (move_from, move_to, piece_char_moved)
-                        alpha = max(alpha, evaluation)
-                        if alpha >= beta: break # Cắt tỉa beta
+                        
+                        if player_color_ai == 'red': # AI là Đỏ (Maximizing player ở root)
+                            if evaluation > current_iter_eval:
+                                current_iter_eval = evaluation
+                                current_iter_best_move = (move_from, move_to, piece_char_moved)
+                            alpha = max(alpha, evaluation)
+                        else: # AI là Đen (Minimizing player ở root, nhưng hàm minimax vẫn tìm max cho Đỏ, nên cần đảo dấu hoặc so sánh ngược lại)
+                              # Thực ra, player_to_optimize_for luôn là player_color_ai.
+                              # is_maximizing_player_turn thay đổi ở mỗi độ sâu.
+                              # Ở root, is_maximizing_player_turn là True.
+                              # Vậy logic cập nhật best_eval và alpha/beta là đúng.
+                            if evaluation < current_iter_eval: # Nếu AI là Đen (Minimizing ở root, nhưng _minimax... luôn tối ưu cho player_to_optimize_for)
+                                                              # Đoạn này cần xem lại. player_to_optimize_for là player_color_ai.
+                                                              # Nên logic if player_color_ai == 'red' là đủ.
+                                                              # Nếu AI là Đen, thì giá trị trả về từ _minimax... là điểm của Đen (nếu is_maximizing_player_turn là True cho Đen).
+                                                              # Không, player_to_optimize_for là cố định.
+                                                              # is_maximizing_player_turn là cho lượt của node đó.
+                                                              # Ở root, AI (player_color_ai) là maximizing.
+                                # Sửa lại cho đúng:
+                                current_iter_eval = evaluation # Vì giá trị trả về là theo góc nhìn của player_color_ai
+                                if current_iter_best_move is None: # Gán nước đầu tiên
+                                     current_iter_best_move = (move_from, move_to, piece_char_moved)
+                                
+                                # Cập nhật alpha/beta dựa trên is_maximizing_player_turn của root (luôn là True cho AI)
+                                # Đoạn này là ở root, AI luôn là maximizing
+                                if current_iter_eval > best_eval_ab : # So sánh với best_eval_ab toàn cục của root
+                                     best_eval_ab = current_iter_eval
+                                     current_iter_best_move = (move_from, move_to, piece_char_moved)
+                                alpha = max(alpha, current_iter_eval)
 
-                    if current_best_move_this_iter:
-                        best_move_overall_ab = current_best_move_this_iter
-                        best_eval_overall_ab = current_max_eval_this_iter
-                        print(f"AI ({player_color_ai}) Alpha-Beta depth {current_search_depth_iter}. Nước: {self._coords_to_uci_str(best_move_overall_ab[0], best_move_overall_ab[1])} ({best_move_overall_ab[2]}), Đ.giá: {best_eval_overall_ab:.0f}, T.gian: {time.time() - self.current_search_start_time:.2f}s, Độ sâu TT: {self.actual_depth_reached_in_last_search}")
+
+                        if alpha >= beta: # Cắt tỉa
+                            break 
+
+                    if current_iter_best_move:
+                        best_move_ab = current_iter_best_move
+                        best_eval_ab = current_iter_eval # Lưu lại eval của iter này
+                        print(f"INFO AI: Alpha-Beta depth {current_search_depth_iter}. Nước: {self._coords_to_uci_str(best_move_ab[0], best_move_ab[1])} ({best_move_ab[2]}), Đ.giá ({player_color_ai}): {best_eval_ab:.0f}, T.gian ID: {time.time() - iter_start_time:.2f}s, Tổng T.gian: {time.time() - self.current_search_start_time:.2f}s, Độ sâu TT: {self.actual_depth_reached_in_last_search}")
                 
                 except TimeoutError:
-                    print(f"AI ({player_color_ai}) Alpha-Beta hết thời gian ở độ sâu lặp {current_search_depth_iter}.")
-                    break 
+                    print(f"WARN AI: Alpha-Beta hết thời gian ở độ sâu lặp {current_search_depth_iter}.")
+                    break # Thoát vòng lặp Iterative Deepening
                 
-                if time.time() - self.current_search_start_time >= self.time_limit_for_move - 0.05:
+                # Kiểm tra thời gian sau mỗi lần hoàn thành một độ sâu
+                if time.time() - self.current_search_start_time >= self.time_limit_for_move - 0.02: # Để lại một chút thời gian
+                    print(f"INFO AI: Alpha-Beta gần hết thời gian sau depth {current_search_depth_iter}.")
                     break
-            
-            best_move_found = best_move_overall_ab # Gán kết quả từ Alpha-Beta
-
-        # Xử lý cuối cùng
+            best_move_found = best_move_ab
+        
+        # Fallback: Nếu không tìm thấy nước đi nào (rất hiếm)
         final_time_taken = time.time() - self.current_search_start_time
         if best_move_found:
-            print(f"AI ({player_color_ai}) Tìm kiếm hoàn tất. Nước cuối: {self._coords_to_uci_str(best_move_found[0], best_move_found[1])} ({best_move_found[2]}). T.gian: {final_time_taken:.2f}s")
+             print(f"INFO AI: Tìm kiếm hoàn tất. Nước cuối: {self._coords_to_uci_str(best_move_found[0], best_move_found[1])} ({best_move_found[2]}). T.gian: {final_time_taken:.2f}s")
         else:
-            print(f"AI ({player_color_ai}) Không tìm thấy nước đi nào sau toàn bộ quá trình. T.gian: {final_time_taken:.2f}s")
-            all_valid_at_end = self.rules.get_all_valid_moves(player_color_ai)
-            if all_valid_at_end:
-                print(f"AI ({player_color_ai}) Chọn nước ngẫu nhiên từ {len(all_valid_at_end)} nước hợp lệ.")
-                return random.choice(all_valid_at_end)
+             print(f"ERROR AI: Không thể tìm thấy bất kỳ nước đi hợp lệ nào cho {player_color_ai}! T.gian: {final_time_taken:.2f}s")
+             # Cố gắng chọn một nước ngẫu nhiên nếu có thể
+             self.rules.board_instance = current_game_board_obj # Đảm bảo rules dùng board hiện tại
+             all_valid_at_end = self.rules.get_all_valid_moves(player_color_ai) 
+             if all_valid_at_end: 
+                 print(f"WARN AI: Chọn nước ngẫu nhiên từ {len(all_valid_at_end)} nước hợp lệ.")
+                 best_move_found = random.choice(all_valid_at_end)
         
-        return best_move_found # Có thể là None nếu không tìm thấy gì
+        return best_move_found
+

@@ -1,64 +1,906 @@
 {
+  "book_chapter_info": {
+    "chapter_number": 3,
+    "title_vi": "Sát Pháp Cơ Bản",
+    "source_book_name_vi": "Cờ Tướng Nhập Môn - Đàm Hưng (dịch từ Chu Bảo Vị)"
+  },
   "kill_patterns": [
     {
-      "pattern_id": "KP_001_DOI_DIEN_TIEU",
-      "name": "Đối Diện Tiếu (Sát pháp đối mặt cười)",
-      "source_book_page": 142, 
-      "description": "Hai Pháo một Xe phối hợp chiếu Tướng khi Tướng đối phương bị lộ mặt.",
-      "type": "checkmate_sequence", 
-      "difficulty": "basic",
-      "tags": ["cannon", "chariot", "exposed_king"],
-      "recognition_conditions": {
-        "player_to_move_color": "red", 
-        "required_pieces_self": [ 
-          {"type": "CANNON", "min_count": 2, "role_description": "Một Pháo làm ngòi, một Pháo chiếu"},
-          {"type": "CHARIOT", "min_count": 1, "role_description": "Xe hỗ trợ hoặc khóa đường Tướng"}
-        ],
-        "opponent_king_state": {
-          "is_exposed_on_file": true, 
-          "has_limited_escape_squares": true,
-          "advisor_count_max": 1 
-        },
-        "board_features": [
-          "self_cannon_can_check_with_mount",
-          "self_chariot_controls_escape_file_or_rank"
-        ]
-      },
-      "solution_priority": 100, 
-      "solution_uci_sequence_for_player_to_move": [
-        "b7e7"
+      "pattern_id": "CH3_KP_H174_DOI_MAT_CUOI_VD1",
+      "name_vi": "PHẦN 1 SÁT PHÁP ĐỐI MẶT CƯỜI - Ví dụ 1 (hình 174)",
+      "source_book_page": "142",
+      "description_vi": "Lợi dụng quy tắc hai Tướng không được ở vị trí chống Tướng, tức không được trực tiếp đối mặt trên cùng một cột dọc, một bên dùng nước chiếu Tướng, khiến Tướng đối phương bị chiếu bí vì không thể đi vào vị trí chống Tướng, gọi là sát pháp Lộ mặt Tướng, còn gọi là Đối diện tiếu, Đối mặt cười, Thiên lý chiếu diện, giá trị ứng dụng khá cao.",
+      "type": "checkmate_pattern",
+      "difficulty_level": "basic",
+      "initial_fen_red_perspective_for_example": "2bakc3/4a4/4c4/p3p1P1p/9/6P2/P3P1C2/4E4/4A4/2B1K1R2 w - - 0 1",
+      "player_to_move_on_fen_for_example": "red",
+      "recognition_conditions_red_pov": [
+        {"type": "piece_count_exact", "player": "self", "piece_counts": {"K":1,"R":1,"C":2,"E":1,"A":1,"B":1,"P":5}},
+        {"type": "piece_count_exact", "player": "opponent", "piece_counts": {"k":1,"r":1,"c":2,"e":1,"a":2,"b":1,"p":5}}
       ],
-      "comments": "Thường áp dụng khi Tướng đối phương mất Sĩ hoặc Sĩ không ở vị trí tốt."
+      "solution_uci_sequence_for_player_to_move_red_pov": ["c2f2", "g6f6", "f2f7"],
+      "opponent_responses_uci_for_example": ["f9e8", "e9e8"],
+      "analysis_and_comments_vi": "Nước đi: Đỏ đi trước.\n1. Pháo 3 bình 6 (c2f2), Sĩ 4 lùi 5 (f9e8).\n2. Tốt 7 bình 6! (g6f6), Tướng 4 tiến 1 (e9e8).\n3. Pháo 6 lùi 5 (f2f7) (Đỏ thắng).\nLời bình: Bên đỏ thí Tốt dụ Tướng lên đỉnh, ẩn tàng sát cơ, là nước đi then chốt để thủ thắng. Nếu đầu tiên đi Pháo 6 lùi 5 đánh Tốt, thì Sĩ 5 tiến 4, Sĩ 6 lùi 5, Tướng 4 bình 5, Tướng đen chiếm lĩnh trung lộ, bên đỏ mất cơ hội thủ thắng.",
+      "tags": ["doi_mat_cuoi", "lo_mat_tuong", "generals_facing", "cannon_check", "pawn_check", "sacrifice"]
     },
     {
-      "pattern_id": "KP_002_THIET_MON_THUYEN",
-      "name": "Thiết Môn Thuyên",
-      "source_book_page": 146,
-      "description": "Xe và Pháo (hoặc Mã) khóa chặt Tướng ở một biên hoặc đáy.",
-      "type": "checkmate_sequence",
-      "difficulty": "intermediate",
-      "tags": ["chariot", "cannon", "king_trap", "baseline_mate"],
-       "recognition_conditions": {
-        "player_to_move_color": "red",
-        "required_pieces_self": [
-            {"type": "CHARIOT", "min_count": 1, "role_description": "Xe chiếm hàng đáy hoặc cột biên gần Tướng"},
-            {"type": "CANNON", "min_count": 1, "role_description": "Pháo làm ngòi chiếu Tướng từ xa"}
-        ],
-        "opponent_king_state": {
-            "is_on_baseline_or_edgefile": true,
-            "has_no_escape_squares_from_chariot_control": true
-        },
-        "board_features": [
-            "self_chariot_controls_king_movement_along_line",
-            "self_cannon_has_clear_shot_with_mount_to_king"
-        ]
-      },
-      "solution_priority": 120,
-      "solution_uci_sequence_for_player_to_move": [
-        
+      "pattern_id": "CH3_KP_H175_DOI_MAT_CUOI_VD2",
+      "name_vi": "PHẦN 1 SÁT PHÁP ĐỐI MẶT CƯỜI - Ví dụ 2 (hình 175)",
+      "source_book_page": "143",
+      "description_vi": "Lợi dụng quy tắc hai Tướng không được ở vị trí chống Tướng, tức không được trực tiếp đối mặt trên cùng một cột dọc, một bên dùng nước chiếu Tướng, khiến Tướng đối phương bị chiếu bí vì không thể đi vào vị trí chống Tướng, gọi là sát pháp Lộ mặt Tướng, còn gọi là Đối diện tiếu, Đối mặt cười, Thiên lý chiếu diện, giá trị ứng dụng khá cao.",
+      "type": "checkmate_pattern",
+      "difficulty_level": "intermediate",
+      "initial_fen_red_perspective_for_example": "r2akc3/4a4/4e4/9/2R1R4/9/9/4E4/4A4/4K3 w - - 0 1",
+      "player_to_move_on_fen_for_example": "red",
+      "recognition_conditions_red_pov": [
+        {"type": "piece_count_exact", "player": "self", "piece_counts": {"K":1,"R":2,"E":1,"A":1}},
+        {"type": "piece_count_exact", "player": "opponent", "piece_counts": {"k":1,"r":1,"c":1,"e":1,"a":2}}
       ],
-      "comments": "Một trong những sát pháp phổ biến và hiệu quả."
+      "solution_uci_sequence_for_player_to_move_red_pov": ["d3f3", "f3f8", "c3c4", "c4c9", "f8e8", "e8d8", "c9d9"],
+      "opponent_responses_uci_for_example": ["e8f8", "e9f9", "f8e8", "e9d9", "d9c9", "c9d9"],
+      "analysis_and_comments_vi": "Nước đi: Đỏ đi trước.\n1. Xe 4 bình 6 (d3f3), Sĩ 5 tiến 4 (e8f8).\n2. Xe 6 tiến 5! (f3f8), Tướng 4 bình 5 (e9f9).\n3. Xe 3 tiến 4 (c3c4), Tướng 5 lùi 1 (f9e8).\n4. Xe 3 tiến 1 (c4c9), Tướng 5 tiến 1 (e8d9).\n5. Xe 6 bình 5 (f8e8), Tướng 5 bình 6 (d9c9).\n6. Xe 5 bình 4 (e8d8), Tướng 6 tiến 1 (c9d9).\n7. Xe 3 bình 4 (c9d9) (đỏ thắng).\nChú thích:\n(1) Nước đi chính! Nếu đi sai dùng Xe 3 chiếu Tướng, thì không phải là sát cục.\n(2) Bên đỏ dựa vào sức mạnh của Tướng bắt hết Sĩ, Tượng toàn, dựa vào sát pháp Lộ mặt Tướng giành thế nhập cục trước.",
+      "tags": ["doi_mat_cuoi", "lo_mat_tuong", "generals_facing", "chariot_check", "king_activity"]
+    },
+    {
+      "pattern_id": "CH3_KP_H176_DOI_MAT_CUOI_VD3",
+      "name_vi": "PHẦN 1 SÁT PHÁP ĐỐI MẶT CƯỜI - Ví dụ 3 (hình 176)",
+      "source_book_page": "143",
+      "description_vi": "Lợi dụng quy tắc hai Tướng không được ở vị trí chống Tướng, tức không được trực tiếp đối mặt trên cùng một cột dọc, một bên dùng nước chiếu Tướng, khiến Tướng đối phương bị chiếu bí vì không thể đi vào vị trí chống Tướng, gọi là sát pháp Lộ mặt Tướng, còn gọi là Đối diện tiếu, Đối mặt cười, Thiên lý chiếu diện, giá trị ứng dụng khá cao.",
+      "type": "checkmate_pattern",
+      "difficulty_level": "intermediate",
+      "initial_fen_red_perspective_for_example": "1r2k2r/4a4/2n1b4/9/4R4/9/9/4A4/5K3/1R7 w - - 0 1",
+      "player_to_move_on_fen_for_example": "red",
+      "recognition_conditions_red_pov": [
+        {"type": "piece_count_exact", "player": "self", "piece_counts": {"K":1,"R":2,"H":1,"A":1}},
+        {"type": "piece_count_exact", "player": "opponent", "piece_counts": {"k":1,"r":2,"n":1,"e":1,"a":1}}
+      ],
+      "solution_uci_sequence_for_player_to_move_red_pov": ["g0g2", "g2g1", "f1g3", "e0d0", "d0c0", "g1g0", "g0f0", "g3h5"],
+      "opponent_responses_uci_for_example": ["d9d8", "d8e8", "e3e4", "e8d8", "d8c8", "d8d9", "f8e7"],
+      "analysis_and_comments_vi": "Nước đi: Đỏ đi trước.\n1. Xe 7 tiến 2 (g0g2), Tướng 4 tiến 1 (d9d8).\n2. Xe 7 lùi 1 (g2g1), Tướng 4 lùi 1 (d8e8).\n3. Mã 6 tiến 7! (f1g3), Xe 4 tiến 1 (e3e4). Chú thích(1): Nếu đổi nước đi thành Xe 4 bình 5 (e3d3), thì Tướng 5 bình 4 (e0d0), Xe 5 lùi 4 (d3d6), Xe 7 tiến 1 (g1g2), Tướng 4 tiến 1 (e8d8), Mã 7 lùi 6 (g3e2), đỏ được Xe thủ thắng.\n4. Tướng 5 lùi 1 (e0d0), Xe 4 tiến 1 (e4e5).\n5. Tướng 5 lùi 1 (d0c0), Xe 4 lùi 1 (e5e4).\n6. Xe 7 tiến 1 (g1g0), Tướng 4 tiến 1 (e8d9).\n7. Xe 7 bình 6! (g0f0), Sĩ 5 lùi 4 (f8e7).\n8. Mã 7 tiến 8 (g3h5) (đỏ thắng).",
+      "tags": ["doi_mat_cuoi", "lo_mat_tuong", "generals_facing", "chariot_knight_coordination"]
+    },
+    {
+      "pattern_id": "CH3_KP_H177_DAI_DAM_XUYEN_TAM_VD1",
+      "name_vi": "PHẦN 2 SÁT PHÁP ĐẠI ĐẢM XUYÊN TÂM - Ví dụ 1 (hình 177)",
+      "source_book_page": "144",
+      "description_vi": "Được sự phối hợp của quân khác, một bên trước tiên tiến Xe bắt Sĩ trung lộ của đối phương, từ đó phá vỡ thế trận kiên cố, chiếu bí Tướng của đối phương, gọi là sát pháp Đại đảm xuyên tâm (dũng cảm xuyên tim), hay còn gọi là Đại đao xuyên tâm. Đây là sát pháp tốc chiến tốc thẳng, là một loại chiến thuật bỏ quân rất hung hãn. Trong cùng thể cục này, sát cục được tạo thành khi dùng Tốt ăn Sĩ trung lộ của đối phương, được gọi là sát pháp Tiểu đao xuyên tâm.",
+      "type": "checkmate_pattern",
+      "difficulty_level": "intermediate",
+      "initial_fen_red_perspective_for_example": "1c1akab2/4a4/4e4/8P/9/2R1R4/9/4E4/4A4/2B1K1R1 w - - 0 1",
+      "player_to_move_on_fen_for_example": "red",
+      "recognition_conditions_red_pov": [
+        {"type": "piece_count_exact", "player": "self", "piece_counts": {"K":1,"R":2,"C":1,"E":1,"A":1,"B":1,"P":1}},
+        {"type": "piece_count_exact", "player": "opponent", "piece_counts": {"k":1,"c":1,"e":1,"a":2,"b":1,"p":1}}
+      ],
+      "solution_uci_sequence_for_player_to_move_red_pov": ["c3e3", "e3e2", "c6c8", "c8e8"],
+      "opponent_responses_uci_for_example": ["e9d9", "d9d8", "f8e7"],
+      "analysis_and_comments_vi": "Nước đi: Đỏ đi trước.\n1. Xe 7 bình 5! (c3e3), Tướng 5 bình 4 (e9d9).\n2. Xe 5 tiến 1 (e3e2), Tướng 4 tiến 1 (d9d8).\n3. Xe 3 tiến 2 (c6c8), Sĩ 6 tiến 5 (f8e7).\n4. Xe 3 bình 5 (c8e8) (Đỏ thắng).\nLời bình: Hiệp thứ nhất bên đỏ bỏ Xe giết Sĩ, phá huỷ phòng tuyến của đối phương, là thủ đoạn thường dùng trong Xe Pháo liên hiệp tác chiến. Bên đen nếu đi Sĩ 6 tiến 5 ăn Xe, thì Xe 3 tiến 3, bên đỏ nhanh chóng thủ thắng.",
+      "tags": ["dai_dam_xuyen_tam", "chariot_sacrifice", "center_advisor_attack", "chariot_cannon_coordination"]
+    },
+    {
+      "pattern_id": "CH3_KP_H178_DAI_DAM_XUYEN_TAM_VD2",
+      "name_vi": "PHẦN 2 SÁT PHÁP ĐẠI ĐẢM XUYÊN TÂM - Ví dụ 2 (hình 178)",
+      "source_book_page": "145",
+      "description_vi": "Được sự phối hợp của quân khác, một bên trước tiên tiến Xe bắt Sĩ trung lộ của đối phương, từ đó phá vỡ thế trận kiên cố, chiếu bí Tướng của đối phương, gọi là sát pháp Đại đảm xuyên tâm (dũng cảm xuyên tim), hay còn gọi là Đại đao xuyên tâm. Đây là sát pháp tốc chiến tốc thẳng, là một loại chiến thuật bỏ quân rất hung hãn. Trong cùng thể cục này, sát cục được tạo thành khi dùng Tốt ăn Sĩ trung lộ của đối phương, được gọi là sát pháp Tiểu đao xuyên tâm.",
+      "type": "checkmate_pattern",
+      "difficulty_level": "advanced",
+      "initial_fen_red_perspective_for_example": "rnb1kbnr/4a4/4e3/8/4R3R/9/9/4E4/4A4/1NBQKBN1 w - - 0 1",
+      "player_to_move_on_fen_for_example": "red",
+      "recognition_conditions_red_pov": [
+        {"type": "piece_count_exact", "player": "self", "piece_counts": {"K":1,"Q":1,"R":2,"N":1,"B":1,"E":1,"A":1}},
+        {"type": "piece_count_exact", "player": "opponent", "piece_counts": {"k":1,"r":1,"n":1,"b":1,"e":1,"a":1}}
+      ],
+      "solution_uci_sequence_for_player_to_move_red_pov": ["e4e6", "e6e5", "h4h6", "e5f5", "h6h5", "h5e5", "e5d5"],
+      "opponent_responses_uci_for_example": ["f8e7", "e7f8", "d8e7", "e8f8", "e6g4", "f8g9"],
+      "analysis_and_comments_vi": "Nước đi: Đỏ đi trước.\n1. Xe 7 tiến 2 (e4e6), Sĩ 5 lùi 4 (f8e7).\n2. Xe 7 lùi 1! (e6e5), Sĩ 4 tiến 5 (e7f8).\n3. Xe 8 tiến 2 (h4h6), Sĩ 5 lùi 4 (f8e7).\n4. Xe 7 bình 5! (e5f5), Sĩ 6 tiến 5 (e7f8).\n5. Xe 8 lùi 1 (h6h5), Tượng 5 lùi 3 (e6g4).\n6. Xe 8 bình 5! (h5e5), Tướng 5 bình 6 (f8g9).\n7. Xe 5 bình 4 (e5d5) (Đỏ thắng).\nLời bình: Bên đỏ lợi dụng vị trí chiếu Tướng, trước tiên tặng không một Xe, sau đó lại bỏ Xe dùng sát chiêu Đại đảm xuyên tâm bắt Sĩ 5, hình thành sát cục điển hình. Ở thế cục này hai bên mỗi bên tấn công một cánh, thường gặp trong thực chiến, đáng để tham khảo.",
+      "tags": ["dai_dam_xuyen_tam", "chariot_sacrifice", "double_chariot_attack", "wing_attack"]
+    },
+    {
+      "pattern_id": "CH3_KP_H179_DAI_DAM_XUYEN_TAM_VD3",
+      "name_vi": "PHẦN 2 SÁT PHÁP ĐẠI ĐẢM XUYÊN TÂM - Ví dụ 3 (hình 179)",
+      "source_book_page": "145",
+      "description_vi": "Được sự phối hợp của quân khác, một bên trước tiên tiến Xe bắt Sĩ trung lộ của đối phương, từ đó phá vỡ thế trận kiên cố, chiếu bí Tướng của đối phương, gọi là sát pháp Đại đảm xuyên tâm (dũng cảm xuyên tim), hay còn gọi là Đại đao xuyên tâm. Đây là sát pháp tốc chiến tốc thẳng, là một loại chiến thuật bỏ quân rất hung hãn. Trong cùng thể cục này, sát cục được tạo thành khi dùng Tốt ăn Sĩ trung lộ của đối phương, được gọi là sát pháp Tiểu đao xuyên tâm.",
+      "type": "checkmate_pattern",
+      "difficulty_level": "intermediate",
+      "initial_fen_red_perspective_for_example": "1c1akab2/4a4/4e4/9/2R1R4/9/9/4E4/4A4/2B1K1R1 w - - 0 1",
+      "player_to_move_on_fen_for_example": "red",
+      "recognition_conditions_red_pov": [
+        {"type": "piece_count_exact", "player": "self", "piece_counts": {"K":1,"R":2,"C":1,"E":1,"A":1,"B":1}},
+        {"type": "piece_count_exact", "player": "opponent", "piece_counts": {"k":1,"c":1,"e":1,"a":2,"b":1}}
+      ],
+      "solution_uci_sequence_for_player_to_move_red_pov": ["d3e3", "e3e2", "c3c7", "e2e1", "e1f1"],
+      "opponent_responses_uci_for_example": ["e9d9", "d9d8", "f8e7", "d8c8"],
+      "analysis_and_comments_vi": "Nước đi: Đỏ đi trước.\n1. Xe 4 bình 5 (d3e3). Chú thích(1): Bên đỏ dựa vào sự trợ giúp của lực lượng ở trung lộ và Xe 3, bỏ Xe giết Sĩ tạo thành sát pháp Đại đảm xuyên tâm. Tướng 5 bình 4 (e9d9). Chú thích(2): Nếu đổi nước đi thành Sĩ 6 tiến 5 (f8e7), thì Xe 3 tiến 5 (c3c8), bên đỏ thắng.\n2. Xe 5 tiến 1 (e3e2), Tướng 4 tiến 1 (d9d8).\n3. Xe 3 tiến 4 (c3c7), Sĩ 6 tiến 5 (f8e7). Chú thích(3): Nếu đổi nước đi Tướng 4 tiến 1 (d8c8), thì Xe 5 bình 6 (e2f2), bên đỏ thắng.\n4. Xe 5 lùi 1 (e2e1), Tướng 4 tiến 1 (c8d8). Chú thích(4): Nếu đổi nước đi thành Tướng 4 lùi 1 (c8b8), thì Xe 5 tiến 1 (e1e0), bên đỏ thắng.\n5. Xe 5 bình 6 (e1f1) (đỏ thắng).",
+      "tags": ["dai_dam_xuyen_tam", "chariot_sacrifice", "center_advisor_attack"]
+    },
+    {
+      "pattern_id": "CH3_KP_H180_THIET_MON_THUYEN_VD1",
+      "name_vi": "PHẦN 3 SÁT PHÁP THIẾT MÔN THUYÊN - Ví dụ 1 (hình 180)",
+      "source_book_page": "146",
+      "description_vi": "Nhờ sự phối hợp của các quân khác, dùng Xe hoặc Tốt trực tiếp tiến vào cửa Tướng của đối phương trên đường lặc đạo, sát pháp này thủ thắng chỉ trong một nước, gọi là sát pháp Thiết môn thuyên (song cửa sắt). Sát pháp này đa số được dùng cho Xe, Pháo, Tốt liên hiệp tác chiến, công sát nhanh chóng, thường khiến đối phương không kịp trở tay.",
+      "type": "checkmate_pattern",
+      "difficulty_level": "intermediate",
+      "initial_fen_red_perspective_for_example": "rnbakc3/4a4/1c2e4/8P/9/2R6/P3P1C2/4E4/4A4/2B1K1R1 w - - 0 1",
+      "player_to_move_on_fen_for_example": "red",
+      "recognition_conditions_red_pov": [
+        {"type": "piece_count_exact", "player": "self", "piece_counts": {"K":1,"R":2,"C":2,"E":1,"A":1,"B":1,"P":3}},
+        {"type": "piece_count_exact", "player": "opponent", "piece_counts": {"k":1,"r":1,"n":1,"b":1,"c":1,"e":1,"a":2,"p":1}}
+      ],
+      "solution_uci_sequence_for_player_to_move_red_pov": ["g2h2", "h2e2", "c3c2"],
+      "opponent_responses_uci_for_example": ["d8e7", "g8e8"],
+      "analysis_and_comments_vi": "Nước đi: Đỏ đi trước.\n1. Pháo 1 bình 8! (g2h2), Sĩ 4 tiến 5 (d8e7).\n2. Pháo 8 bình 5! (h2e2), Xe 7 bình 5 (g8e8).\n3. Xe 6 tiến 1 (c3c2) (đỏ thắng).\nLời bình: Bên đỏ trước tiên di chuyển Pháo mai phục tuyến đáy đánh sát cục, khéo léo \"qua cửa\", rất xảo diệu. Nếu đi sai nước thành bình 7 hoặc 9, bên đen có thể hạ Tượng bên, giải sát chuyển bại thành thắng.",
+      "tags": ["thiet_mon_thuyen", "palace_door_mate", "chariot_cannon_pawn_coordination"]
+    },
+    {
+      "pattern_id": "CH3_KP_H181_THIET_MON_THUYEN_VD2",
+      "name_vi": "PHẦN 3 SÁT PHÁP THIẾT MÔN THUYÊN - Ví dụ 2 (hình 181)",
+      "source_book_page": "147",
+      "description_vi": "Nhờ sự phối hợp của các quân khác, dùng Xe hoặc Tốt trực tiếp tiến vào cửa Tướng của đối phương trên đường lặc đạo, sát pháp này thủ thắng chỉ trong một nước, gọi là sát pháp Thiết môn thuyên (song cửa sắt). Sát pháp này đa số được dùng cho Xe, Pháo, Tốt liên hiệp tác chiến, công sát nhanh chóng, thường khiến đối phương không kịp trở tay.",
+      "type": "checkmate_pattern",
+      "difficulty_level": "intermediate",
+      "initial_fen_red_perspective_for_example": "1r2k1r1/4aP3/4e4/9/9/9/P3R3P/4E4/4A4/4K3 w - - 0 1",
+      "player_to_move_on_fen_for_example": "red",
+      "recognition_conditions_red_pov": [
+        {"type": "piece_count_exact", "player": "self", "piece_counts": {"K":1,"R":1,"E":1,"A":1,"P":3}},
+        {"type": "piece_count_exact", "player": "opponent", "piece_counts": {"k":1,"r":2,"e":1,"a":1,"P":1}}
+      ],
+      "solution_uci_sequence_for_player_to_move_red_pov": ["g3f3", "e0f0", "g6f6", "f6f5", "f3f8"],
+      "opponent_responses_uci_for_example": ["d9e9", "a8a7", "a7b7", "b7d7"],
+      "analysis_and_comments_vi": "Nước đi: Đỏ đi trước.\n1. Xe 7 bình 6 (g3f3), Tướng 4 bình 5 (d9e9).\n2. Tướng 5 bình 6! (e0f0), Xe 1 lùi 1 (a8a7).\n3. Tốt 7 bình 6 (g6f6), Xe 1 bình 2 (a7b7).\n4. Tốt 6 tiến 1 (f6f5), Xe 2 bình 4 (b7d7).\n5. Xe 6 tiến 5 (f3f8) (đỏ thắng).\nLời bình: Ba quân bên đen là Tướng, Xe, Tốt uy hiếp cửa Tướng của đối phương cũng gọi là \"tam bả thủ\". Sát pháp này một khi đã hình thành, thì hung hãn vô cùng, chắc chắn sẽ thủ thắng.",
+      "tags": ["thiet_mon_thuyen", "tam_ba_thu", "king_chariot_pawn_attack"]
+    },
+    {
+      "pattern_id": "CH3_KP_H182_THIET_MON_THUYEN_VD3",
+      "name_vi": "PHẦN 3 SÁT PHÁP THIẾT MÔN THUYÊN - Ví dụ 3 (hình 182)",
+      "source_book_page": "147-148",
+      "description_vi": "Nhờ sự phối hợp của các quân khác, dùng Xe hoặc Tốt trực tiếp tiến vào cửa Tướng của đối phương trên đường lặc đạo, sát pháp này thủ thắng chỉ trong một nước, gọi là sát pháp Thiết môn thuyên (song cửa sắt). Sát pháp này đa số được dùng cho Xe, Pháo, Tốt liên hiệp tác chiến, công sát nhanh chóng, thường khiến đối phương không kịp trở tay.",
+      "type": "checkmate_pattern",
+      "difficulty_level": "advanced",
+      "initial_fen_red_perspective_for_example": "1c1akab2/4a4/4e4/P7/9/9/1C2P1P1P/4E4/4A4/3K1R3 w - - 0 1",
+      "player_to_move_on_fen_for_example": "red",
+      "recognition_conditions_red_pov": [
+        {"type": "piece_count_exact", "player": "self", "piece_counts": {"K":1,"R":1,"C":2,"E":1,"A":1,"P":4}},
+        {"type": "piece_count_exact", "player": "opponent", "piece_counts": {"k":1,"c":1,"e":1,"a":2,"b":1}}
+      ],
+      "solution_uci_sequence_for_player_to_move_red_pov": ["b2e2", "e2e4", "f0e0", "e0d0", "e2b2", "d0e0", "b2g2", "g2e2", "e2d2"],
+      "opponent_responses_uci_for_example": ["c6a8", "a8c6", "c6a8", "a8c6", "f8e7", "a8c6", "c6e4", "c6a8"],
+      "analysis_and_comments_vi": "Nước đi: Đỏ đi trước.\n1. Pháo 2 bình 5 (b2e2). Chú thích(1): Sĩ, Tượng bên đen bị cầm chân, nước đi hay. Tượng 3 tiến 1 (c6a8).\n2. Pháo 5 tiến 2 (e2e4), Tượng 1 lùi 3 (a8c6).\n3. Tướng 6 bình 5 (f0e0), Tượng 3 tiến 1 (c6a8).\n4. Tướng 5 bình 4 (e0d0), Tượng 1 lùi 3 (a8c6).\n5. Pháo 5 bình 2 (e2b2), Sĩ 6 tiến 5 (f8e7). Chú thích(2): Nếu đổi nước đi thành Tượng 3 lùi 5 (c6e4), thì Pháo 2 tiến 7 (b2b9), Sĩ 6 tiến 5 (f8e7), Tốt 4 tiến 1 (d2d1), đỏ thắng.\n6. Tướng 4 bình 5 (d0e0). Chú thích(3): Bình Tướng trung lộ hạn chế hoạt động của Sĩ đen, là nước đi then chốt để cấu thành sát pháp Thiết môn thuyên. Tượng 1 tiến 3 (a8c6).\n7. Pháo 2 bình 7 (b2g2). Chú thích(4): Dùng Pháo khống chế Tượng bên quay về tuyến đáy, lại là một nước đi thủ thắng. Tượng 3 lùi 5 (c6e4).\n8. Pháo 7 bình 5 (g2e2), Tượng 1 lùi 3 (c6a8).\n9. Pháo 5 bình 4 (e2d2) (đỏ thắng).",
+      "tags": ["thiet_mon_thuyen", "cannon_mate", "king_activity", "piece_restriction"]
+    },
+    {
+      "pattern_id": "CH3_KP_H183_SONG_XE_THAC_VD1",
+      "name_vi": "PHẦN 4 SÁT PHÁP SONG XE THÁC - Ví dụ 1 (hình 183)",
+      "source_book_page": "148",
+      "description_vi": "Xe là quân cờ mạnh nhất trên bàn cờ tướng. Sát pháp Song Xe thác (còn gọi là Xe dị tuyến, Xe chữ Nhị, Xe trường đoản), chính là dùng hai Xe thay phiên chiếu Tướng, chiếu hết đối phương. Sát pháp này được sử dụng khi đối phương thiếu Sĩ hoặc hai Sĩ không liên hoàn, hoặc Tướng lộ ra ngoài, rất nhanh chóng, có sức sát phạt rất lớn.",
+      "type": "checkmate_pattern",
+      "difficulty_level": "basic",
+      "initial_fen_red_perspective_for_example": "1r2k1r1/4a4/4e4/9/9/9/R3R3P/4E4/4A4/4K3 w - - 0 1",
+      "player_to_move_on_fen_for_example": "red",
+      "recognition_conditions_red_pov": [
+        {"type": "piece_count_exact", "player": "self", "piece_counts": {"K":1,"R":2,"E":1,"A":1,"P":1}},
+        {"type": "piece_count_exact", "player": "opponent", "piece_counts": {"k":1,"r":2,"e":1,"a":1}}
+      ],
+      "solution_uci_sequence_for_player_to_move_red_pov": ["a2a3", "h2h9", "a3a1", "a1d1"],
+      "opponent_responses_uci_for_example": ["d9d8", "d8c8", "e8f7"],
+      "analysis_and_comments_vi": "Nước đi: Đỏ đi trước.\n1. Xe 2 tiến 1 (a2a3), Tướng 4 tiến 1 (d9d8).\n2. Xe 8 tiến 8 (h2h9), Tướng 4 tiến 1 (d8c8).\n3. Xe 2 lùi 2 (a3a1), Sĩ 5 tiến 6 (e8f7).\n4. Xe 2 bình 4 (a1d1) (đỏ thắng).\nLời bình: Ví dụ này là sát cục điển hình của Song Xe thác. Nước đi đầu tiên nếu đỏ tham ăn Sĩ trung lộ, bên đen có Xe 7 bình 5 sau đó lại Xe 4 bình 5 hết cờ.",
+      "tags": ["song_xe_thac", "double_chariot_mate", "ladder_mate"]
+    },
+    {
+      "pattern_id": "CH3_KP_H184_SONG_XE_THAC_VD2",
+      "name_vi": "PHẦN 4 SÁT PHÁP SONG XE THÁC - Ví dụ 2 (hình 184)",
+      "source_book_page": "149",
+      "description_vi": "Xe là quân cờ mạnh nhất trên bàn cờ tướng. Sát pháp Song Xe thác (còn gọi là Xe dị tuyến, Xe chữ Nhị, Xe trường đoản), chính là dùng hai Xe thay phiên chiếu Tướng, chiếu hết đối phương. Sát pháp này được sử dụng khi đối phương thiếu Sĩ hoặc hai Sĩ không liên hoàn, hoặc Tướng lộ ra ngoài, rất nhanh chóng, có sức sát phạt rất lớn.",
+      "type": "checkmate_pattern",
+      "difficulty_level": "intermediate",
+      "initial_fen_red_perspective_for_example": "rnb1k1nr/4a4/4e3/9/4R3R/9/9/4E4/4A4/1NBQKBN1 w - - 0 1",
+      "player_to_move_on_fen_for_example": "red",
+      "recognition_conditions_red_pov": [
+        {"type": "piece_count_exact", "player": "self", "piece_counts": {"K":1,"Q":1,"R":2,"N":1,"B":1,"E":1,"A":1}},
+        {"type": "piece_count_exact", "player": "opponent", "piece_counts": {"k":1,"r":1,"n":1,"b":1,"e":1,"a":1}}
+      ],
+      "solution_uci_sequence_for_player_to_move_red_pov": ["h4d4", "d4d6", "d6c6", "d4d7", "d7e7", "c6d6"],
+      "opponent_responses_uci_for_example": ["f9e9", "e6g4", "e8f7", "e9e8", "e8f9"],
+      "analysis_and_comments_vi": "Nước đi: Đỏ đi trước.\n1. Xe 8 bình 4 (h4d4). Chú thích(1): Trật tự chính xác! Nếu tiện tay đi Xe 2 tiến 2 chiếu Tướng, bên đen Tướng 6 tiến 1, Xe 8 bình 4, Sĩ 5 tiến 6, Xe 4 tiến 1, Tướng 6 bình 5, bên đỏ không có liên sát, ngược lại bên đen sẽ thắng. Tướng 6 bình 5 (f9e9). Chú thích(2): Nếu đổi nước đi thành Sĩ 5 tiến 6 (e8f7), thì Xe 2 bình 4 (d4d6) (nếu đi sai nước thành Xe 4 tiến 1 ăn Sĩ thì không có liên sát), Tướng 6 bình 5 (f9e9), Xe trước tiến 2 (d6d8), Tướng 5 tiến 1 (e9e8), Xe sau tiến 2 (h4h6), đỏ cũng thắng.\n2. Xe 2 tiến 2 (d4d6), Tượng 5 lùi 7 (e6g4). Chú thích(3): Thí Tượng chỉ có thể làm chậm số bước. Nếu đổi thành đi Sĩ 5 lùi 6 (e8f7), thì Xe 4 tiến 3 (d4d7), Tướng 5 tiến 1 (e9e8), Xe 2 lùi 1 (d6d5), bên đỏ nhanh chóng thủ thắng.\n3. Xe 2 bình 3 (d6c6), Sĩ 5 lùi 6 (e8f7).\n4. Xe 4 tiến 3 (d4d7), Tướng 5 tiến 1 (e9e8).\n5. Xe 4 bình 5 (d7e7), Tướng 5 bình 6 (e8f9).\n6. Xe 3 bình 4 (c6d6) (đỏ thắng).",
+      "tags": ["song_xe_thac", "double_chariot_mate", "correct_move_order"]
+    },
+    {
+      "pattern_id": "CH3_KP_H185_SONG_XE_THAC_VD3",
+      "name_vi": "PHẦN 4 SÁT PHÁP SONG XE THÁC - Ví dụ 3 (hình 185)",
+      "source_book_page": "149-150",
+      "description_vi": "Xe là quân cờ mạnh nhất trên bàn cờ tướng. Sát pháp Song Xe thác (còn gọi là Xe dị tuyến, Xe chữ Nhị, Xe trường đoản), chính là dùng hai Xe thay phiên chiếu Tướng, chiếu hết đối phương. Sát pháp này được sử dụng khi đối phương thiếu Sĩ hoặc hai Sĩ không liên hoàn, hoặc Tướng lộ ra ngoài, rất nhanh chóng, có sức sát phạt rất lớn.",
+      "type": "checkmate_pattern",
+      "difficulty_level": "intermediate",
+      "initial_fen_red_perspective_for_example": "1c1akab2/4a1r2/4e4/9/9/9/P3R1P1P/4E4/4A4/2B1K1R1 w - - 0 1",
+      "player_to_move_on_fen_for_example": "red",
+      "recognition_conditions_red_pov": [
+        {"type": "piece_count_exact", "player": "self", "piece_counts": {"K":1,"R":2,"C":1,"E":1,"A":1,"B":1,"P":3}},
+        {"type": "piece_count_exact", "player": "opponent", "piece_counts": {"k":1,"r":1,"c":1,"e":1,"a":2,"b":1}}
+      ],
+      "solution_uci_sequence_for_player_to_move_red_pov": ["a3e3", "g2g9", "e3f3", "g9g8", "f3h3"],
+      "opponent_responses_uci_for_example": ["e9d9", "d9d8", "e8f7", "d8e8"],
+      "analysis_and_comments_vi": "Nước đi: Đỏ đi trước.\n1. Xe 1 bình 5 (a3e3). Chú thích(1): Nước đi hay, là then chốt để thủ thắng. Tướng 5 bình 4 (e9d9).\n2. Xe 7 tiến 9 (g2g9). Chú thích(2): Tiến Xe đến tuyến đáy chiếu Tướng, khiến Tướng phải lên, ngăn chặn Tướng đen quay về vị trí ban đầu. Tướng 4 tiến 1 (d9d8).\n3. Xe 5 bình 6 (e3f3), Sĩ 5 tiến 4 (e8f7).\n4. Xe 7 lùi 1 (g9g8). Chú thích(3): Lùi Xe chiếu Tướng không chỉ tranh tiên khống chế tuyến áp đáy, thu nhỏ phạm vi hoạt động của Tướng, còn phá vỡ kế hoạch điều Pháo về phòng vệ, nếu đổi nước đi thành Xe 6 bình 8 (f3h3), thì Pháo 8 bình 7 (c8g8), bên đỏ còn gặp nhiều trắc trở. Tướng 4 lùi 1 (d8e8).\n5. Xe 6 bình 8 (f3h3) (Bên đỏ thắng).",
+      "tags": ["song_xe_thac", "double_chariot_mate", "bottom_rank_attack"]
+    },
+    {
+      "pattern_id": "CH3_KP_H186_MO_TRANG_DAY_BIEN_VD1",
+      "name_vi": "PHẦN 5 SÁT PHÁP MÒ TRĂNG ĐÁY BIỂN - Ví dụ 1 (hình 186)",
+      "source_book_page": "150-151",
+      "description_vi": "Khi không thể công phá tuyến phòng ngự chính diện của đối phương, dựa vào sự trợ giúp của Tướng khống chế trung lộ, đưa quân di chuyển đến tuyến đáy của đối phương, phát động tấn công sau lưng Tướng để thủ thắng, sát pháp đó gọi là Mò trăng đáy biển. Loại sát pháp này thường dùng ở giai đoạn cờ tàn, Xe, Pháo khéo thắng đơn Xe, trình độ kỹ thuật khá cao.",
+      "type": "checkmate_pattern",
+      "difficulty_level": "intermediate",
+      "initial_fen_red_perspective_for_example": "4k1r1/9/4P3/9/9/9/4R4/9/4K3/9 w - - 0 1",
+      "player_to_move_on_fen_for_example": "red",
+      "recognition_conditions_red_pov": [
+        {"type": "piece_count_exact", "player": "self", "piece_counts": {"K":1,"R":1,"P":1}},
+        {"type": "piece_count_exact", "player": "opponent", "piece_counts": {"k":1,"r":1}}
+      ],
+      "solution_uci_sequence_for_player_to_move_red_pov": ["g6f6", "f6e6", "e2e6", "e6d6", "d6c6", "e6e7", "e7d7"],
+      "opponent_responses_uci_for_example": ["f8f7", "f7f8", "f9e9", "f8f6", "f6f8", "f8f6"],
+      "analysis_and_comments_vi": "Nước đi: Đỏ đi trước.\n1. Tốt 7 bình 6 (g6f6), Xe 6 lùi 1 (f8f7).\n2. Tốt 6 bình 5 (f6e6), Xe 6 tiến 1 (f7f8).\n3. Xe 5 tiến 4 (e2e6), Tướng 6 tiến 1 (f9e9).\n4. Tốt 5 bình 4! (e6d6), Xe 6 tiến 2 (f8f6).\n5. Tốt 4 bình 3 (d6c6), Xe 6 lùi 2 (f6f8).\n6. Xe 5 tiến 1 (e6e7), Xe 6 tiến 2 (f8f6).\n7. Xe 5 bình 4 (e7d7) (đỏ thắng).\nLời bình: Đây là một loại sát cơ bản của sát pháp Mò trăng đáy biển, chỗ tinh diệu của nó là dùng Xe bảo vệ Tốt xuyên qua \"đáy biển\", sau đó Xe, Tốt bắt tay ở tuyến đáy chiếu Tướng khéo léo thủ thắng.",
+      "tags": ["mo_trang_day_bien", "rook_pawn_endgame", "bottom_rank_mate"]
+    },
+    {
+      "pattern_id": "CH3_KP_H187_MO_TRANG_DAY_BIEN_VD2",
+      "name_vi": "PHẦN 5 SÁT PHÁP MÒ TRĂNG ĐÁY BIỂN - Ví dụ 2 (hình 187)",
+      "source_book_page": "151",
+      "description_vi": "Khi không thể công phá tuyến phòng ngự chính diện của đối phương, dựa vào sự trợ giúp của Tướng khống chế trung lộ, đưa quân di chuyển đến tuyến đáy của đối phương, phát động tấn công sau lưng Tướng để thủ thắng, sát pháp đó gọi là Mò trăng đáy biển. Loại sát pháp này thường dùng ở giai đoạn cờ tàn, Xe, Pháo khéo thắng đơn Xe, trình độ kỹ thuật khá cao.",
+      "type": "checkmate_pattern",
+      "difficulty_level": "intermediate",
+      "initial_fen_red_perspective_for_example": "1r1ak1b1/4a1n1/4e4/9/2R3P2/9/P1P1C1P1P/4E4/4A4/2B1K1R1 w - - 0 1",
+      "player_to_move_on_fen_for_example": "red",
+      "recognition_conditions_red_pov": [
+        {"type": "piece_count_exact", "player": "self", "piece_counts": {"K":1,"R":2,"C":1,"E":1,"A":1,"B":1,"P":5}},
+        {"type": "piece_count_exact", "player": "opponent", "piece_counts": {"k":1,"r":1,"n":1,"e":1,"a":2,"b":1}}
+      ],
+      "solution_uci_sequence_for_player_to_move_red_pov": ["c2c6", "g3g6", "g6g7", "c6f6", "g7g5", "g5f5"],
+      "opponent_responses_uci_for_example": ["e8f7", "d9e8", "e8d8", "d8b8", "d8e8"],
+      "analysis_and_comments_vi": "Nước đi: Đỏ đi trước.\n1. Pháo 3 tiến 4 (c2c6). Chú thích(1): Tiến Pháo đánh sát cục không để cho Tướng đen quay về vị trí ban đầu, nước đi đẹp! Sĩ 5 lùi 4 (e8f7).\n2. Xe 7 tiến 3 (g3g6), Tướng 4 lùi 1 (d9e8).\n3. Xe 7 tiến 1 (g6g7), Tướng 4 tiến 1 (e8d8).\n4. Pháo 3 bình 6 (c6f6). Chú thích(2): Đây là hình thức nhập cuộc điển hình khác của sát pháp “Mò trăng đáy biển”. Xe 4 bình 2 (d8b8). Chú thích(3): Buộc phải để Xe nhường đón đầu, nếu đổi thành đi Mã 6 tiến 4 ăn Pháo, thì Xe 7 lùi 1, bên đỏ nhanh chóng thủ thắng.\n5. Xe 7 lùi 2 (g7g5), Tướng 4 lùi 1 (d8e8).\n6. Xe 7 bình 6 (g5f5) (đỏ thắng).",
+      "tags": ["mo_trang_day_bien", "rook_cannon_endgame", "bottom_rank_mate"]
+    },
+    {
+      "pattern_id": "CH3_KP_H188_MO_TRANG_DAY_BIEN_VD3",
+      "name_vi": "PHẦN 5 SÁT PHÁP MÒ TRĂNG ĐÁY BIỂN - Ví dụ 3 (hình 188)",
+      "source_book_page": "151-152",
+      "description_vi": "Khi không thể công phá tuyến phòng ngự chính diện của đối phương, dựa vào sự trợ giúp của Tướng khống chế trung lộ, đưa quân di chuyển đến tuyến đáy của đối phương, phát động tấn công sau lưng Tướng để thủ thắng, sát pháp đó gọi là Mò trăng đáy biển. Loại sát pháp này thường dùng ở giai đoạn cờ tàn, Xe, Pháo khéo thắng đơn Xe, trình độ kỹ thuật khá cao.",
+      "type": "checkmate_pattern",
+      "difficulty_level": "advanced",
+      "initial_fen_red_perspective_for_example": "1r1ak1b1/4a4/4e4/9/4R4/2P1C4/P1P1P1P1P/4E4/4A4/2B1K1R1 w - - 0 1",
+      "player_to_move_on_fen_for_example": "red",
+      "recognition_conditions_red_pov": [
+        {"type": "piece_count_exact", "player": "self", "piece_counts": {"K":1,"R":2,"C":1,"E":1,"A":1,"B":1,"P":5}},
+        {"type": "piece_count_exact", "player": "opponent", "piece_counts": {"k":1,"r":1,"e":1,"a":2,"b":1}}
+      ],
+      "solution_uci_sequence_for_player_to_move_red_pov": ["c3c5", "e4e8", "c5i5", "i5i0", "e8e9", "i0f0", "e9e4", "e4f4", "f0f2"],
+      "opponent_responses_uci_for_example": ["d9d8", "d8e8", "d8a8", "a8d8", "d8e8", "d8g8", "e8e3", "g8d8"],
+      "analysis_and_comments_vi": "Lời bình: Từ ví dụ 2 có thể thấy dùng sát pháp Mò kim đáy bể phải để Xe, Tướng chiếm trung lộ, Xe, Pháo đặt ở hai bên Tướng, ví dụ này là Xe Pháo được sắp đặt ở cùng một bên Tướng, làm thế nào để thủ thắng?\nNước đi: Đỏ đi trước.\n1. Pháo 2 tiến 2 (c3c5). Chú thích(1): Nước đi then chốt là Pháo đỏ dịch chuyển sang trái, đưa Pháo đến vị trí song song với Xe. Tướng 4 tiến 1 (d9d8).\n2. Xe 5 tiến 4 (e4e8). Chú thích(2): Lợi dụng cơ hội tiến Xe chiếu Tướng, nhường cho Pháo một con đường. Tướng 4 lùi 1 (d8e8).\n3. Pháo 2 bình 9 (c5i5), Xe 4 bình 1 (d8a8).\n4. Pháo 9 tiến 5 (i5i0), Xe 1 bình 4 (a8d8). Chú thích(3): Nếu đổi nước đi thành Xe 1 lùi 7 ăn Pháo (a8a1), thì Xe 5 tiến 1 (e8e9), Tướng 4 tiến 1 (e8d9), Xe 5 bình 9 ăn Xe (e9i9), thắng.\n5. Xe 5 tiến 1 (e8e9), Tướng 4 tiến 1 (d8e8).\n6. Pháo 9 bình 6 (i0f0), Xe 4 bình 7 (d8g8).\n7. Xe 5 lùi 5 (e9e4), Xe 7 lùi 5 (g8g3). Chú thích(4): Nếu đổi nước đi Tướng 4 lùi 1 ăn Pháo (e8f8), thì Xe 5 bình 6 (e4f4) sát.\n8. Xe 5 bình 6 (e4f4), Xe 7 bình 4 (g3d3).\n9. Pháo 6 lùi 2 (f0f2).",
+      "tags": ["mo_trang_day_bien", "rook_cannon_endgame", "bottom_rank_mate", "maneuvering"]
+    },
+    {
+      "pattern_id": "CH3_KP_H189_PHAO_TRIEN_DAN_SA_VD1",
+      "name_vi": "PHẦN 6 SÁT PHÁP PHÁO TRIỂN ĐAN SA - Ví dụ 1 (hình 189)",
+      "source_book_page": "152-153",
+      "description_vi": "Một bên dùng Pháo nhập tuyến đáy của đối phương, dựa vào sự trợ giúp của Xe gián tiếp quét sạch Sĩ, Tượng hoặc quân khác của đối phương, từ đó chiếu Tướng hết cờ đối phương, gọi là sát pháp Pháo triển đan sa hay Pháo lăn. Sát pháp này thông thường dùng ở giai đoạn trung cuộc, là phép công sát Xe Pháo thường dùng trong tác chiến Xe Pháo liên hợp.",
+      "type": "checkmate_pattern",
+      "difficulty_level": "intermediate",
+      "initial_fen_red_perspective_for_example": "1c1akab2/4an3/4e1C2/8P/2R6/9/P3P1P1P/4E4/4A4/2B1K1R1 w - - 0 1",
+      "player_to_move_on_fen_for_example": "red",
+      "recognition_conditions_red_pov": [
+        {"type": "piece_count_exact", "player": "self", "piece_counts": {"K":1,"R":2,"C":2,"E":1,"A":1,"B":1,"P":4}},
+        {"type": "piece_count_exact", "player": "opponent", "piece_counts": {"k":1,"c":1,"n":1,"e":1,"a":2,"b":1,"p":1}}
+      ],
+      "solution_uci_sequence_for_player_to_move_red_pov": ["c4c7", "g6g9", "g9d9", "d9b9", "g2g3", "c7c6"],
+      "opponent_responses_uci_for_example": ["e8f7", "f7e8", "e8f7", "g8i9", "e9e8"],
+      "analysis_and_comments_vi": "Nước đi: Đỏ đi trước.\n1. Xe 8 tiến 3 (c4c7), Sĩ 5 lùi 4 (e8f7).\n2. Pháo 7 tiến 3 (g6g9), Sĩ 4 tiến 5 (f7e8).\n3. Pháo 7 bình 4! (g9d9), Sĩ 5 lùi 4 (e8f7).\n4. Pháo 4 bình 2! (d9b9), Tượng 7 tiến 9 (g8i9).\n5. Pháo 3 tiến 1 (g2g3), Tướng 5 tiến 1 (e9e8).\n6. Xe 8 lùi 1 (c7c6) (đỏ thắng).\nLời bình: Bên đỏ mượn Xe để đi Pháo, đánh Sĩ, đánh Mã phá vỡ trận tuyến phòng thủ của bên đen, một mạch thủ thắng.",
+      "tags": ["phao_trien_dan_sa", "rolling_cannon", "rook_cannon_coordination", "clearing_defense"]
+    },
+    {
+      "pattern_id": "CH3_KP_H190_PHAO_TRIEN_DAN_SA_VD2",
+      "name_vi": "PHẦN 6 SÁT PHÁP PHÁO TRIỂN ĐAN SA - Ví dụ 2 (hình 190)",
+      "source_book_page": "153",
+      "description_vi": "Một bên dùng Pháo nhập tuyến đáy của đối phương, dựa vào sự trợ giúp của Xe gián tiếp quét sạch Sĩ, Tượng hoặc quân khác của đối phương, từ đó chiếu Tướng hết cờ đối phương, gọi là sát pháp Pháo triển đan sa hay Pháo lăn. Sát pháp này thông thường dùng ở giai đoạn trung cuộc, là phép công sát Xe Pháo thường dùng trong tác chiến Xe Pháo liên hợp.",
+      "type": "checkmate_pattern",
+      "difficulty_level": "intermediate",
+      "initial_fen_red_perspective_for_example": "r1bakc3/4a4/2n1e1C2/8P/9/2R6/P3P1P1P/4E4/4A4/2B1K1R1 w - - 0 1",
+      "player_to_move_on_fen_for_example": "red",
+      "recognition_conditions_red_pov": [
+        {"type": "piece_count_exact", "player": "self", "piece_counts": {"K":1,"R":2,"C":1,"E":1,"A":1,"B":1,"P":4}},
+        {"type": "piece_count_exact", "player": "opponent", "piece_counts": {"k":1,"r":1,"n":1,"c":1,"e":1,"a":2,"b":1}}
+      ],
+      "solution_uci_sequence_for_player_to_move_red_pov": ["a3a9", "g6g9", "g9d9", "d9f9", "f9f0"],
+      "opponent_responses_uci_for_example": ["e8f7", "f7e8", "e8f7", "c8c9"],
+      "analysis_and_comments_vi": "Nước đi: Đỏ đi trước.\n1. Xe 9 tiến 7 (a3a9), Sĩ 5 lùi 4 (e8f7).\n2. Pháo 8 tiến 3 (g6g9), Sĩ 4 tiến 5 (f7e8).\n3. Pháo 8 bình 4 (g9d9), Sĩ 5 lùi 4 (e8f7).\n4. Pháo 4 bình 6 (d9f9), Xe 3 tiến 1 (c8c9).\n5. Pháo 6 lùi 9! (f9f0) (đỏ thắng).\nLời bình: Bên đỏ sau khi quét sạch hai Sĩ, dùng nước giải sát hoàn sát khéo léo thủ thắng.",
+      "tags": ["phao_trien_dan_sa", "rolling_cannon", "rook_cannon_coordination", "counter_checkmate"]
+    },
+    {
+      "pattern_id": "CH3_KP_H191_PHAO_TRIEN_DAN_SA_VD3",
+      "name_vi": "PHẦN 6 SÁT PHÁP PHÁO TRIỂN ĐAN SA - Ví dụ 3 (hình 191)",
+      "source_book_page": "154",
+      "description_vi": "Một bên dùng Pháo nhập tuyến đáy của đối phương, dựa vào sự trợ giúp của Xe gián tiếp quét sạch Sĩ, Tượng hoặc quân khác của đối phương, từ đó chiếu Tướng hết cờ đối phương, gọi là sát pháp Pháo triển đan sa hay Pháo lăn. Sát pháp này thông thường dùng ở giai đoạn trung cuộc, là phép công sát Xe Pháo thường dùng trong tác chiến Xe Pháo liên hợp.",
+      "type": "checkmate_pattern",
+      "difficulty_level": "advanced",
+      "initial_fen_red_perspective_for_example": "rnbqkbnr/pppp1ppp/4c4/4N4/2BRPPP1/P7/1PP5/RNBQK3 w KQkq - 0 1",
+      "player_to_move_on_fen_for_example": "red",
+      "recognition_conditions_red_pov": [
+        {"type": "piece_count_exact", "player": "self", "piece_counts": {"K":1,"Q":1,"R":2,"N":1,"B":1,"P":5}},
+        {"type": "piece_count_exact", "player": "opponent", "piece_counts": {"k":1,"r":1,"n":1,"b":1,"c":1,"p":7}}
+      ],
+      "solution_uci_sequence_for_player_to_move_red_pov": ["a3b3","b3b9","e0f0","d3c3","c3c6","e4f6","f0e0","a2a6","a6a9","e6g4","f6e4","e9f9","e4c3","f9e9","c3e4","e8f8","b9b8","f8e8","b8e8","e8f9","e4f6","f9e9"],
+      "opponent_responses_uci_for_example": ["c6c9","c9f9","f8e7","f9d9","d9d6","e8f7","g6g9","g9g6","e6g4","f7e8","e8f9","f9e9","e9f9","f9e9","e9f9","f9e9","e9f9","f9e9","e9f9","f9e9","e9f9"],
+      "analysis_and_comments_vi": "Nước đi: Đỏ đi trước.\n1. Xe 9 bình 8 (a3b3), Pháo 7 tiến 8 (!) (c6c9).\n2. Xe 8 tiến 6 (b3b9), Pháo 7 bình 4 (c9f9).\n3. Sĩ 5 lùi 4 (e0f0), Pháo 4 bình 6 (f9d9).\n4. Xe 4 lùi 3 (d3c3). Chú thích(2): Pháo đen ở hai bên trái, phải quét sạch hai Sĩ của bên đỏ, thế Pháo triển đan sa không thể chống đỡ, bên đỏ bỏ Xe bắt Tốt, để giải toả tình thế nguy cấp. Nếu đi Xe, thì Xe 4 tiến 2, hình thành thế tuyệt sát. Xe 4 bình 6 (d9d6).\n5. Mã 5 tiến 7 (e4f6), Sĩ 5 lùi 4 (f0e0).\n6. Pháo 9 tiến 4 (a2a6), Sĩ 6 tiến 5 (e0f0).\n7. Pháo 9 tiến 3 (a6a9), Tượng 5 lùi 3 (e6g4).\n8. Mã trước tiến 5 (f6e4), Tướng 5 bình 6 (e9f9).\n9. Mã 5 lùi 3 (e4c3), Tướng 6 tiến 1 (f9e9).\n10. Mã 3 lùi 5 (c3e4), Tượng 3 tiến 5 (g4e2).\n11. Xe 8 tiến 1 (b9b8), Sĩ 4 tiến 5 (f0e0).\n12. Xe 8 bình 5 (b8e8), Tướng 6 bình 5 (e9f9).\n13. Mã 5 tiến 7 (e4f6), Tướng 5 bình 6 (f9e9). Đến đây bên đỏ chịu thua.",
+      "tags": ["phao_trien_dan_sa", "rolling_cannon", "complex_defense", "sacrifice"]
+    },
+    {
+      "pattern_id": "CH3_KP_H192_GIAP_XE_PHAO_VD1",
+      "name_vi": "PHẦN 7 SÁT PHÁP GIÁP XE PHÁO - Ví dụ 1 (hình 192)",
+      "source_book_page": "154-155",
+      "description_vi": "Hai Pháo tập trung tại một cánh, phối hợp chặt chẽ với Xe, Tượng, từ một cánh bên luân phiên chiếu Tướng trên ba tuyến dưới cùng của đối phương để thủ thắng, sát pháp này gọi là Giáp Xe Pháo, hay còn gọi là Nhị lộ giáp Xe Pháo, Đơn Xe đơn Pháo, thực lực tương đương với hai Xe, là sát pháp nguy hiểm thường gặp trong thực chiến.",
+      "type": "checkmate_pattern",
+      "difficulty_level": "intermediate",
+      "initial_fen_red_perspective_for_example": "1c1akab2/4a1r2/4e4/9/2R3C2/9/P3P1P1P/4E4/4A4/2B1K1R1 w - - 0 1",
+      "player_to_move_on_fen_for_example": "red",
+      "recognition_conditions_red_pov": [
+        {"type": "piece_count_exact", "player": "self", "piece_counts": {"K":1,"R":2,"C":2,"E":1,"A":1,"B":1,"P":4}},
+        {"type": "piece_count_exact", "player": "opponent", "piece_counts": {"k":1,"r":1,"c":1,"e":1,"a":2,"b":1}}
+      ],
+      "solution_uci_sequence_for_player_to_move_red_pov": ["c3c9", "d2d8", "c9c8", "d8g8", "g8g9"],
+      "opponent_responses_uci_for_example": ["d9d8", "e8f7", "d8e8", "g8e8"],
+      "analysis_and_comments_vi": "Nước đi: Đỏ đi trước.\n1. Xe 8 tiến 9 (c3c9), Tướng 4 tiến 1 (d9d8).\n2. Pháo 4 tiến 6! (d2d8), Sĩ 5 tiến 6 (e8f7).\n3. Xe 8 lùi 1 (c9c8), Tướng 4 lùi 1 (d8e8).\n4. Pháo 4 bình 7! (d8g8), Xe 7 bình 5 (g8e8).\n5. Pháo 7 tiến 1 (g8g9) (đỏ thắng).\nLời bình: Bên đỏ thông qua tiến Pháo đánh Tướng đưa hai Pháo về một cánh, hình thành sát pháp Giáp Xe Pháo, là sát pháp thường gặp.",
+      "tags": ["giap_xe_phao", "rook_double_cannon_coordination", "wing_attack"]
+    },
+    {
+      "pattern_id": "CH3_KP_H193_GIAP_XE_PHAO_VD2",
+      "name_vi": "PHẦN 7 SÁT PHÁP GIÁP XE PHÁO - Ví dụ 2 (hình 193)",
+      "source_book_page": "155",
+      "description_vi": "Hai Pháo tập trung tại một cánh, phối hợp chặt chẽ với Xe, Tượng, từ một cánh bên luân phiên chiếu Tướng trên ba tuyến dưới cùng của đối phương để thủ thắng, sát pháp này gọi là Giáp Xe Pháo, hay còn gọi là Nhị lộ giáp Xe Pháo, Đơn Xe đơn Pháo, thực lực tương đương với hai Xe, là sát pháp nguy hiểm thường gặp trong thực chiến.",
+      "type": "checkmate_pattern",
+      "difficulty_level": "intermediate",
+      "initial_fen_red_perspective_for_example": "r1bakc3/4a4/2n1e1C2/8P/9/2R6/P1C1P1P1P/4E4/4A4/2B1K1R1 w - - 0 1",
+      "player_to_move_on_fen_for_example": "red",
+      "recognition_conditions_red_pov": [
+        {"type": "piece_count_exact", "player": "self", "piece_counts": {"K":1,"R":2,"C":2,"E":1,"A":1,"B":1,"P":4}},
+        {"type": "piece_count_exact", "player": "opponent", "piece_counts": {"k":1,"r":1,"n":1,"c":1,"e":1,"a":2,"b":1}}
+      ],
+      "solution_uci_sequence_for_player_to_move_red_pov": ["g6g8", "c3c5", "b2b0", "c5c4", "c4c2", "c2c5", "b0b2"],
+      "opponent_responses_uci_for_example": ["e9e8", "e8e7", "d8e7", "e7d8", "d8e8", "e8d8"],
+      "analysis_and_comments_vi": "Nước đi: Đỏ đi trước.\n1. Pháo 8 tiến 2 (g6g8), Tướng 5 tiến 1 (e9e8).\n2. Xe 8 tiến 2 (c3c5), Tướng 5 tiến 1 (e8e7).\n3. Pháo 9 lùi 2 (b2b0), Sĩ 4 lùi 5 (d8e7).\n4. Xe 8 lùi 1 (c5c4), Sĩ 5 tiến 4 (e7d8).\n5. Xe 8 lùi 2! (c4c2), Tướng 5 lùi 1 (d8e8).\n6. Xe 8 tiến 3 (c2c5), Tướng 5 lùi 1 (e8d8).\n7. Pháo 9 tiến 2 (b0b2) (đỏ thắng).\nLời bình: Xe Pháo bên đỏ luân phiên chiếu Tướng, trật tự nhịp nhàng, nhanh chóng nhập cục, kỹ thuật cầm quân xuất sắc.",
+      "tags": ["giap_xe_phao", "rook_double_cannon_coordination", "sequential_check"]
+    },
+    {
+      "pattern_id": "CH3_KP_H194_GIAP_XE_PHAO_VD3",
+      "name_vi": "PHẦN 7 SÁT PHÁP GIÁP XE PHÁO - Ví dụ 3 (hình 194)",
+      "source_book_page": "156",
+      "description_vi": "Hai Pháo tập trung tại một cánh, phối hợp chặt chẽ với Xe, Tượng, từ một cánh bên luân phiên chiếu Tướng trên ba tuyến dưới cùng của đối phương để thủ thắng, sát pháp này gọi là Giáp Xe Pháo, hay còn gọi là Nhị lộ giáp Xe Pháo, Đơn Xe đơn Pháo, thực lực tương đương với hai Xe, là sát pháp nguy hiểm thường gặp trong thực chiến.",
+      "type": "checkmate_pattern",
+      "difficulty_level": "advanced",
+      "initial_fen_red_perspective_for_example": "rnbaknr1/4a4/1c2e4/p1p1p1P1p/4R4/1C1P5/P1P1P1P1P/4E4/4A4/2B1K1R1 w - - 0 1",
+      "player_to_move_on_fen_for_example": "red",
+      "recognition_conditions_red_pov": [
+        {"type": "piece_count_exact", "player": "self", "piece_counts": {"K":1,"R":2,"C":2,"E":1,"A":1,"B":1,"P":6}},
+        {"type": "piece_count_exact", "player": "opponent", "piece_counts": {"k":1,"r":1,"n":2,"b":1,"c":1,"e":1,"a":2,"p":5}}
+      ],
+      "solution_uci_sequence_for_player_to_move_red_pov": ["d2d8", "d8b8", "b8b9", "b3c3", "c3c6", "c6c3", "c3c7", "g2c2", "h3f3", "c6c7"],
+      "opponent_responses_uci_for_example": ["e8f7", "b8b6", "f7e8", "d8e8", "e8f7", "f7e8", "e8f7", "e9d9", "b6d8"],
+      "analysis_and_comments_vi": "Nước đi: Đỏ đi trước.\n1. Pháo 4 tiến 6! (d2d8), Sĩ 5 tiến 6 (e8f7). Chú thích(1): Nếu đổi nước đi Xe 2 tiến 2 (b8b6), thì Pháo 4 bình 1 (d8a8), Tướng 5 bình 4 (e9d9), Pháo 1 tiến 1 (a8a9), Tướng 4 tiến 1 (d9d8), Pháo 1 bình 8 (a8h8), Xe 2 lùi 3 (b6b3), Pháo 7 bình 6 (g2f2), Sĩ 5 tiến 4 (f7e7), Xe 8 tiến 4 (h3h7), Pháo 2 lùi 1 (b3b2), Xe 2 tiến 2 (b2b4), Tướng 4 lùi 1 (d8e8), Mã 5 lùi 3 (e4c3), bên đỏ ở thế thắng.\n2. Pháo 4 bình 2! (d8b8), Xe 2 tiến 2 (b8b6).\n3. Pháo 2 tiến 1 (b8b9), Sĩ 6 tiến 5 (f7e8).\n4. Xe 2 bình 3 (b3c3). Chú thích(2): Bỏ Mã thực hiện sát pháp Giáp Xe Pháo, nước đi đẹp. Xe 4 bình 5 (d8e8).\n5. Xe 3 tiến 3 (c3c6), Sĩ 5 lùi 6 (e8f7).\n6. Xe 3 lùi 4 (c6c2), Sĩ 6 tiến 5 (f7e8).\n7. Xe 3 tiến 4 (c2c6), Sĩ 5 lùi 6 (e8f7).\n8. Pháo 7 bình 3! (g2c2). Chú thích(3): Tổ hợp sát pháp Giáp Xe Pháo, ẩn phục nước Xe 3 lùi 3 rút ăn Xe. Tướng 5 bình 4 (e9d9). Chú thích(4): Nếu đổi nước đi thành Xe 5 bình 8 (e8h8), bên đỏ rút ăn Xe chắc thắng; còn nếu đổi nước đi Pháo 5 tiến 4 (d9d5), bên đỏ sẽ đi Xe 3 lùi 3 (c6c3), Tướng 5 tiến 1 (d9d8), Xe 3 tiến 2 (c3c5), Tướng 5 tiến 1 (d8c8), Pháo 3 tiến 3 (c2c5), Sĩ 6 lùi 5 (f7e7), Pháo 2 lùi 2 sát pháp Pháo chồng.\n9. Xe 8 bình 6 (h3f3), Mã 2 tiến 4 (b6d8).\n10. Xe 3 lùi 1 (c6c5). Bên đen nếu tiếp tục đi Sĩ 6 tiến 5 (e7f8), thì Xe 3 bình 5 (c5e5), bên đỏ thủ thắng.",
+      "tags": ["giap_xe_phao", "rook_double_cannon_coordination", "sacrifice", "complex_mate"]
+    },
+    {
+      "pattern_id": "CH3_KP_H195_PHAO_CHONG_VD1",
+      "name_vi": "PHẦN 8 SÁT PHÁP PHÁO CHỒNG - Ví dụ 1 (hình 195)",
+      "source_book_page": "157",
+      "description_vi": "Hai Pháo chồng lên nhau trên cùng một cột, Pháo ở trước làm giá Pháo, Pháo ở sau chiếu Tướng, hoặc Pháo ở trước chiếu Tướng, Pháo ở phía sau khống chế, một đòn chiếu hết Tướng đối phương, sát pháp đó gọi là Trùng Pháo, hay Pháo chồng, hay Trùng điệp Pháo.",
+      "type": "checkmate_pattern",
+      "difficulty_level": "basic",
+      "initial_fen_red_perspective_for_example": "1c1akab2/4a4/4e4/9/9/9/P1C1P1P1P/4E4/4A4/2B1K1R1 w - - 0 1",
+      "player_to_move_on_fen_for_example": "red",
+      "recognition_conditions_red_pov": [
+        {"type": "piece_count_exact", "player": "self", "piece_counts": {"K":1,"R":1,"C":2,"E":1,"A":1,"B":1,"P":4}},
+        {"type": "piece_count_exact", "player": "opponent", "piece_counts": {"k":1,"c":1,"e":1,"a":2,"b":1}}
+      ],
+      "solution_uci_sequence_for_player_to_move_red_pov": ["c2c6", "c6c7"],
+      "opponent_responses_uci_for_example": ["e6g4"],
+      "analysis_and_comments_vi": "Nước đi: Đỏ đi trước.\n1. Pháo sau tiến 4 (c2c6), Tượng 3 lùi 5 (e6g4).\n2. Pháo sau tiến 4 (c6c7) (đỏ thắng).\nLời bình: Đây là sát pháp dùng Pháo trước chiếu Tướng, Pháo sau khống chế. Thế cục này nếu bên đen đi trước có thể chống Pháo thủ thắng. Độc giả tự phân tích.",
+      "tags": ["phao_chong", "trung_phao", "double_cannon_mate", "stacked_cannons"]
+    },
+    {
+      "pattern_id": "CH3_KP_H196_PHAO_CHONG_VD2",
+      "name_vi": "PHẦN 8 SÁT PHÁP PHÁO CHỒNG - Ví dụ 2 (hình 196)",
+      "source_book_page": "158",
+      "description_vi": "Hai Pháo chồng lên nhau trên cùng một cột, Pháo ở trước làm giá Pháo, Pháo ở sau chiếu Tướng, hoặc Pháo ở trước chiếu Tướng, Pháo ở phía sau khống chế, một đòn chiếu hết Tướng đối phương, sát pháp đó gọi là Trùng Pháo, hay Pháo chồng, hay Trùng điệp Pháo.",
+      "type": "checkmate_pattern",
+      "difficulty_level": "intermediate",
+      "initial_fen_red_perspective_for_example": "1c1akab2/4a4/4e1P2/9/9/2R6/P1C1P1P1P/4E4/4A4/2B1K1R1 w - - 0 1",
+      "player_to_move_on_fen_for_example": "red",
+      "recognition_conditions_red_pov": [
+        {"type": "piece_count_exact", "player": "self", "piece_counts": {"K":1,"R":2,"C":2,"E":1,"A":1,"B":1,"P":4}},
+        {"type": "piece_count_exact", "player": "opponent", "piece_counts": {"k":1,"c":1,"e":1,"a":2,"b":1}}
+      ],
+      "solution_uci_sequence_for_player_to_move_red_pov": ["c3c6", "f6e6", "c6c5", "a2a5", "b2b5"],
+      "opponent_responses_uci_for_example": ["e8d8", "e9e8", "e8d8", "d8e7"],
+      "analysis_and_comments_vi": "Nước đi: Đỏ đi trước.\n1. Xe 3 tiến 3 (c3c6), Sĩ 5 lùi 6 (e8d8).\n2. Tốt 6 bình 5! (f6e6), Tướng 5 tiến 1 (e9e8).\n3. Xe 3 lùi 1 (c6c5), Tướng 5 lùi 1 (e8d8).\n4. Pháo 1 tiến 3 (a2a5), Sĩ 6 tiến 5 (d8e7).\n5. Pháo 2 tiến 3 (b2b5) (đỏ thắng).\nLời bình: Bên đỏ bỏ Tốt dẫn Tướng, sau đó sử dụng Xe đi nước quá độ, nhịp nhàng tuần tự, khống chế hai đường quan trọng dưới đáy của đối phương, tạo thành sát pháp Pháo chồng tại tuyến đáy.",
+      "tags": ["phao_chong", "trung_phao", "double_cannon_mate", "bottom_rank_mate", "pawn_sacrifice"]
+    },
+    {
+      "pattern_id": "CH3_KP_H197_PHAO_CHONG_VD3",
+      "name_vi": "PHẦN 8 SÁT PHÁP PHÁO CHỒNG - Ví dụ 3 (hình 197)",
+      "source_book_page": "158-159",
+      "description_vi": "Hai Pháo chồng lên nhau trên cùng một cột, Pháo ở trước làm giá Pháo, Pháo ở sau chiếu Tướng, hoặc Pháo ở trước chiếu Tướng, Pháo ở phía sau khống chế, một đòn chiếu hết Tướng đối phương, sát pháp đó gọi là Trùng Pháo, hay Pháo chồng, hay Trùng điệp Pháo.",
+      "type": "checkmate_pattern",
+      "difficulty_level": "advanced",
+      "initial_fen_red_perspective_for_example": "rnbaknbr/pppp1ppp/4c4/4P4/2CRPPR1/P7/1P6/1NBQKBN1 w KQkq - 0 1",
+      "player_to_move_on_fen_for_example": "red",
+      "recognition_conditions_red_pov": [
+        {"type": "piece_count_exact", "player": "self", "piece_counts": {"K":1,"Q":1,"R":2,"N":1,"B":1,"C":1,"P":5}},
+        {"type": "piece_count_exact", "player": "opponent", "piece_counts": {"k":1,"r":1,"n":2,"b":1,"c":1,"p":7}}
+      ],
+      "solution_uci_sequence_for_player_to_move_red_pov": ["d4d6","c3a1","e5e9","d6i6","i6i4","h4h6","h6b6","e9f9","b6b4","i4i1","a1c3","i1i4","c3e5"],
+      "opponent_responses_uci_for_example": ["h8g8","a8a9","c6e5","f8e7","e5f3","g8f8","f8e8","e8f9","e6g4","f9f5","g8f8","f5f8"],
+      "analysis_and_comments_vi": "Nước đi: Đỏ đi trước.\n1. Xe 4 tiền 2 (d4d6), Xe 8 bình 7! (h8g8). Chú thích(1): Bảo vệ Pháo, tranh tiên, nước đi hay.\n2. Tượng 3 tiến 1 (c3a1), Xe 1 tiến 1 (a8a9).\n3. Pháo 5 tiến 4 (e5e9), Mã 3 tiến 5 (c6e5). Chú thích(2): Bỏ Xe đổi Mã, Pháo, nhập cuộc xuất sắc.\n4. Xe 4 bình 9 (d6i6), Sĩ 6 tiến 5 (f8e7).\n5. Xe 9 lùi 2 (i6i4), Mã 5 tiến 4 (e5f3). Chú thích(3): Nên đổi nước đi thành Mã 6 tiến 5, thì bên đen Pháo 7 bình 1, Mã trước tiến 3, Xe 7 lùi 6, Tượng 7 tiến 5, có thể hoà.\n6. Xe sau tiến 2 (h4h6), Xe 7 bình 6 (g8f8).\n7. Xe sau bình 2 (h6b6), Tướng 5 bình 6 (e9f9).\n8. Xe 2 lùi 2 (b6b4), Tượng 5 tiến 3 (e6g4). Chú thích(4): Tượng bay đến bờ sông, nước đi hay. Vừa có thể ngăn được Xe đỏ di chuyển sang phải, vừa chuẩn bị để làm giá cho Pháo 5.\n9. Tốt 5 tiến 1 (f9f5), Pháo 7 bình 5 (f5f8).\n10. Xe 9 bình 8 (i4i1), Pháo 7 tiến 2 (f8f6).\n11. Xe 8 lùi 2 (i1i3), Pháo 7 bình 5! (f6f8).\n12. Tượng 1 tiến 3 (a1c3), Pháo sau tiến 3 (f8f5).\n13. Tượng 3 lùi 5 (c3e5), Mã 4 tiến 5! (f3g5). Sau đó bên đỏ chỉ có thể đi Tượng 7 tiến 5, sau đó là Pháo sau tiến 4 (sát Pháo chồng, đen thẳng).",
+      "tags": ["phao_chong", "trung_phao", "double_cannon_mate", "complex_middlegame"]
+    },
+    {
+      "pattern_id": "CH3_KP_H198_MUON_CUNG_VD1",
+      "name_vi": "PHẦN 9 SÁT PHÁP MUỘN CUNG - Ví dụ 1 (hình 198)",
+      "source_book_page": "159",
+      "description_vi": "Lợi dụng nhược điểm hai Sĩ đối phương chặn đường Tướng, dễ bị tấn công từ phía sau, dùng một Pháo chiếu bí Tướng đối phương tại cung Tướng, sát pháp này gọi là Muộn cung.",
+      "type": "checkmate_pattern",
+      "difficulty_level": "intermediate",
+      "initial_fen_red_perspective_for_example": "1c1aknb2/4a4/4e1c2/p1p1P1P1p/9/9/P1C1P1N1P/4E4/4A4/2B1K1R1 w - - 0 1",
+      "player_to_move_on_fen_for_example": "red",
+      "recognition_conditions_red_pov": [
+        {"type": "piece_count_exact", "player": "self", "piece_counts": {"K":1,"R":1,"H":1,"C":3,"E":1,"A":1,"B":1,"P":5}},
+        {"type": "piece_count_exact", "player": "opponent", "piece_counts": {"k":1,"n":1,"c":1,"e":1,"a":2,"b":1,"p":5}}
+      ],
+      "solution_uci_sequence_for_player_to_move_red_pov": ["a2a9", "g2g5", "a9g9"],
+      "opponent_responses_uci_for_example": ["c8d6", "e6g4"],
+      "analysis_and_comments_vi": "Nước đi: Đỏ đi trước.\n1. Pháo 9 tiến 7 (a2a9), Mã 3 lùi 2 (c8d6).\n2. Pháo 7 tiến 3! (g2g5), Tượng 5 lùi 3 (e6g4).\n3. Pháo 9 bình 7 (a9g9) (đỏ thắng).\nLời bình: Bên đỏ có lợi thế đi trước, Pháo biên xuống đáy bắt Mã đen đệm Tướng, sau đó hai Pháo luân phiên đoạt cung thành sát. Thế cục này nếu đen đi trước có thể liên sát nhập cục, độc giả tự phân tích.",
+      "tags": ["muon_cung", "smothered_mate_variant", "cannon_mate", "back_rank_weakness"]
+    },
+    {
+      "pattern_id": "CH3_KP_H199_MUON_CUNG_VD2",
+      "name_vi": "PHẦN 9 SÁT PHÁP MUỘN CUNG - Ví dụ 2 (hình 199)",
+      "source_book_page": "160",
+      "description_vi": "Lợi dụng nhược điểm hai Sĩ đối phương chặn đường Tướng, dễ bị tấn công từ phía sau, dùng một Pháo chiếu bí Tướng đối phương tại cung Tướng, sát pháp này gọi là Muộn cung.",
+      "type": "checkmate_pattern",
+      "difficulty_level": "intermediate",
+      "initial_fen_red_perspective_for_example": "1c1akab2/4a4/4e4/9/2R3P2/5C3/P1P1P1P1P/4E4/4A4/2B1K1R1 w - - 0 1",
+      "player_to_move_on_fen_for_example": "red",
+      "recognition_conditions_red_pov": [
+        {"type": "piece_count_exact", "player": "self", "piece_counts": {"K":1,"R":2,"C":2,"E":1,"A":1,"B":1,"P":5}},
+        {"type": "piece_count_exact", "player": "opponent", "piece_counts": {"k":1,"c":1,"e":1,"a":2,"b":1}}
+      ],
+      "solution_uci_sequence_for_player_to_move_red_pov": ["c4c6", "f3f6", "f6f5", "c6e6", "f5f6"],
+      "opponent_responses_uci_for_example": ["e9d9", "f8e7", "e7f8", "d8e7"],
+      "analysis_and_comments_vi": "Nước đi: Đỏ đi trước.\n1. Xe 7 tiến 2 (c4c6), Tướng 5 lùi 1 (e9d9).\n2. Pháo 3 tiến 3 (f3f6), Sĩ 6 tiến 5 (f8e7).\n3. Pháo 3 lùi 1 (f6f5). Chú thích(1): Mượn Xe điều khiển Pháo, rút Tướng nhịp nhàng, nước đi then chốt để thủ thắng. Sĩ 5 lùi 6 (e7f8).\n4. Xe 7 bình 5 (c6e6), Sĩ 4 lùi 5 (d8e7). Chú thích(2): Dâng Xe, nước đi hay! Tạo ra chướng ngại trước mặt Tướng đen, thành sát pháp Muộn cung.\n5. Pháo 3 tiến 1 (f5f6) (đỏ thắng).",
+      "tags": ["muon_cung", "smothered_mate_variant", "rook_cannon_coordination", "sacrifice"]
+    },
+    {
+      "pattern_id": "CH3_KP_H200_MUON_CUNG_VD3",
+      "name_vi": "PHẦN 9 SÁT PHÁP MUỘN CUNG - Ví dụ 3 (hình 200)",
+      "source_book_page": "160-161",
+      "description_vi": "Lợi dụng nhược điểm hai Sĩ đối phương chặn đường Tướng, dễ bị tấn công từ phía sau, dùng một Pháo chiếu bí Tướng đối phương tại cung Tướng, sát pháp này gọi là Muộn cung.",
+      "type": "checkmate_pattern",
+      "difficulty_level": "advanced",
+      "initial_fen_red_perspective_for_example": "1c1akab2/4ac3/4e4/p1p1P1P1p/9/9/P1P1C1P1P/4E4/4A4/3K1R3 w - - 0 1",
+      "player_to_move_on_fen_for_example": "red",
+      "recognition_conditions_red_pov": [
+        {"type": "piece_count_exact", "player": "self", "piece_counts": {"K":1,"R":1,"C":2,"E":1,"A":1,"P":5}},
+        {"type": "piece_count_exact", "player": "opponent", "piece_counts": {"k":1,"c":2,"e":1,"a":2,"b":1,"p":5}}
+      ],
+      "solution_uci_sequence_for_player_to_move_red_pov": ["e2g2","f0e0","g2d2","d2c2","c2c3","c3c4","c4c5","c5c6"],
+      "opponent_responses_uci_for_example": ["d8e7","g8g4","g4g3","g3g2","g2g1","g1g0","g0g1"],
+      "analysis_and_comments_vi": "Nước đi: Đỏ đi trước.\n1. Pháo 5 bình 7 (e2g2). Chú thích(1): Sau khi bên đen bình Pháo, tiếp tục đi nước Pháo 7 tiến 5, Sĩ 4 tiến 5, Tốt 6 tiến 1 tuyệt sát, đây là nước đi then chốt. Sĩ 4 tiến 5 (d8e7).\n2. Tướng 6 bình 5 (f0e0), Pháo 7 tiến 4 (g8g4).\n3. Pháo 7 bình 4 (g2d2). Chú thích(3): Vì bên đen chỉ có thể di chuyển Pháo đen, khi Pháo đen đi xong mới tiếp tục di chuyển. Pháo 7 lùi 1 (g4g3).\n4. Pháo 4 bình 3 (d2c2), Pháo 7 lùi 1 (g3g2).\n5. Pháo 3 tiến 1 (c2c3), Pháo 7 lùi 1 (g2g1).\n6. Pháo 3 tiến 1 (c3c4), Pháo 7 lùi 1 (g1g0).\n7. Pháo 3 tiến 1 (c4c5), Pháo 7 lùi 1 (g0g1).\n8. Pháo 3 tiến 1 (c5c6). Đến đây, Pháo đen không còn nước để đi, di chuyển sẽ gặp sát Muộn cung, bên đỏ thắng.",
+      "tags": ["muon_cung", "smothered_mate_variant", "cannon_mate", "zugzwang", "king_activity"]
+    },
+    {
+      "pattern_id": "CH3_KP_H201_MUON_SAT_VD1",
+      "name_vi": "PHẦN 10 SÁT PHÁP MUỘN SÁT - Ví dụ 1 (hình 201)",
+      "source_book_page": "161",
+      "description_vi": "Lợi dụng phương pháp thí quân công sát, chặn lấp đường hoạt động của Tướng đối phương, hoặc thông qua chiếu Tướng khiến cho quân lực tấn công phía đối phương tự chặn lấp đường Tướng, chỉ một nước đi đã chiếu Tướng đối phương, gọi là Muộn sát.",
+      "type": "checkmate_pattern",
+      "difficulty_level": "intermediate",
+      "initial_fen_red_perspective_for_example": "1c1akab2/4a4/4e1c2/p1N1P1P1p/9/9/P1P1C1P1P/4E4/4A4/2B1K1R1 w - - 0 1",
+      "player_to_move_on_fen_for_example": "red",
+      "recognition_conditions_red_pov": [
+        {"type": "piece_count_exact", "player": "self", "piece_counts": {"K":1,"R":1,"H":1,"C":2,"E":1,"A":1,"B":1,"P":5}},
+        {"type": "piece_count_exact", "player": "opponent", "piece_counts": {"k":1,"c":1,"e":1,"a":2,"b":1,"p":5}}
+      ],
+      "solution_uci_sequence_for_player_to_move_red_pov": ["g2g5", "c5d3", "d3e1", "e1c2", "c2a1"],
+      "opponent_responses_uci_for_example": ["e6g4", "f6f4", "f4f9", "f9f2"],
+      "analysis_and_comments_vi": "Nước đi: Đỏ đi trước.\n1. Pháo 7 tiến 3! (g2g5), Tượng 5 lùi 3 (e6g4).\n2. Mã 3 tiến 2 (c5d3), Pháo 6 lùi 2 (f6f4).\n3. Mã 2 lùi 4 (d3e1), Pháo 6 tiến 7 (f4f9).\n4. Mã 4 tiến 2 (e1c2), Pháo 6 lùi 7 (f9f2).\n5. Mã 2 lùi 4! (c2a1) (Đỏ thắng).\nLời bình: Bên đỏ mượn Pháo điều khiển Mã, bỏ Pháo dâng Sĩ, ép Pháo đen tự chặn đường Tướng hình thành Muộn sát, khéo léo thủ thắng.",
+      "tags": ["muon_sat", "smothered_mate", "sacrifice", "knight_cannon_coordination"]
+    },
+    {
+      "pattern_id": "CH3_KP_H202_MUON_SAT_VD2",
+      "name_vi": "PHẦN 10 SÁT PHÁP MUỘN SÁT - Ví dụ 2 (hình 202)",
+      "source_book_page": "162",
+      "description_vi": "Lợi dụng phương pháp thí quân công sát, chặn lấp đường hoạt động của Tướng đối phương, hoặc thông qua chiếu Tướng khiến cho quân lực tấn công phía đối phương tự chặn lấp đường Tướng, chỉ một nước đi đã chiếu Tướng đối phương, gọi là Muộn sát.",
+      "type": "checkmate_pattern",
+      "difficulty_level": "intermediate",
+      "initial_fen_red_perspective_for_example": "1crakab2/4a4/4e4/p1p1P1P1p/2R6/9/P1P1C1P1P/4E4/4A4/3K1R3 w - - 0 1",
+      "player_to_move_on_fen_for_example": "red",
+      "recognition_conditions_red_pov": [
+        {"type": "piece_count_exact", "player": "self", "piece_counts": {"K":1,"R":2,"C":1,"E":1,"A":1,"P":5}},
+        {"type": "piece_count_exact", "player": "opponent", "piece_counts": {"k":1,"r":1,"c":1,"e":1,"a":2,"b":1,"p":5}}
+      ],
+      "solution_uci_sequence_for_player_to_move_red_pov": ["c4c7", "d2d7", "c7c8"],
+      "opponent_responses_uci_for_example": ["f9f8", "d8d6"],
+      "analysis_and_comments_vi": "Nước đi: Đỏ đi trước (1).\n1. Xe 2 tiến 3 (c4c7), Tướng 6 lùi 1 (f9f8).\n2. Pháo 4 tiến 5 (d2d7). Chú thích(2): Đưa Pháo nhử Tướng, giải sát hoàn sát, nước đi độc đáo, như thái sơn áp đỉnh, rất mạnh mẽ. Xe 4 lùi 2 (d8d6).\n3. Xe 2 tiến 1 (c7c8) (đỏ thắng).\nChú thích:\n(1) Như hình 202, bên đen ngầm ẩn nước sát Xe 5 bình 6. Bên đỏ nếu tiện tay đi Xe 2 bình 4 chiếu Tướng, thì Tướng 6 bình 5, bên đen chắc thắng.",
+      "tags": ["muon_sat", "smothered_mate", "sacrifice", "rook_cannon_coordination", "counter_checkmate"]
+    },
+    {
+      "pattern_id": "CH3_KP_H203_MUON_SAT_VD3",
+      "name_vi": "PHẦN 10 SÁT PHÁP MUỘN SÁT - Ví dụ 3 (hình 203)",
+      "source_book_page": "162",
+      "description_vi": "Lợi dụng phương pháp thí quân công sát, chặn lấp đường hoạt động của Tướng đối phương, hoặc thông qua chiếu Tướng khiến cho quân lực tấn công phía đối phương tự chặn lấp đường Tướng, chỉ một nước đi đã chiếu Tướng đối phương, gọi là Muộn sát.",
+      "type": "checkmate_pattern",
+      "difficulty_level": "intermediate",
+      "initial_fen_red_perspective_for_example": "1c1akab2/4a4/4ec3/p1p1P1P1p/2R1R4/9/P1P3P1P/4E4/4A4/3K1C3 w - - 0 1",
+      "player_to_move_on_fen_for_example": "red",
+      "recognition_conditions_red_pov": [
+        {"type": "piece_count_exact", "player": "self", "piece_counts": {"K":1,"R":2,"C":1,"E":1,"A":1,"P":5}},
+        {"type": "piece_count_exact", "player": "opponent", "piece_counts": {"k":1,"c":2,"e":1,"a":2,"b":1,"p":5}}
+      ],
+      "solution_uci_sequence_for_player_to_move_red_pov": ["a2e2", "d3d9", "c3d3", "e0d0"],
+      "opponent_responses_uci_for_example": ["d6d2", "e9f9", "f9e9"],
+      "analysis_and_comments_vi": "Nước đi: Đỏ đi trước.\n1. Pháo 1 bình 5 (a2e2), Pháo 4 tiến 6 (d6d2).\n2. Xe 4 tiến 8 (d3d9), Tướng 5 bình 6 (e9f9).\n3. Xe 3 bình 4 (c3d3), Tướng 6 bình 5 (f9e9).\n4. Tướng 5 bình 4 (e0d0). Chú thích(2): Tuyệt sát Muộn sát. (đỏ thắng).\nChú thích:\n(1) Bỏ Xe sát Sĩ, tạo thành sát pháp Muộn sát, nước đi hay.",
+      "tags": ["muon_sat", "smothered_mate", "sacrifice", "rook_cannon_coordination", "king_activity"]
+    },
+    {
+      "pattern_id": "CH3_KP_H204_KHONG_DAU_PHAO_VD1",
+      "name_vi": "PHẦN 11 SÁT PHÁP KHÔNG ĐẦU PHÁO - Ví dụ 1 (hình 204)",
+      "source_book_page": "163",
+      "description_vi": "Pháo và Tướng của đối phương nằm trên một cột dọc, khiến Sĩ, Tượng không thể bảo vệ Tướng một cách bình thường, sau đó dựa vào uy thế của Pháo, dùng quân khác bắt ăn đối phương, sát pháp đó gọi là Không đầu Pháo (Pháo trống đầu).",
+      "type": "checkmate_pattern",
+      "difficulty_level": "intermediate",
+      "initial_fen_red_perspective_for_example": "1c1akab2/4a4/4ec3/p1p1P1P1p/2R6/5C3/P1P1P1P1P/4E4/4A4/2B1K1R1 w - - 0 1",
+      "player_to_move_on_fen_for_example": "red",
+      "recognition_conditions_red_pov": [
+        {"type": "piece_count_exact", "player": "self", "piece_counts": {"K":1,"R":2,"C":2,"E":1,"A":1,"B":1,"P":5}},
+        {"type": "piece_count_exact", "player": "opponent", "piece_counts": {"k":1,"c":2,"e":1,"a":2,"b":1,"p":5}}
+      ],
+      "solution_uci_sequence_for_player_to_move_red_pov": ["f3f6", "e5e9", "c4c8", "c8e8"],
+      "opponent_responses_uci_for_example": ["f6f2", "e8f8", "c6d6"],
+      "analysis_and_comments_vi": "Nước đi: Đỏ đi trước.\n1. Pháo trước tiến 3! (f3f6), Pháo 5 lùi 4 (f6f2).\n2. Pháo 5 tiến 5 (e5e9), Sĩ 5 tiến 4 (e8f8).\n3. Xe 2 tiến 4! (c4c8), Tốt 3 bình 4 (c6d6).\n4. Xe 2 bình 5 (c8e8) (đỏ thắng).\nLời bình: Xe đỏ trên đường lặc đạo cắt đứt sự liên hệ giữa hai Tượng bên đen, khiến Pháo đỏ có cơ hội đoạt \"không đầu\". Loại sát pháp này thường gặp trong thực chiến.",
+      "tags": ["khong_dau_phao", "empty_head_cannon", "rook_cannon_coordination"]
+    },
+    {
+      "pattern_id": "CH3_KP_H205_KHONG_DAU_PHAO_VD2",
+      "name_vi": "PHẦN 11 SÁT PHÁP KHÔNG ĐẦU PHÁO - Ví dụ 2 (hình 205)",
+      "source_book_page": "164",
+      "description_vi": "Pháo và Tướng của đối phương nằm trên một cột dọc, khiến Sĩ, Tượng không thể bảo vệ Tướng một cách bình thường, sau đó dựa vào uy thế của Pháo, dùng quân khác bắt ăn đối phương, sát pháp đó gọi là Không đầu Pháo (Pháo trống đầu).",
+      "type": "checkmate_pattern",
+      "difficulty_level": "intermediate",
+      "initial_fen_red_perspective_for_example": "rnbakc3/4a4/2n1e1C2/p1p1p1P1p/9/2R4P/P3P1P1P/4E4/4A4/2B1K1R1 w - - 0 1",
+      "player_to_move_on_fen_for_example": "red",
+      "recognition_conditions_red_pov": [
+        {"type": "piece_count_exact", "player": "self", "piece_counts": {"K":1,"R":2,"C":1,"E":1,"A":1,"B":1,"P":5}},
+        {"type": "piece_count_exact", "player": "opponent", "piece_counts": {"k":1,"r":1,"n":1,"c":1,"e":1,"a":2,"b":1,"p":5}}
+      ],
+      "solution_uci_sequence_for_player_to_move_red_pov": ["c2e2", "h3h9", "a2e2", "f3e3"],
+      "opponent_responses_uci_for_example": ["g8g4", "e5e2", "g4g3"],
+      "analysis_and_comments_vi": "Nước đi: Đỏ đi trước.\n1. Pháo 3 bình 5 (c2e2). Chú thích(1): Bên đỏ dùng Pháo đòn gánh để đoạt lấy trung lộ, cũng là phương pháp thường dùng. Xe 7 lùi 4 (g8g4).\n2. Xe 8 tiến 6! (h3h9), Pháo 5 lùi 3 (e5e2). Chú thích(2): Nếu đổi đi nước khác, bên đỏ Xe 6 bình 5 hoặc Mã 3 tiến 5 đều có thể thành sát.\n3. Pháo 9 bình 5! (a2e2), Xe 7 tiến 1 (g4g3).\n4. Xe 6 bình 5 (f3e3) (đỏ thắng).",
+      "tags": ["khong_dau_phao", "empty_head_cannon", "double_cannon_attack"]
+    },
+    {
+      "pattern_id": "CH3_KP_H206_KHONG_DAU_PHAO_VD3",
+      "name_vi": "PHẦN 11 SÁT PHÁP KHÔNG ĐẦU PHÁO - Ví dụ 3 (hình 206)",
+      "source_book_page": "164-165",
+      "description_vi": "Pháo và Tướng của đối phương nằm trên một cột dọc, khiến Sĩ, Tượng không thể bảo vệ Tướng một cách bình thường, sau đó dựa vào uy thế của Pháo, dùng quân khác bắt ăn đối phương, sát pháp đó gọi là Không đầu Pháo (Pháo trống đầu).",
+      "type": "checkmate_pattern",
+      "difficulty_level": "advanced",
+      "initial_fen_red_perspective_for_example": "rnbaknbr/1c2a4/4e1c2/p1p1P1P1p/9/P1R1P1N1P/P1P5/1C2E4/4A4/2B1K1R1 w - - 0 1",
+      "player_to_move_on_fen_for_example": "red",
+      "recognition_conditions_red_pov": [
+        {"type": "piece_count_exact", "player": "self", "piece_counts": {"K":1,"R":2,"H":1,"C":2,"E":1,"A":1,"B":1,"P":6}},
+        {"type": "piece_count_exact", "player": "opponent", "piece_counts": {"k":1,"r":1,"n":2,"c":2,"e":1,"a":2,"b":1,"p":5}}
+      ],
+      "solution_uci_sequence_for_player_to_move_red_pov": ["f2e4","d0e1","a3f3","h2e2","f3f9","e4c3","c3c6","e2e4","e4f6"],
+      "opponent_responses_uci_for_example": ["c8e7","c6c5","b8b7","c6e6","a8c8","e7f5","c8c5","f5d4"],
+      "analysis_and_comments_vi": "Nước đi: Đỏ đi trước.\n1. Mã 6 tiến 5 (f2e4), Mã 3 lùi 5 (c8e7).\n2. Sĩ 6 tiến 5 (d0e1), Tốt 3 tiến 1 (c6c5).\n3. Xe 9 bình 6 (a3f3), Pháo 2 tiến 1 (b8b7).\n4. Pháo 8 bình 5 (h2e2). Chú thích(1): Bên đỏ tiếp tục quán triệt kế sách Không đầu Pháo. Tượng 3 tiến 1 (c6e6).\n5. Xe 6 tiến 7 (f3f9), Xe 1 bình 3 (a8c8).\n6. Mã 5 lùi 7 (e4c3), Mã 5 tiến 6 (e7f5).\n7. Xe 3 tiến 3 (c8c5), Pháo 2 bình 5 (b7e7).\n8. Pháo 5 tiến 2 (e2e4), Mã 6 lùi 4 (f5d4).\n9. Mã 7 tiến 6 (c3e4). Đến đây đen chịu thua (đỏ thắng).",
+      "tags": ["khong_dau_phao", "empty_head_cannon", "complex_middlegame", "multi_piece_attack"]
+    },
+    {
+      "pattern_id": "CH3_KP_H207_THIEN_DIA_PHAO_VD1",
+      "name_vi": "PHẦN 12 SÁT PHÁP THIÊN ĐỊA PHÁO - Ví dụ 1 (hình 207)",
+      "source_book_page": "165",
+      "description_vi": "Một Pháo ở trung lộ, một Pháo ở tuyến đáy, lần lượt kiềm chế quân phòng thủ của đối phương, sau đó dùng quân khác phối hợp công sát để chiếu Tướng đối phương, sát pháp này gọi là Thiên địa Pháo.",
+      "type": "checkmate_pattern",
+      "difficulty_level": "intermediate",
+      "initial_fen_red_perspective_for_example": "1c1akrb2/4a4/4e1C2/p1p1P1P1p/9/2R6/P1P1P1P1P/4E4/4A4/2B1K1R1 w - - 0 1",
+      "player_to_move_on_fen_for_example": "red",
+      "recognition_conditions_red_pov": [
+        {"type": "piece_count_exact", "player": "self", "piece_counts": {"K":1,"R":2,"C":2,"E":1,"A":1,"B":1,"P":5}},
+        {"type": "piece_count_exact", "player": "opponent", "piece_counts": {"k":1,"r":1,"c":1,"e":1,"a":2,"b":1,"p":5}}
+      ],
+      "solution_uci_sequence_for_player_to_move_red_pov": ["f6h6","h6h1","c3e3","d0e1","e3e8"],
+      "opponent_responses_uci_for_example": ["c6a8","a8c6","g8e8","e8e3"],
+      "analysis_and_comments_vi": "Nước đi: Đỏ đi trước.\n1. Pháo 6 bình 8! (f6h6), Tượng 3 lùi 1 (c6a8).\n2. Pháo 8 tiến 5 (h6h1), Tượng 1 lùi 3 (a8c6).\n3. Xe 8 bình 6! (c3e3), Xe 7 bình 6 (g8e8).\n4. Sĩ 5 tiến 4 (d0e1), Xe 6 tiến 5 (e8e3).\n5. Xe 6 tiến 8 (e3e8) (đỏ thắng).\nLời bình: Bên đỏ đưa Pháo xuống đáy, bình Xe đoạt Sĩ, từng bước đánh sát cục, dựa vào sát pháp Thiên địa Pháo nhập cục thủ thắng.",
+      "tags": ["thien_dia_phao", "heaven_and_earth_cannons", "rook_double_cannon_coordination"]
+    },
+    {
+      "pattern_id": "CH3_KP_H208_THIEN_DIA_PHAO_VD2",
+      "name_vi": "PHẦN 12 SÁT PHÁP THIÊN ĐỊA PHÁO - Ví dụ 2 (hình 208)",
+      "source_book_page": "165-166",
+      "description_vi": "Một Pháo ở trung lộ, một Pháo ở tuyến đáy, lần lượt kiềm chế quân phòng thủ của đối phương, sau đó dùng quân khác phối hợp công sát để chiếu Tướng đối phương, sát pháp này gọi là Thiên địa Pháo.",
+      "type": "checkmate_pattern",
+      "difficulty_level": "advanced",
+      "initial_fen_red_perspective_for_example": "1c1aknb2/4a4/4e1c2/p1p1PrP1p/9/2R6/P1P1P1P1P/4E4/4A4/3K1R3 w - - 0 1",
+      "player_to_move_on_fen_for_example": "red",
+      "recognition_conditions_red_pov": [
+        {"type": "piece_count_exact", "player": "self", "piece_counts": {"K":1,"R":2,"C":2,"E":1,"A":1,"P":5}},
+        {"type": "piece_count_exact", "player": "opponent", "piece_counts": {"k":1,"r":1,"n":1,"c":1,"e":1,"a":2,"b":1,"p":5}}
+      ],
+      "solution_uci_sequence_for_player_to_move_red_pov": ["c3d3","e0f0","d2a2","a2a9","d3d5","d5e5"],
+      "opponent_responses_uci_for_example": ["d9e9","f6f1","f8e6","e6g7","b6b5"],
+      "analysis_and_comments_vi": "Nước đi: Đỏ đi trước.\n1. Xe 7 bình 6 (c3d3), Tướng 4 bình 5 (d9e9).\n2. Tướng 5 bình 6 (e0f0), Pháo sau lùi 5 (f6f1).\n3. Pháo 4 bình 1! (d2a2), Mã 6 lùi 7 (f8e6).\n4. Pháo 1 tiến 7 (a2a9), Mã 7 lùi 8 (e6g7).\n5. Xe 6 tiến 2! (d3d5), Tốt 2 tiến 1 (b6b5).\n6. Xe 6 bình 5 (d5e5). Chú thích(1): Bên đỏ trước tiên dùng sát pháp Thiết môn thuyên, sau đó bình Pháo biên đòi Muộn sát, ép lùi Mã, Pháo đen, sau đó dựa vào uy lực của Thiên địa Pháo để tiến Xe đoạt Sĩ trung lộ, sát pháp nhập cuộc thần tốc. (đỏ thắng).",
+      "tags": ["thien_dia_phao", "heaven_and_earth_cannons", "complex_coordination", "multi_pattern_sequence"]
+    },
+    {
+      "pattern_id": "CH3_KP_H209_THIEN_DIA_PHAO_VD3",
+      "name_vi": "PHẦN 12 SÁT PHÁP THIÊN ĐỊA PHÁO - Ví dụ 3 (hình 209)",
+      "source_book_page": "166-167",
+      "description_vi": "Một Pháo ở trung lộ, một Pháo ở tuyến đáy, lần lượt kiềm chế quân phòng thủ của đối phương, sau đó dùng quân khác phối hợp công sát để chiếu Tướng đối phương, sát pháp này gọi là Thiên địa Pháo.",
+      "type": "checkmate_pattern",
+      "difficulty_level": "advanced",
+      "initial_fen_red_perspective_for_example": "r1bakc3/4a4/2n1e1C2/p1p1prPbp/9/2R6/P1C1P1P1P/4E4/4A4/2B1K1R1 w - - 0 1",
+      "player_to_move_on_fen_for_example": "red",
+      "recognition_conditions_red_pov": [
+        {"type": "piece_count_exact", "player": "self", "piece_counts": {"K":1,"R":2,"C":2,"E":1,"A":1,"B":1,"P":5}},
+        {"type": "piece_count_exact", "player": "opponent", "piece_counts": {"k":1,"r":1,"n":1,"c":1,"e":1,"a":2,"b":2,"p":5}}
+      ],
+      "solution_uci_sequence_for_player_to_move_red_pov": ["b2b7","a2e2","c3c5","c5e5","e3d3","d3d6","d6g6","e2e8","e0f0","g8i9","g6g5","e8d8","e8e2"],
+      "opponent_responses_uci_for_example": ["e8d8","d8e7","f8f1","f1e1","e1d1","d1d0","d0e0","a8a1","g6i8","i8g6","d0e0","e0d0"],
+      "analysis_and_comments_vi": "Nước đi: Đỏ đi trước.\n1. Pháo 2 tiến 5 (b2b7). Chú thích(1): Bên đỏ lợi dụng nhược điểm \"hoa Sĩ Tượng\" bên đen, xuống đáy chiếu Tướng. Sĩ 5 lùi 6 (e8d8).\n2. Pháo 9 bình 5 (a2e2). Chú thích(2): Pháo bình cột 5 tạo thành thế tấn công gọng kìm Thiên địa Pháo. Sĩ 4 tiến 5 (d8e7). Chú thích(3): Nếu đổi nước đi thành Tượng 5 tiến 7 (e6g8), thì Xe 6 bình 5 (c3e3), Sĩ 4 tiến 5 (d8e7), Xe 8 tiến 2 (h3h5), Pháo 9 lùi 1 (a2a1) (nếu đi Xe 6 lùi 7 (f8f1), thì Xe 5 tiến 2 (e3e5) nhanh chóng thủ thắng), Xe 8 bình 5 (h5e5), Tướng 5 bình 4 (e9d9), Xe sau bình 6 (e3f3), đỏ thắng.\n3. Xe 8 tiến 2! (c3c5), Xe 6 lùi 7 (f8f1).\n4. Xe 8 bình 5! (c5e5), Xe 6 bình 5 (f1e1).\n5. Xe 6 bình 4 (e3d3), Tướng 5 bình 4 (e9d9).\n6. Xe 4 tiến 3 (d3d6). Chú thích(4): Nếu đổi nước đi thành Pháo 5 tiến 6 (e2e8), thì Xe 3 tiến 9 (c1c9), Xe 4 tiến 3 (d6d9), Tướng 4 tiến 1 (d9d8), Pháo 5 bình 1 (e8a8), Xe 3 lùi 9 (c9c0), Sĩ 6 tiến 5 (f7e8) (nếu đổi nước đi thành Tướng 5 tiến 1 (d8c8), Xe 3 tiến 8 (c0c8), Tướng 5 tiến 1 (c8b8), Pháo 9 tiến 5 (a2a7), bên đen thẳng), Pháo 9 tiến 7 (a2a9), Pháo 2 lùi 9 (b7b0), Xe 3 bình 6 (c0f0), ăn Xe tất thắng. Tướng 4 tiến 1 (d9d8).\n7. Xe 4 bình 7! (d6g6), Pháo 9 tiến 7 (a2a9).\n8. Sĩ 4 tiến 5 (e0f0), Tượng 7 tiến 9 (g8i9).\n9. Xe 7 lùi 1 (g6g5), Tướng 4 lùi 1 (d8e8). Chú thích(5): Nếu đổi nước đi thành Tướng 4 tiến 1 (d8c8), đỏ có thể đi Pháo 5 tiến 6 (e2e8), ăn Xe hoặc Xe 7 lùi 2 (g5g3) doạ sát, Tượng 5 tiến 7 (g8i6), Xe 7 bình 6 (g3f3), Tướng 4 bình 5 (c8d8), Pháo 2 lùi 6 (b7b1), Pháo 9 lùi 2 (a9a7), Pháo 5 tiến 2 (e8e6), tiếp đó Pháo 2 bình 5 (b1e1), đỏ thắng.\n10. Pháo 5 tiến 6 (e2e8). Đỏ được Xe chắc thắng.",
+      "tags": ["thien_dia_phao", "heaven_and_earth_cannons", "complex_middlegame", "rook_double_cannon_coordination"]
+    },
+    {
+      "pattern_id": "CH3_KP_H210_NGOA_TAO_MA_VD1",
+      "name_vi": "PHẦN 13 SÁT PHÁP NGOẠ TÀO MÃ - Ví dụ 1 (hình 210)",
+      "source_book_page": "167",
+      "description_vi": "Để Mã ở vị trí trước Tượng đáy của đối phương một ô, khiến Tướng của đối phương không thể yên ổn, sau đó dùng quân khác thừa thể chiếu Tướng, sát pháp này gọi là Ngoạ tào Mã, là nước đi mang tính tấn công được vận dụng rộng rãi trong thực chiến.",
+      "type": "checkmate_pattern",
+      "difficulty_level": "basic",
+      "initial_fen_red_perspective_for_example": "1c1akab2/4a4/4e4/p1P1P1N1p/9/2R6/P1P1P1P1P/4E4/4A4/2B1K1R1 w - - 0 1",
+      "player_to_move_on_fen_for_example": "red",
+      "recognition_conditions_red_pov": [
+        {"type": "piece_count_exact", "player": "self", "piece_counts": {"K":1,"R":2,"H":1,"C":1,"E":1,"A":1,"B":1,"P":5}},
+        {"type": "piece_count_exact", "player": "opponent", "piece_counts": {"k":1,"c":1,"e":1,"a":2,"b":1,"p":5}}
+      ],
+      "solution_uci_sequence_for_player_to_move_red_pov": ["d5e5", "g5e6", "c3f3", "f3f7"],
+      "opponent_responses_uci_for_example": ["f8e7", "e9d9", "e7d8"],
+      "analysis_and_comments_vi": "Nước đi: Đỏ đi trước.\n1. Tốt 4 bình 5! (d5e5), Sĩ 6 tiến 5 (f8e7).\n2. Mã 4 tiến 3! (g5e6), Tướng 5 bình 4 (e9d9).\n3. Xe 5 bình 6 (c3f3), Sĩ 5 tiến 4 (e7d8).\n4. Xe 6 tiến 4 (f3f7) (đỏ thắng).\nLời bình: Nước đi đầu tiên dùng Tốt bắt Sĩ, nước cờ hay! Khiến Mã có thể ngoạ tào thuận lợi chiếu Tướng để thủ thắng. Nếu đổi nước đi thành Xe 4 lùi 6 chiếu Tướng thì không thể liên sát, bên đen sẽ thủ thắng.",
+      "tags": ["ngoa_tao_ma", "lying_horse_checkmate", "pawn_sacrifice", "rook_knight_coordination"]
+    },
+    {
+      "pattern_id": "CH3_KP_H211_NGOA_TAO_MA_VD2",
+      "name_vi": "PHẦN 13 SÁT PHÁP NGOẠ TÀO MÃ - Ví dụ 2 (hình 211)",
+      "source_book_page": "168",
+      "description_vi": "Để Mã ở vị trí trước Tượng đáy của đối phương một ô, khiến Tướng của đối phương không thể yên ổn, sau đó dùng quân khác thừa thể chiếu Tướng, sát pháp này gọi là Ngoạ tào Mã, là nước đi mang tính tấn công được vận dụng rộng rãi trong thực chiến.",
+      "type": "checkmate_pattern",
+      "difficulty_level": "intermediate",
+      "initial_fen_red_perspective_for_example": "rnbaknbr/4a4/4e1c2/p1p1P1P1p/2R6/5N3/P1P1P1P1P/4E4/4A4/3K1R3 w - - 0 1",
+      "player_to_move_on_fen_for_example": "red",
+      "recognition_conditions_red_pov": [
+        {"type": "piece_count_exact", "player": "self", "piece_counts": {"K":1,"R":2,"H":1,"E":1,"A":1,"P":5}},
+        {"type": "piece_count_exact", "player": "opponent", "piece_counts": {"k":1,"r":1,"n":2,"b":1,"c":1,"e":1,"a":2,"p":5}}
+      ],
+      "solution_uci_sequence_for_player_to_move_red_pov": ["c4d4", "f0f1", "f1e1", "e1c1", "e5e4", "f3g5"],
+      "opponent_responses_uci_for_example": ["c6d6", "f8e8", "e8d8", "i8g6", "d8c8"],
+      "analysis_and_comments_vi": "Nước đi: Đỏ đi trước.\n1. Xe 2 bình 4 (c4d4). Chú thích(1): Mạnh dạn thí Xe, nước đi độc đáo, hiệu lực mạnh mẽ. Tốt 3 bình 4 (c6d6). Chú thích(2): Nếu đổi nước đi Xe 6 lùi 7 ăn Xe, Mã 8 tiến 7, Tướng 5 bình 6, Tốt 2 bình 3 Muộn sát, bên đỏ nhanh chóng thủ thắng.\n2. Tướng 6 tiến 1 (f0f1), Xe 6 bình 5 (f8e8).\n3. Tướng 6 lùi 1 (f1e1), Xe 5 bình 3 (e8c8).\n4. Tượng 9 tiến 7 (i8g6). Chú thích(3): Lên Tượng, nước đi hay! Tấn công khiến bên đen không thể giải cứu Ngoạ tào Mã. Tốt 5 tiến 1 (e5e4).\n5. Mã 8 tiến 7 (f3g5) (đỏ thắng).",
+      "tags": ["ngoa_tao_ma", "lying_horse_checkmate", "chariot_sacrifice", "knight_pawn_coordination"]
+    },
+    {
+      "pattern_id": "CH3_KP_H212_NGOA_TAO_MA_VD3",
+      "name_vi": "PHẦN 13 SÁT PHÁP NGOẠ TÀO MÃ - Ví dụ 3 (hình 212)",
+      "source_book_page": "168-169",
+      "description_vi": "Để Mã ở vị trí trước Tượng đáy của đối phương một ô, khiến Tướng của đối phương không thể yên ổn, sau đó dùng quân khác thừa thể chiếu Tướng, sát pháp này gọi là Ngoạ tào Mã, là nước đi mang tính tấn công được vận dụng rộng rãi trong thực chiến.",
+      "type": "checkmate_pattern",
+      "difficulty_level": "advanced",
+      "initial_fen_red_perspective_for_example": "1c1aknbr/4a4/4e1c2/p1p1PrPbp/2R6/5N3/P1P1P1P1P/4E4/4A4/2B1K1R1 w - - 0 1",
+      "player_to_move_on_fen_for_example": "red",
+      "recognition_conditions_red_pov": [
+        {"type": "piece_count_exact", "player": "self", "piece_counts": {"K":1,"R":2,"H":1,"C":1,"E":1,"A":1,"B":1,"P":5}},
+        {"type": "piece_count_exact", "player": "opponent", "piece_counts": {"k":1,"r":1,"n":1,"c":1,"e":1,"a":2,"b":2,"p":5}}
+      ],
+      "solution_uci_sequence_for_player_to_move_red_pov": ["c3c7","c7g7","g3g2","g2g1","g1h1","h1e1","e1e9","f3d2","d2e4","g7f7"],
+      "opponent_responses_uci_for_example": ["d9e8","e5e4","e8d8","f8e7","d8e8","e8d9","d9d5","d5b5","e9d9"],
+      "analysis_and_comments_vi": "Nước đi: Đỏ đi trước.\n1. Xe 8 tiến 4 (c3c7), Tướng 4 lùi 1 (d9e8).\n2. Xe 8 bình 7 (c7g7). Chú thích(1): Xe đỏ bắt Mã, ép Xe đen bỏ Tốt phòng thủ ở tuyến Tốt, quét hết chướng ngại cho Ngoạ tào Mã bên đỏ. Xe 5 lùi 1 (e5e4).\n3. Xe trước tiến 1 (g3g2), Tướng 4 lùi 1 (e8d8).\n4. Pháo 2 tiến 5 (f8e7), Sĩ 5 tiến 6 (e8d8).\n5. Xe trước lùi 1 (g2g1), Tướng 4 lùi 1 (d8e8).\n6. Xe sau bình 8 (g1h1), Tướng 4 bình 5 (e8d9). Chú thích(2): Mấy hiệp này Xe đỏ tiến lùi chiếu Tướng nhịp nhàng, khéo léo.\n7. Xe 8 tiến 9 (h1e1), Xe 4 lùi 4 (d9d5).\n8. Mã 3 tiến 2 (f3d2), Xe 4 bình 2 (d5b5).\n9. Mã 2 tiến 3 (d2e4), Tướng 5 bình 4 (e9d9).\n10. Xe 7 bình 6 (g7f7) (tuyệt sát, đỏ thắng).",
+      "tags": ["ngoa_tao_ma", "lying_horse_checkmate", "rook_knight_cannon_coordination", "maneuvering"]
+    },
+    {
+      "pattern_id": "CH3_KP_H213_QUAI_GIAC_MA_VD1",
+      "name_vi": "PHẦN 14 SÁT PHÁP QUẢI GIÁC MÃ - Ví dụ 1 (hình 213)",
+      "source_book_page": "169",
+      "description_vi": "Dùng Mã đi đến vị trí gọng Sĩ của đối phương để chiếu Tướng, khiến Tướng của đối phương không thể ở yên, sau đó vận dụng quân khác chiếu Tướng đối phương, sát pháp đó gọi là Quải giác Mã hay Mã treo góc, là loại sát pháp thường sử dụng trong thực chiến, rất có uy lực.",
+      "type": "checkmate_pattern",
+      "difficulty_level": "basic",
+      "initial_fen_red_perspective_for_example": "1c1akab2/4a4/2n1e1C2/p1p1P1P1p/9/6P2/P1P1P1N1P/4E4/4A4/2B1K1R1 w - - 0 1",
+      "player_to_move_on_fen_for_example": "red",
+      "recognition_conditions_red_pov": [
+        {"type": "piece_count_exact", "player": "self", "piece_counts": {"K":1,"R":1,"H":1,"C":2,"E":1,"A":1,"B":1,"P":6}},
+        {"type": "piece_count_exact", "player": "opponent", "piece_counts": {"k":1,"n":1,"c":1,"e":1,"a":2,"b":1,"p":5}}
+      ],
+      "solution_uci_sequence_for_player_to_move_red_pov": ["g6g9", "h2f3", "c6d6"],
+      "opponent_responses_uci_for_example": ["e6g4", "e9f9"],
+      "analysis_and_comments_vi": "Nước đi: Đỏ đi trước.\n1. Pháo 7 tiến 3! (g6g9), Tượng 5 lùi 3 (e6g4).\n2. Mã 8 tiến 6 (h2f3), Tướng 5 bình 6 (e9f9).\n3. Tốt 3 bình 4 (c6d6) (đỏ thắng).\nLời bình: Bên đỏ đi trước lợi dụng chiến thuật dẫn dụ, vừa giảm bớt tầng phòng thủ ở trung lộ bên đen, vừa khiến Mã đen không thể đệm Tướng, một mũi tên trúng hai đích, nhập cục rõ ràng.",
+      "tags": ["quai_giac_ma", "hanging_corner_horse", "cannon_knight_pawn_coordination", "deflection"]
+    },
+    {
+      "pattern_id": "CH3_KP_H214_QUAI_GIAC_MA_VD2",
+      "name_vi": "PHẦN 14 SÁT PHÁP QUẢI GIÁC MÃ - Ví dụ 2 (hình 214)",
+      "source_book_page": "170",
+      "description_vi": "Dùng Mã đi đến vị trí gọng Sĩ của đối phương để chiếu Tướng, khiến Tướng của đối phương không thể ở yên, sau đó vận dụng quân khác chiếu Tướng đối phương, sát pháp đó gọi là Quải giác Mã hay Mã treo góc, là loại sát pháp thường sử dụng trong thực chiến, rất có uy lực.",
+      "type": "checkmate_pattern",
+      "difficulty_level": "intermediate",
+      "initial_fen_red_perspective_for_example": "1crakab2/4a4/2n1e4/p1p1P1N1p/4R4/9/P1P1P1P1P/4E4/4A4/2B1K1R1 w - - 0 1",
+      "player_to_move_on_fen_for_example": "red",
+      "recognition_conditions_red_pov": [
+        {"type": "piece_count_exact", "player": "self", "piece_counts": {"K":1,"R":2,"H":1,"C":1,"E":1,"A":1,"B":1,"P":5}},
+        {"type": "piece_count_exact", "player": "opponent", "piece_counts": {"k":1,"r":1,"n":1,"c":1,"e":1,"a":2,"b":1,"p":5}}
+      ],
+      "solution_uci_sequence_for_player_to_move_red_pov": ["e4e5", "e5f7", "e5d5", "g3d3"],
+      "opponent_responses_uci_for_example": ["f8e7", "e9f9", "e7f8"],
+      "analysis_and_comments_vi": "Nước đi: đỏ đi trước\n1. Xe 5 tiến 1! (e4e5), Sĩ 6 tiến 5 (f8e7). Chú thích(1): Bên đỏ bỏ Xe bắt Tượng là nước đi quan trọng để nhập cục. Nếu bên đen dùng Pháo hoặc Mã, Tượng ăn Xe, bên đỏ đều có thể dùng Quải giác Mã để chiếu hết.\n2. Mã 5 tiến 6! (e5f7), Tướng 5 bình 6 (e9f9).\n3. Xe 5 bình 4 (e5d5). Chú thích(2): Tiếp tục thí Xe dẫn dụ Sĩ 5 bên đen, nhanh chóng nhập cục. Sĩ 5 tiến 6 (e7f8).\n4. Xe 7 bình 4 (g3d3) (đỏ thắng).",
+      "tags": ["quai_giac_ma", "hanging_corner_horse", "chariot_sacrifice", "rook_knight_coordination"]
+    },
+    {
+      "pattern_id": "CH3_KP_H215_QUAI_GIAC_MA_VD3",
+      "name_vi": "PHẦN 14 SÁT PHÁP QUẢI GIÁC MÃ - Ví dụ 3 (hình 215)",
+      "source_book_page": "170",
+      "description_vi": "Dùng Mã đi đến vị trí gọng Sĩ của đối phương để chiếu Tướng, khiến Tướng của đối phương không thể ở yên, sau đó vận dụng quân khác chiếu Tướng đối phương, sát pháp đó gọi là Quải giác Mã hay Mã treo góc, là loại sát pháp thường sử dụng trong thực chiến, rất có uy lực.",
+      "type": "checkmate_pattern",
+      "difficulty_level": "advanced",
+      "initial_fen_red_perspective_for_example": "rnbqkbnr/pppp1ppp/4c4/4N1R1/2BRPPP1/P7/1PP4P/1NBQK3 w KQkq - 0 1",
+      "player_to_move_on_fen_for_example": "red",
+      "recognition_conditions_red_pov": [
+        {"type": "piece_count_exact", "player": "self", "piece_counts": {"K":1,"Q":1,"R":2,"N":1,"B":1,"P":6}},
+        {"type": "piece_count_exact", "player": "opponent", "piece_counts": {"k":1,"r":1,"n":1,"b":1,"c":1,"p":7}}
+      ],
+      "solution_uci_sequence_for_player_to_move_red_pov": ["h3h9","b2c4","c4e3","a2g2","h9h8","e3f5"],
+      "opponent_responses_uci_for_example": ["e5e4","i8h8","e4c5","h8h2","b8b6"],
+      "analysis_and_comments_vi": "Nước đi: Đỏ đi trước.\n1. Xe 8 tiến 6! (h3h9), Tốt 5 tiến 1 (e5e4).\n2. Mã 2 tiến 3 (b2c4), Xe 9 bình 8 (i8h8).\n3. Mã 3 lùi 5! (c4e3), Mã 5 tiến 3 (e4c5).\n4. Pháo 9 bình 7 (a2g2), Xe 8 tiến 6 (h8h2).\n5. Xe 8 tiến 1! (h9h8), Xe 2 tiến 2 (b8b6).\n6. Mã 5 tiến 6 (e3f5). Đến đây, bên đen nếu tiếp tục đi Tướng 5 tiến 1, thì Xe 4 tiến 8 chiếu hết (đỏ thắng).",
+      "tags": ["quai_giac_ma", "hanging_corner_horse", "complex_middlegame", "rook_knight_cannon_coordination"]
+    },
+    {
+      "pattern_id": "CH3_KP_H216_DIEU_NGU_MA_VD1",
+      "name_vi": "PHẦN 15 SÁT PHÁP ĐIẾU NGƯ MÃ - Ví dụ 1 (hình 216)",
+      "source_book_page": "171",
+      "description_vi": "Dùng Mã chiếu Tướng ở vị trí trước Tượng đáy hai ô (hoặc hình thành góc đối chữ điển với Tướng) của đối phương, hoặc khống chế hoạt động của Tướng, sau đó mượn sức quân Mã, dùng Xe hoặc Tốt chiếu Tướng đối phương, sát pháp này gọi là Điếu ngư Mã (Mã câu cá), là sát pháp thường dùng trong giai đoạn cờ tàn.",
+      "type": "checkmate_pattern",
+      "difficulty_level": "basic",
+      "initial_fen_red_perspective_for_example": "1c1akab2/4a4/4e4/p1P1P1N1p/9/2R6/P1P1P1P1P/4E4/4A4/2B1K1R1 w - - 0 1",
+      "player_to_move_on_fen_for_example": "red",
+      "recognition_conditions_red_pov": [
+        {"type": "piece_count_exact", "player": "self", "piece_counts": {"K":1,"R":2,"H":1,"C":1,"E":1,"A":1,"B":1,"P":5}},
+        {"type": "piece_count_exact", "player": "opponent", "piece_counts": {"k":1,"c":1,"e":1,"a":2,"b":1,"p":5}}
+      ],
+      "solution_uci_sequence_for_player_to_move_red_pov": ["d5e5", "b3e3", "e3c3", "c3d3"],
+      "opponent_responses_uci_for_example": ["f8e7", "e6g8", "e7f8"],
+      "analysis_and_comments_vi": "Nước đi: Đỏ đi trước.\n1. Tốt 4 bình 5! (d5e5), Sĩ 6 tiến 5 (f8e7).\n2. Xe 2 tiến 5 (b3e3), Tượng 5 lùi 7 (e6g8).\n3. Xe 2 bình 3 (e3c3), Sĩ 5 lùi 6 (e7f8).\n4. Xe 3 bình 4 (c3d3) (đỏ thắng).\nLời bình: Bên đỏ bỏ Tốt giết Sĩ dùng Xe chiếu Tướng, tạo thành hình sát Điếu ngư Mã cơ bản.",
+      "tags": ["dieu_ngu_ma", "angling_horse_mate", "pawn_sacrifice", "rook_knight_coordination"]
+    },
+    {
+      "pattern_id": "CH3_KP_H258_TAM_XE_NAO_SI_VD1",
+      "name_vi": "PHẦN 29 SÁT PHÁP TAM XE NÁO SĨ - Ví dụ 1 (hình 258)",
+      "source_book_page": "198",
+      "description_vi": "Dùng ba Xe (hoặc hai Xe một Tốt) tấn công vào cung Tướng của đối phương, làm rối loạn hàng phòng thủ Sĩ Tượng, sau đó chiếu hết, sát pháp này gọi là Tam Xe náo Sĩ.",
+      "type": "checkmate_pattern",
+      "difficulty_level": "intermediate",
+      "initial_fen_red_perspective_for_example": "1r2k1r1/4aP3/4e4/9/9/9/R3R3P/4E4/4A4/4K3 w - - 0 1",
+      "player_to_move_on_fen_for_example": "red",
+      "recognition_conditions_red_pov": [
+        {"type": "multiple_attackers", "description_vi": "Có ba quân mạnh (Xe, Tốt qua sông) có thể tấn công cung Tướng."}
+      ],
+      "solution_uci_sequence_for_player_to_move_red_pov": ["b2b4", "h2h9", "b4f4"],
+      "opponent_responses_uci_for_example": ["e8d8", "e9d9"],
+      "analysis_and_comments_vi": "Nước đi: Đỏ đi trước.\n1. Xe 2 tiến 2 (b2b4), Sĩ 5 lùi 6 (e8d8).\n2. Xe 8 tiến 8 (h2h9), Tướng 5 bình 4 (e9d9).\n3. Xe 2 bình 6 (b4f4) (đỏ thắng).\nLời bình: Bên đỏ dùng ba quân Xe, Tốt tấn công, làm rối loạn hàng Sĩ Tượng của đen, sau đó chiếu hết.",
+      "tags": ["tam_xe_nao_si", "three_piece_attack", "rook_pawn_coordination"]
+    },
+    {
+      "pattern_id": "CH3_KP_H259_TAM_XE_NAO_SI_VD2",
+      "name_vi": "PHẦN 29 SÁT PHÁP TAM XE NÁO SĨ - Ví dụ 2 (hình 259)",
+      "source_book_page": "199",
+      "description_vi": "Dùng ba Xe (hoặc hai Xe một Tốt) tấn công vào cung Tướng của đối phương, làm rối loạn hàng phòng thủ Sĩ Tượng, sau đó chiếu hết, sát pháp này gọi là Tam Xe náo Sĩ.",
+      "type": "checkmate_pattern",
+      "difficulty_level": "intermediate",
+      "initial_fen_red_perspective_for_example": "r3k2r/4ae3/4a4/9/9/9/R3R1R1P/4E4/4A4/4K3 w - - 0 1",
+      "player_to_move_on_fen_for_example": "red",
+      "recognition_conditions_red_pov": [
+        {"type": "multiple_rooks", "description_vi": "Có ba Xe có thể phối hợp tấn công."}
+      ],
+      "solution_uci_sequence_for_player_to_move_red_pov": ["c2c3", "a2a9", "c3f3"],
+      "opponent_responses_uci_for_example": ["e9e8", "e8f9"],
+      "analysis_and_comments_vi": "Nước đi: Đỏ đi trước.\n1. Xe 7 tiến 1 (c2c3), Tướng 5 tiến 1 (e9e8).\n2. Xe 1 tiến 9 (a2a9), Tướng 5 bình 6 (e8f9).\n3. Xe 7 bình 4 (c3f3) (đỏ thắng).\nLời bình: Bên đỏ dùng ba Xe tấn công, chiếu hết Tướng đen.",
+      "tags": ["tam_xe_nao_si", "three_rook_attack"]
+    },
+        {
+      "pattern_id": "CH3_KP_H271_MUON_XE_CHUYEN_PHAO_VD1",
+      "name_vi": "PHẦN 34 CÁC SÁT PHÁP KHÁC (2) - 2. Mượn Xe chuyển Pháo (hình 271)",
+      "source_book_page": "208-209",
+      "description_vi": "Xe Pháo liên hợp công sát, Pháo mượn uy Xe phát huy vai trò, từ đó giành chiến thắng, sát pháp gọi là Mượn Xe chuyển Pháo, được sử dụng rộng rãi trong thực chiến, nhưng cần phối hợp nhịp nhàng, luyện tập nhuần nhuyễn. Độc giả nên thường xuyên luyện tập, sưu tầm các sát pháp cùng loại để tìm ra quy luật, khi lâm trận có thể vận dụng linh hoạt, thuần thục.",
+      "type": "checkmate_pattern",
+      "difficulty_level": "intermediate",
+      "initial_fen_red_perspective_for_example": "4k4/4a4/4c4/9/9/9/4R4/4C4/4K3/9 w - - 0 1",
+      "player_to_move_on_fen_for_example": "red",
+      "recognition_conditions_red_pov": [
+        {"type": "piece_count_exact", "player": "self", "piece_counts": {"K":1,"R":1,"C":1}},
+        {"type": "piece_count_exact", "player": "opponent", "piece_counts": {"k":1,"a":1,"c":1}}
+      ],
+      "solution_uci_sequence_for_player_to_move_red_pov": [],
+      "opponent_responses_uci_for_example": [],
+      "analysis_and_comments_vi": "(Nội dung cụ thể không có trong phần text trích xuất được, chỉ có hình ảnh bàn cờ và tên sát pháp)",
+      "tags": ["muon_xe_chuyen_phao", "rook_cannon_coordination"]
+    },
+    {
+      "pattern_id": "CH3_KP_H272_MUON_XE_CHUYEN_PHAO_VD2",
+      "name_vi": "PHẦN 34 CÁC SÁT PHÁP KHÁC (2) - 2. Mượn Xe chuyển Pháo (hình 272)",
+      "source_book_page": "208-209",
+      "description_vi": "Xe Pháo liên hợp công sát, Pháo mượn uy Xe phát huy vai trò, từ đó giành chiến thắng, sát pháp gọi là Mượn Xe chuyển Pháo, được sử dụng rộng rãi trong thực chiến, nhưng cần phối hợp nhịp nhàng, luyện tập nhuần nhuyễn. Độc giả nên thường xuyên luyện tập, sưu tầm các sát pháp cùng loại để tìm ra quy luật, khi lâm trận có thể vận dụng linh hoạt, thuần thục.",
+      "type": "checkmate_pattern",
+      "difficulty_level": "intermediate",
+      "initial_fen_red_perspective_for_example": "4k4/4a4/4c4/9/9/9/4R4/4C4/4K3/9 w - - 0 1",
+      "player_to_move_on_fen_for_example": "red",
+      "recognition_conditions_red_pov": [
+        {"type": "piece_count_exact", "player": "self", "piece_counts": {"K":1,"R":1,"C":1}},
+        {"type": "piece_count_exact", "player": "opponent", "piece_counts": {"k":1,"a":1,"c":1}}
+      ],
+      "solution_uci_sequence_for_player_to_move_red_pov": [],
+      "opponent_responses_uci_for_example": [],
+      "analysis_and_comments_vi": "(Nội dung cụ thể không có trong phần text trích xuất được, chỉ có hình ảnh bàn cờ và tên sát pháp)",
+      "tags": ["muon_xe_chuyen_phao", "rook_cannon_coordination"]
+    },
+    {
+      "pattern_id": "CH3_KP_H273_MUON_XE_CHUYEN_PHAO_VD3",
+      "name_vi": "PHẦN 34 CÁC SÁT PHÁP KHÁC (2) - 2. Mượn Xe chuyển Pháo (hình 273)",
+      "source_book_page": "208-209",
+      "description_vi": "Xe Pháo liên hợp công sát, Pháo mượn uy Xe phát huy vai trò, từ đó giành chiến thắng, sát pháp gọi là Mượn Xe chuyển Pháo, được sử dụng rộng rãi trong thực chiến, nhưng cần phối hợp nhịp nhàng, luyện tập nhuần nhuyễn. Độc giả nên thường xuyên luyện tập, sưu tầm các sát pháp cùng loại để tìm ra quy luật, khi lâm trận có thể vận dụng linh hoạt, thuần thục.",
+      "type": "checkmate_pattern",
+      "difficulty_level": "intermediate",
+      "initial_fen_red_perspective_for_example": "4k4/4a4/4c4/9/9/9/4R4/4C4/4K3/9 w - - 0 1",
+      "player_to_move_on_fen_for_example": "red",
+      "recognition_conditions_red_pov": [
+        {"type": "piece_count_exact", "player": "self", "piece_counts": {"K":1,"R":1,"C":1}},
+        {"type": "piece_count_exact", "player": "opponent", "piece_counts": {"k":1,"a":1,"c":1}}
+      ],
+      "solution_uci_sequence_for_player_to_move_red_pov": [],
+      "opponent_responses_uci_for_example": [],
+      "analysis_and_comments_vi": "(Nội dung cụ thể không có trong phần text trích xuất được, chỉ có hình ảnh bàn cờ và tên sát pháp)",
+      "tags": ["muon_xe_chuyen_phao", "rook_cannon_coordination"]
+    },
+    {
+      "pattern_id": "CH3_KP_H274_MUON_PHAO_CHUYEN_MA_VD2",
+      "name_vi": "PHẦN 34 CÁC SÁT PHÁP KHÁC (2) - 3. Mượn Pháo chuyển Mã (hình 274, ví dụ 2)",
+      "source_book_page": "209",
+      "description_vi": "Sức tấn công của Mã, Pháo trong cờ tàn không chóng vánh bằng Xe, Pháo hoặc Xe Mã đánh Tướng, nhưng nếu biết vận dụng thành thục, phối hợp nhịp nhàng, vẫn sẽ chiếm được tiên cơ, quyết đấu ngang ngửa, không hề kém thế.",
+      "type": "checkmate_pattern",
+      "difficulty_level": "complex",
+      "initial_fen_red_perspective_for_example": "1c1aknr1/4a4/4e1c2/p1p1P1P1p/9/9/P3R1N1P/1C2E4/4A4/2B1K1R1 w - - 0 1",
+      "player_to_move_on_fen_for_example": "red",
+      "recognition_conditions_red_pov": [
+        {"type": "multi_piece_coordination", "description_vi": "Phối hợp Xe, Pháo, Mã, Tốt."}
+      ],
+      "solution_uci_sequence_for_player_to_move_red_pov": ["f2d3", "c6c5", "a2f2", "a3f3", "e2f2", "f2b2", "f3f9", "g2g9", "b2b9"],
+      "opponent_responses_uci_for_example": ["e9d9", "d9d8", "d8e7", "e8e7", "e7d8", "d8e7", "g8d8", "f8e7"],
+      "analysis_and_comments_vi": "Nước đi: Đỏ đi trước.\n1. Mã 6 tiến 4 (f2d3), Tướng 5 bình 4 (e9d9).\n2. Tốt 3 tiến 1 (c6c5), Tướng 6 lùi 1 (d9d8).\n3. Pháo 9 bình 6 (a2f2), Sĩ 4 lùi 5 (d8e7).\n4. Xe 9 bình 6 (a3f3), Sĩ 5 tiến 4 (e7d8).\n5. Pháo 5 bình 6 (e2f2), Sĩ 4 lùi 5 (d8e7).\n6. Pháo 6 bình 2 (f2b2), Sĩ 5 tiến 4 (e7d8).\n7. Xe 6 tiến 7 (f3f9), Pháo 7 bình 4 (g8d8).\n8. Pháo 3 tiến 7 (g2g9), Sĩ 6 tiến 5 (f8e7).\n9. Pháo 2 tiến 7 (b2b9) (đỏ thắng).",
+      "tags": ["muon_phao_chuyen_ma", "complex_coordination", "multi_piece_attack"]
+    },
+    {
+      "pattern_id": "CH3_KP_H275_MUON_PHAO_CHUYEN_MA_VD3",
+      "name_vi": "PHẦN 34 CÁC SÁT PHÁP KHÁC (2) - 3. Mượn Pháo chuyển Mã (hình 275, ví dụ 3)",
+      "source_book_page": "210",
+      "description_vi": "Sức tấn công của Mã, Pháo trong cờ tàn không chóng vánh bằng Xe, Pháo hoặc Xe Mã đánh Tướng, nhưng nếu biết vận dụng thành thục, phối hợp nhịp nhàng, vẫn sẽ chiếm được tiên cơ, quyết đấu ngang ngửa, không hề kém thế.",
+      "type": "checkmate_pattern",
+      "difficulty_level": "complex",
+      "initial_fen_red_perspective_for_example": "1nba1kbn1/4a4/4e1c2/p1p1p1p1p/9/9/P1P1P1N1P/1C2E4/4A4/2B1K1R1 w - - 0 1",
+      "player_to_move_on_fen_for_example": "red",
+      "recognition_conditions_red_pov": [
+        {"type": "cannon_sacrifice", "description_vi": "Thí Pháo để mở đường cho Mã." },
+        {"type": "double_knight_attack", "description_vi": "Hai Mã phối hợp tấn công."}
+      ],
+      "solution_uci_sequence_for_player_to_move_red_pov": ["f2f9", "a2b4", "g2e3", "e3c4", "c4e3", "e3c2", "b4c2"],
+      "opponent_responses_uci_for_example": ["e9d9", "e6c4", "d9d8", "d8c8", "c8d8", "d8c8"],
+      "analysis_and_comments_vi": "Nước đi: Đỏ đi trước.\n1. Pháo 6 tiến 9 (!) (f2f9), Tướng 5 bình 4 (e9d9). Chú thích(2): Nếu đi sai nước thành Tượng 5 lùi 3 (e6c4), thì Mã 9 tiến 7 (a2b4), bên đỏ nhanh chóng thủ thắng.\n2. Mã 9 tiến 8 (a2b4), Tượng 5 lùi 3 (e6c4).\n3. Mã trước lùi 7 (g2e3), Tướng 4 tiến 1 (d9d8).\n4. Mã 7 lùi 5 (e3c4), Tướng 4 tiến 1 (d8c8).\n5. Mã 5 lùi 7 (c4e3), Tướng 4 lùi 1 (c8d8).\n6. Mã 7 tiến 8 (e3c2), Tướng 4 tiến 1 (d8c8).\n7. Mã sau tiến 7 (b4c2) (đỏ thắng).\nChú thích:\n(1) Bỏ Pháo ép xuất Tướng đen, phát huy uy lực của hai Mã.",
+      "tags": ["muon_phao_chuyen_ma", "cannon_sacrifice", "double_knight_mate"]
     }
-    
   ]
 }
